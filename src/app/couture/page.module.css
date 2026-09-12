@@ -1,0 +1,245 @@
+.page {
+  padding-bottom: 0;
+}
+
+/* Hero */
+.hero {
+  position: relative;
+  height: 620px;
+  overflow: hidden;
+  background-color: var(--color-offwhite);
+}
+
+@media (max-width: 768px) {
+  .hero { height: 440px; }
+}
+
+.heroImg {
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 5, 5, 0.42);
+}
+
+.heroContent {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.heroEyebrow {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.20em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.heroTitle {
+  font-family: var(--font-serif);
+  font-size: clamp(48px, 7vw, 96px);
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-background);
+  line-height: 1;
+}
+
+.heroSub {
+  font-family: var(--font-serif);
+  font-size: clamp(14px, 2vw, 20px);
+  font-weight: 400;
+  font-style: italic;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+/* Intro */
+.intro {
+  padding: 100px 0 80px;
+  background-color: var(--color-background);
+}
+
+.introInner {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 0 64px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+@media (max-width: 768px) {
+  .introInner { padding: 0 24px; }
+}
+
+.introHeading {
+  font-family: var(--font-serif);
+  font-size: clamp(26px, 3.5vw, 44px);
+  font-weight: 400;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  line-height: 1.15;
+  margin-bottom: 28px;
+}
+
+.introText {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--color-secondary);
+  line-height: 1.85;
+  margin-bottom: 16px;
+}
+
+/* Process */
+.process {
+  padding: 80px 0;
+  background-color: var(--color-ivory);
+}
+
+.processInner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 64px;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+@media (max-width: 1024px) {
+  .processInner { padding: 0 32px; gap: 56px; }
+}
+
+@media (max-width: 768px) {
+  .processInner { padding: 0 24px; gap: 48px; }
+}
+
+.step {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 80px;
+  align-items: center;
+}
+
+.stepReversed {
+  direction: rtl;
+}
+
+.stepReversed > * {
+  direction: ltr;
+}
+
+@media (max-width: 768px) {
+  .step {
+    grid-template-columns: 1fr;
+    direction: ltr;
+    gap: 32px;
+  }
+}
+
+.stepImage {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background-color: var(--color-offwhite);
+}
+
+.stepImg {
+  object-fit: cover;
+  object-position: center;
+  transition: transform 600ms ease;
+}
+
+.step:hover .stepImg {
+  transform: scale(1.03);
+}
+
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.stepNumber {
+  font-family: var(--font-serif);
+  font-size: 48px;
+  font-weight: 300;
+  color: var(--color-border);
+  line-height: 1;
+}
+
+.stepTitle {
+  font-family: var(--font-serif);
+  font-size: clamp(20px, 2.5vw, 32px);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  line-height: 1.15;
+}
+
+.stepText {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--color-secondary);
+  line-height: 1.85;
+  max-width: 400px;
+}
+
+/* CTA */
+.cta {
+  padding: 120px 64px;
+  text-align: center;
+  background-color: var(--color-background);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+@media (max-width: 768px) {
+  .cta { padding: 80px 24px; }
+}
+
+.ctaEyebrow {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.ctaTitle {
+  font-family: var(--font-serif);
+  font-size: clamp(28px, 4vw, 56px);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  line-height: 1.15;
+}
+
+.ctaText {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--color-secondary);
+  line-height: 1.8;
+  max-width: 400px;
+}

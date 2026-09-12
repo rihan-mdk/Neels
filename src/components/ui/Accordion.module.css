@@ -1,0 +1,74 @@
+.accordion {
+  border-top: 1px solid var(--color-border);
+}
+
+.item {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  gap: 16px;
+}
+
+.triggerTitle {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  transition: color var(--transition-fast);
+}
+
+.trigger:hover .triggerTitle {
+  color: var(--color-secondary);
+}
+
+.icon {
+  flex-shrink: 0;
+  color: var(--color-text);
+  display: flex;
+  align-items: center;
+}
+
+.content {
+  overflow: hidden;
+  transition: max-height 300ms cubic-bezier(0.16, 1, 0.3, 1);
+  max-height: 0;
+}
+
+.contentOpen {
+  /* max-height is set dynamically via style prop */
+}
+
+.contentInner {
+  padding-bottom: 20px;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: var(--color-secondary);
+}
+
+.contentInner ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contentInner ul li::before {
+  content: '—';
+  margin-right: 10px;
+  color: var(--color-muted);
+  font-size: 10px;
+}

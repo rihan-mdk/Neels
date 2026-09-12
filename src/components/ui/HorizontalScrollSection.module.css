@@ -1,0 +1,162 @@
+/* ── Outer (scroll trigger container) ────────────────────── */
+.outer {
+  position: relative;
+  /* height set dynamically by JS; auto on mobile */
+}
+
+/* ── Sticky panel ─────────────────────────────────────────── */
+.sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--color-ivory);
+}
+
+/* ── Heading row ──────────────────────────────────────────── */
+.headingRow {
+  flex-shrink: 0;
+  padding: 72px 80px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+@media (max-width: 1024px) {
+  .headingRow { padding: 60px 48px 16px; }
+}
+
+@media (max-width: 768px) {
+  .headingRow { padding: 36px 24px 16px; }
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: clamp(26px, 3.5vw, 48px);
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  line-height: 1.1;
+}
+
+.subtitle {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--color-secondary);
+  line-height: 1.7;
+  max-width: 480px;
+}
+
+/* ── Track wrapper ────────────────────────────────────────── */
+.trackWrapper {
+  flex: 1;
+  overflow: hidden;   /* clips cards that are off-screen right */
+  display: flex;
+  align-items: center;
+}
+
+/* ── Card track (translated horizontally by JS) ───────────── */
+.track {
+  display: flex;
+  align-items: stretch;
+  gap: 28px;
+  padding: 0 80px 0 80px;
+  will-change: transform;
+  /* must NOT be constrained in width */
+  flex-shrink: 0;
+  width: max-content;
+  transition: none; /* JS handles this */
+}
+
+@media (max-width: 1024px) {
+  .track { padding: 0 48px; gap: 24px; }
+}
+
+/* ── Progress bar ─────────────────────────────────────────── */
+.progressWrap {
+  flex-shrink: 0;
+  padding: 20px 80px 28px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+@media (max-width: 1024px) {
+  .progressWrap { padding: 16px 48px 24px; }
+}
+
+.progressBg {
+  flex: 1;
+  max-width: 200px;
+  height: 1px;
+  background-color: var(--color-border);
+  overflow: hidden;
+  border-radius: 0;
+}
+
+.progressFill {
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-text);
+  transform-origin: left center;
+  transform: scaleX(0);
+  transition: transform 60ms linear;
+}
+
+.scrollHint {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+}
+
+/* ── Mobile: native horizontal swipe ─────────────────────── */
+@media (max-width: 768px) {
+  .outer {
+    height: auto !important;
+  }
+
+  .sticky {
+    position: relative;
+    height: auto;
+    overflow: visible;
+  }
+
+  .trackWrapper {
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .trackWrapper::-webkit-scrollbar {
+    display: none;
+  }
+
+  .track {
+    transform: none !important;
+    width: max-content;
+    padding: 0 24px;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .progressWrap {
+    padding: 14px 24px 20px;
+  }
+}

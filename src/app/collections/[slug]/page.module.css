@@ -1,0 +1,100 @@
+.page {
+  padding-bottom: 120px;
+}
+
+.hero {
+  position: relative;
+  height: 500px;
+  overflow: hidden;
+  background-color: var(--color-offwhite);
+}
+
+@media (max-width: 768px) {
+  .hero { height: 340px; }
+}
+
+.heroImg {
+  object-fit: cover;
+  object-position: center 20%;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 5, 5, 0.4);
+}
+
+.heroContent {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.heroSeason {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.heroTitle {
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 5vw, 64px);
+  font-weight: 400;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--color-background);
+  line-height: 1.1;
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 64px 64px 0;
+}
+
+@media (max-width: 1024px) {
+  .inner { padding: 48px 32px 0; }
+}
+
+@media (max-width: 768px) {
+  .inner { padding: 40px 24px 0; }
+}
+
+.about {
+  max-width: 640px;
+  margin-bottom: 56px;
+}
+
+.aboutText {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--color-secondary);
+  line-height: 1.85;
+}
+
+.empty {
+  padding: 80px 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.emptyText {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--color-secondary);
+  max-width: 400px;
+  line-height: 1.8;
+}

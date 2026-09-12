@@ -1,0 +1,372 @@
+/* ── Header shell ─────────────────────────────────────────── */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(250, 249, 245, 0.72);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border-bottom: 1px solid rgba(200, 190, 175, 0.30);
+  transition: background-color 350ms ease,
+              box-shadow 350ms ease,
+              border-color 350ms ease;
+}
+
+.header.scrolled {
+  background-color: rgba(250, 249, 245, 0.90);
+  border-color: rgba(200, 190, 175, 0.50);
+  box-shadow: 0 1px 24px rgba(0, 0, 0, 0.055);
+}
+
+/* ── Single bar — logo left, nav centered, actions right ───── */
+.bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  padding: 0 52px;
+  height: 58px;
+  gap: 0;
+}
+
+@media (max-width: 1024px) {
+  .bar {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 32px;
+  }
+}
+
+@media (max-width: 768px) {
+  .bar {
+    padding: 0 20px;
+    height: 52px;
+  }
+}
+
+/* ── Spacer removed (handled by CSS Grid) ─────────────────── */
+.spacer {
+  display: none;
+}
+
+/* ── Logo (LEFT) ──────────────────────────────────────────── */
+.logo {
+  justify-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-decoration: none;
+  flex-shrink: 0;
+
+  /* entrance animation */
+  animation: logoSlideIn 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes logoSlideIn {
+  from { opacity: 0; transform: translateX(-14px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.logo:hover .logoName {
+  letter-spacing: 0.27em;
+}
+
+.logo:hover .logoStudio {
+  letter-spacing: 0.36em;
+  opacity: 0.8;
+}
+
+.logoName {
+  font-family: var(--font-serif);
+  font-size: 21px;
+  font-weight: 400;
+  letter-spacing: 0.24em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  line-height: 1;
+  transition: letter-spacing 400ms ease;
+}
+
+.logoStudio {
+  font-family: var(--font-sans);
+  font-size: 7px;
+  font-weight: 400;
+  letter-spacing: 0.34em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  line-height: 1;
+  transition: letter-spacing 400ms ease, opacity 300ms ease;
+}
+
+/* ── Desktop nav (CENTERED with equal space on either side) ─ */
+.desktopNav {
+  justify-self: center;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+  margin: 0;
+}
+
+@media (max-width: 1200px) {
+  .desktopNav { gap: 22px; }
+}
+
+@media (max-width: 1024px) {
+  .desktopNav { display: none; }
+}
+
+/* Nav link with animated underline */
+.navLink {
+  position: relative;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  text-decoration: none;
+  padding-bottom: 3px;
+  white-space: nowrap;
+
+  /* staggered fade-drop entrance (delay set via inline style in TSX) */
+  opacity: 0;
+  animation: navFadeIn 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  transition: color 220ms ease;
+}
+
+@keyframes navFadeIn {
+  from { opacity: 0; transform: translateY(-5px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* sliding underline from left */
+.navLink::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background-color: var(--color-text);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navLink:hover {
+  color: var(--color-text);
+}
+
+.navLink:hover::after {
+  transform: scaleX(1);
+}
+
+.navLinkActive {
+  color: var(--color-text);
+}
+
+.navLinkActive::after {
+  transform: scaleX(1);
+}
+
+/* ── Right actions ────────────────────────────────────────── */
+.actions {
+  justify-self: end;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  animation: logoSlideIn 650ms cubic-bezier(0.16, 1, 0.3, 1) 200ms both;
+}
+
+@media (max-width: 1024px) {
+  .actions {
+    gap: 12px;
+  }
+}
+
+/* ── Shared icon button ───────────────────────────────────── */
+.iconBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-text);
+  padding: 6px;
+  transition: color 200ms ease, transform 200ms ease;
+}
+
+.iconBtn:hover {
+  color: var(--color-secondary);
+  transform: translateY(-1px);
+}
+
+/* ── Mobile menu button (hidden on desktop) ───────────────── */
+.menuBtn {
+  display: none;
+}
+
+@media (max-width: 1024px) {
+  .menuBtn {
+    display: flex;
+  }
+}
+
+/* ── Cart bag ─────────────────────────────────────────────── */
+.bagLink {
+  position: relative;
+  display: flex;
+  align-items: center;
+  color: var(--color-text);
+  padding: 6px;
+  transition: color 200ms ease, transform 200ms ease;
+}
+
+.bagLink:hover {
+  color: var(--color-secondary);
+  transform: translateY(-1px);
+}
+
+.cartBadge {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 14px;
+  height: 14px;
+  background-color: var(--color-text);
+  color: var(--color-background);
+  font-family: var(--font-sans);
+  font-size: 8px;
+  font-weight: 500;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  animation: badgePop 300ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes badgePop {
+  from { transform: scale(0); }
+  to   { transform: scale(1); }
+}
+
+/* ── Mobile backdrop ──────────────────────────────────────── */
+.mobileBackdrop {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(5, 5, 5, 0.45);
+  z-index: 200;
+  animation: fadeIn 250ms ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ── Mobile Drawer ────────────────────────────────────────── */
+.mobileDrawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: min(300px, 85vw);
+  background-color: rgba(250, 249, 245, 0.97);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  z-index: 201;
+  display: flex;
+  flex-direction: column;
+  transform: translateX(-100%);
+  transition: transform 380ms cubic-bezier(0.16, 1, 0.3, 1);
+  border-right: 1px solid var(--color-border);
+}
+
+.mobileDrawerOpen {
+  transform: translateX(0);
+}
+
+.mobileDrawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.mobileLogoSmall {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-decoration: none;
+}
+
+.mobileLogoSmall .logoName {
+  font-size: 19px;
+  letter-spacing: 0.20em;
+}
+
+.mobileLogoSmall .logoStudio {
+  font-size: 6.5px;
+  letter-spacing: 0.28em;
+}
+
+.mobileNavItems {
+  flex: 1;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.mobileNavLink {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  text-decoration: none;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-border);
+  transition: color 200ms ease, padding-left 200ms ease;
+  display: block;
+}
+
+.mobileNavLink:hover {
+  color: var(--color-text);
+  padding-left: 6px;
+}
+
+.mobileNavLinkActive {
+  color: var(--color-text);
+  padding-left: 6px;
+}
+
+.mobileDrawerFooter {
+  padding: 20px;
+  border-top: 1px solid var(--color-border);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.mobileUtilLink {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+  padding: 0;
+  transition: color 200ms ease;
+}
+
+.mobileUtilLink:hover {
+  color: var(--color-text);
+}
