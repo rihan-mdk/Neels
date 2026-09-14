@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import IntroCanvasScrubber from '@/components/ui/IntroCanvasScrubber';
 import Hero from '@/components/home/Hero';
 import FeaturedStory from '@/components/home/FeaturedStory';
 import CuratedCategories from '@/components/home/CuratedCategories';
@@ -23,7 +24,11 @@ export default function HomePage() {
 
   return (
     <>
-      <Hero />
+      <IntroCanvasScrubber>
+        <Hero />
+      </IntroCanvasScrubber>
+
+
       <FeaturedStory />
       <CuratedCategories />
       <FeaturedCollections />

@@ -9,8 +9,14 @@
   border-bottom: 1px solid rgba(200, 190, 175, 0.30);
   transition: background-color 350ms ease,
               box-shadow 350ms ease,
-              border-color 350ms ease;
+              border-color 350ms ease,
+              opacity 300ms ease,
+              transform 300ms ease;
+  opacity: var(--intro-nav-opacity, 1);
+  pointer-events: var(--intro-nav-pointer, auto);
+  transform: var(--intro-nav-transform, translateY(0));
 }
+
 
 .header.scrolled {
   background-color: rgba(250, 249, 245, 0.90);
