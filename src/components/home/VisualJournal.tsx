@@ -49,7 +49,7 @@ export default function VisualJournal() {
         <div className={styles.footer}>
           <ScrollReveal delay={2}>
             <a
-              href="https://instagram.com"
+              href="https://www.instagram.com/neels_designer_studio?stkn=aDk1emZ3aHVicDZl"
               target="_blank"
               rel="noopener noreferrer"
               className={`btn btn-secondary ${styles.instaBtn}`}
