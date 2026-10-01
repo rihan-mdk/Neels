@@ -43,19 +43,33 @@
 
 .logo {
   display: flex;
-  flex-direction: column;
-  gap: 4px;
+  align-items: center;
+  gap: 14px;
   text-decoration: none;
-  transition: opacity var(--transition-fast);
+  transition: opacity var(--transition-fast), transform var(--transition-fast);
 }
 
 .logo:hover {
-  opacity: 0.75;
+  opacity: 0.85;
+  transform: translateX(2px);
+}
+
+.footerLogoImg {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.logoText {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
 }
 
 .logoName {
   font-family: var(--font-serif);
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 400;
   letter-spacing: 0.22em;
   text-transform: uppercase;

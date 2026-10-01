@@ -1,10 +1,8 @@
 import type { Metadata } from 'next';
-import IntroCanvasScrubber from '@/components/ui/IntroCanvasScrubber';
 import Hero from '@/components/home/Hero';
 import FeaturedStory from '@/components/home/FeaturedStory';
 import CuratedCategories from '@/components/home/CuratedCategories';
 import FeaturedCollections from '@/components/home/FeaturedCollections';
-import CoutureProcess from '@/components/home/CoutureProcess';
 import BrandStatement from '@/components/home/BrandStatement';
 import VisualJournal from '@/components/home/VisualJournal';
 import ProductGrid from '@/components/products/ProductGrid';
@@ -14,9 +12,9 @@ import { getFeaturedProducts } from '@/data/products';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: 'Neels Designer Studio — Contemporary Indian Couture',
+  title: 'Neels Designer Studio — Contemporary Indian Fashion',
   description:
-    'Discover Neels Designer Studio, a contemporary Indian couture house creating timeless silhouettes through heritage craftsmanship and modern design.',
+    'Discover Neels Designer Studio, creating timeless silhouettes through heritage craftsmanship and modern design.',
 };
 
 export default function HomePage() {
@@ -24,10 +22,7 @@ export default function HomePage() {
 
   return (
     <>
-      <IntroCanvasScrubber>
-        <Hero />
-      </IntroCanvasScrubber>
-
+      <Hero />
 
       <FeaturedStory />
       <CuratedCategories />
@@ -47,7 +42,6 @@ export default function HomePage() {
         </div>
       </section>
 
-      <CoutureProcess />
       <BrandStatement />
       <VisualJournal />
     </>

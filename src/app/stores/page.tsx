@@ -91,25 +91,6 @@ export default function StoresPage() {
           ))}
         </div>
 
-        {/* Couture Appointments */}
-        <ScrollReveal>
-          <div className={styles.appointment}>
-            <h2 className={styles.appointmentTitle}>Couture Appointments</h2>
-            <p className={styles.appointmentText}>
-              Our couture studio is open by private appointment only. To schedule
-              a consultation with our design team, please contact us directly or
-              visit our Couture page.
-            </p>
-            <div className={styles.appointmentLinks}>
-              <a href="/couture" className="btn btn-primary">
-                Learn About Couture
-              </a>
-              <a href="/contact" className="btn btn-secondary">
-                Book an Appointment
-              </a>
-            </div>
-          </div>
-        </ScrollReveal>
       </div>
     </div>
   );

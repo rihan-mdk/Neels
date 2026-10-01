@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './Footer.module.css';
 
 function InstagramIcon() {
@@ -14,23 +15,21 @@ function InstagramIcon() {
 
 const footerLinks = {
   shop: [
-    { label: 'Lehengas', href: '/lehengas' },
+    { label: 'Dresses', href: '/suits-dresses' },
     { label: 'Accessories', href: '/jewellery' },
-    { label: 'Suits & Dresses', href: '/suits-dresses' },
+    { label: 'Lehengas', href: '/lehengas' },
     { label: 'Collections', href: '/collections' },
-    { label: 'Couture', href: '/couture' },
   ],
   company: [
-    { label: 'About Neels', href: '/couture' },
+    { label: 'About Us', href: '/about' },
     { label: 'Our Stores', href: '/stores' },
     { label: 'Contact Us', href: '/contact' },
-    { label: 'Couture Appointments', href: '/couture#book' },
   ],
   support: [
-    { label: 'Customer Care', href: '/contact#care' },
-    { label: 'Shipping & Returns', href: '/contact#shipping' },
-    { label: 'Privacy Policy', href: '/contact#privacy' },
-    { label: 'Terms of Service', href: '/contact#terms' },
+    { label: 'Customer Care', href: '/customer-care' },
+    { label: 'Shipping & Returns', href: '/shipping-returns' },
+    { label: 'Privacy Policy', href: '/privacy-policy' },
+    { label: 'Terms of Service', href: '/terms-of-service' },
   ],
 };
 
@@ -41,16 +40,25 @@ export default function Footer() {
         {/* Top */}
         <div className={styles.top}>
           <div className={styles.brand}>
-            <Link href="/" className={styles.logo}>
-              <span className={styles.logoName}>Neels</span>
-              <span className={styles.logoStudio}>Designer Studio</span>
+            <Link href="/" className={styles.logo} aria-label="Neels Designer Studio — Home">
+              <Image
+                src="/logo-black.png"
+                alt="Neels Designer Studio Logo"
+                width={44}
+                height={44}
+                className={styles.footerLogoImg}
+              />
+              <div className={styles.logoText}>
+                <span className={styles.logoName}>Neels</span>
+                <span className={styles.logoStudio}>Designer Studio</span>
+              </div>
             </Link>
             <p className={styles.tagline}>
               Contemporary Indian Couture
             </p>
             <div className={styles.social}>
               <a
-                href="https://instagram.com"
+                href="https://www.instagram.com/neels_designer_studio?stkn=aDk1emZ3aHVicDZl"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.socialLink}
@@ -60,7 +68,7 @@ export default function Footer() {
                 <span>Instagram</span>
               </a>
               <a
-                href="https://wa.me/919999999999"
+                href="https://wa.me/919876543210"
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.socialLink}
@@ -110,9 +118,9 @@ export default function Footer() {
             © 2026 Neels Designer Studio. All Rights Reserved.
           </span>
           <div className={styles.bottomLinks}>
-            <Link href="/contact" className={styles.bottomLink}>Privacy</Link>
-            <Link href="/contact" className={styles.bottomLink}>Terms</Link>
-            <Link href="/contact" className={styles.bottomLink}>Shipping & Returns</Link>
+            <Link href="/privacy-policy" className={styles.bottomLink}>Privacy</Link>
+            <Link href="/terms-of-service" className={styles.bottomLink}>Terms</Link>
+            <Link href="/shipping-returns" className={styles.bottomLink}>Shipping & Returns</Link>
           </div>
         </div>
       </div>

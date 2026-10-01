@@ -27,7 +27,7 @@ export default function FeaturedStory() {
               design house that believes in the quiet power of a well-made
               garment.
             </p>
-            <Link href="/couture" className="btn btn-secondary" style={{ marginTop: '8px' }}>
+            <Link href="/about" className="btn btn-secondary" style={{ marginTop: '8px' }}>
               Discover Neels Designer Studio
             </Link>
           </ScrollReveal>

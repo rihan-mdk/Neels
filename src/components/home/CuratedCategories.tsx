@@ -41,13 +41,7 @@ const CURATED_CATEGORIES: CuratedCardItem[] = [
     description: 'Kundan chokers, polki necklaces and 22-karat gold rings crafted by master goldsmiths.',
     image: 'https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=900&q=85',
   },
-  {
-    id: 'curated-couture',
-    name: 'Bespoke Couture',
-    path: '/couture',
-    description: 'One-of-a-kind masterpieces made to measure with personalised embroidery narratives.',
-    image: 'https://images.unsplash.com/photo-1609357605129-26f69add5d6e?auto=format&fit=crop&w=900&q=85',
-  },
+
   {
     id: 'curated-heirloom',
     name: 'Heirloom Jewellery',

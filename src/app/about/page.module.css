@@ -1,0 +1,91 @@
+.page {
+  padding: 80px 0 120px;
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 64px;
+}
+
+@media (max-width: 1024px) { .inner { padding: 0 32px; } }
+@media (max-width: 768px) { .inner { padding: 0 24px; } }
+
+.header {
+  margin-bottom: 72px;
+  max-width: 800px;
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 16px;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 4.5vw, 56px);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  line-height: 1.15;
+  margin-bottom: 24px;
+}
+
+.subtitle {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--color-secondary);
+  line-height: 1.85;
+}
+
+.valuesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  border-top: 1px solid var(--color-border);
+  padding-top: 48px;
+}
+
+@media (max-width: 860px) {
+  .valuesGrid {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+.valueCard {
+  display: flex;
+  flex-direction: column;
+}
+
+.cardNumber {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.15em;
+  color: var(--color-muted);
+  margin-bottom: 16px;
+}
+
+.cardTitle {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  margin-bottom: 12px;
+}
+
+.cardDesc {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--color-secondary);
+  line-height: 1.7;
+}

@@ -1,0 +1,250 @@
+/* Shared styles for info pages: Customer Care, Shipping & Returns, Privacy Policy, Terms of Service */
+
+.page {
+  padding: 80px 0 120px;
+}
+
+.inner {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 64px;
+}
+
+@media (max-width: 1024px) { .inner { padding: 0 32px; } }
+@media (max-width: 768px)  { .inner { padding: 0 24px; } }
+
+/* ── Header ── */
+.header {
+  margin-bottom: 80px;
+}
+
+.eyebrow {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 16px;
+}
+
+.title {
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 4vw, 56px);
+  font-weight: 400;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  margin-bottom: 20px;
+}
+
+.subtitle {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--color-secondary);
+  line-height: 1.85;
+  max-width: 580px;
+}
+
+/* ── Contact Cards ── */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+  margin-bottom: 80px;
+}
+
+@media (max-width: 900px)  { .cards { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 580px)  { .cards { grid-template-columns: 1fr; } }
+
+.card {
+  padding: 40px 36px;
+  border: 1px solid var(--color-border);
+  background: var(--color-ivory);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: border-color var(--transition-fast);
+}
+
+.card:hover {
+  border-color: var(--color-text);
+}
+
+.cardIcon {
+  color: var(--color-muted);
+  margin-bottom: 4px;
+}
+
+.cardTitle {
+  font-family: var(--font-serif);
+  font-size: 16px;
+  font-weight: 400;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text);
+}
+
+.cardText {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 300;
+  color: var(--color-secondary);
+  line-height: 1.8;
+}
+
+.cardLink {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--color-text);
+  text-decoration: none;
+  letter-spacing: 0.04em;
+  margin-top: auto;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 2px;
+  width: fit-content;
+  transition: border-color var(--transition-fast);
+}
+
+.cardLink:hover {
+  border-color: var(--color-text);
+}
+
+/* ── FAQ ── */
+.faqSection {
+  margin-bottom: 80px;
+}
+
+.faqTitle {
+  font-family: var(--font-serif);
+  font-size: clamp(20px, 2.5vw, 30px);
+  font-weight: 400;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  margin-bottom: 48px;
+}
+
+.faqs {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.faq {
+  padding: 32px 0;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.faq:first-child {
+  border-top: 1px solid var(--color-border);
+}
+
+.faqQ {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: var(--color-text);
+  margin-bottom: 10px;
+}
+
+.faqA {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--color-secondary);
+  line-height: 1.85;
+  max-width: 720px;
+}
+
+/* ── Prose (for Privacy / Terms / Shipping) ── */
+.prose {
+  max-width: 760px;
+}
+
+.section {
+  margin-bottom: 64px;
+}
+
+.sectionTitle {
+  font-family: var(--font-serif);
+  font-size: clamp(16px, 2vw, 22px);
+  font-weight: 400;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  margin-bottom: 20px;
+}
+
+.body {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--color-secondary);
+  line-height: 1.9;
+  margin-bottom: 16px;
+}
+
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.list li {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--color-secondary);
+  line-height: 1.8;
+  padding-left: 20px;
+  position: relative;
+}
+
+.list li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--color-muted);
+  font-size: 10px;
+  top: 4px;
+}
+
+.updated {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  margin-bottom: 56px;
+}
+
+/* ── CTA ── */
+.cta {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 48px;
+  border: 1px solid var(--color-border);
+  background: var(--color-ivory);
+}
+
+@media (max-width: 580px) {
+  .cta { flex-direction: column; align-items: flex-start; padding: 32px 24px; }
+}
+
+.ctaText {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 300;
+  color: var(--color-secondary);
+  line-height: 1.7;
+  flex: 1;
+}

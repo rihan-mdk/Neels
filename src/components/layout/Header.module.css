@@ -57,50 +57,33 @@
 /* ── Logo (LEFT) ──────────────────────────────────────────── */
 .logo {
   justify-self: start;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  display: inline-flex;
+  align-items: center;
   text-decoration: none;
   flex-shrink: 0;
+  transition: transform 260ms cubic-bezier(0.16, 1, 0.3, 1), opacity 200ms ease;
 
   /* entrance animation */
   animation: logoSlideIn 600ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-@keyframes logoSlideIn {
-  from { opacity: 0; transform: translateX(-14px); }
-  to   { opacity: 1; transform: translateX(0); }
+.logo:hover {
+  transform: scale(1.06);
+  opacity: 0.88;
 }
 
-.logo:hover .logoName {
-  letter-spacing: 0.27em;
+.logoImg {
+  width: 44px;
+  height: 44px;
+  object-fit: contain;
+  display: block;
 }
 
-.logo:hover .logoStudio {
-  letter-spacing: 0.36em;
-  opacity: 0.8;
-}
-
-.logoName {
-  font-family: var(--font-serif);
-  font-size: 21px;
-  font-weight: 400;
-  letter-spacing: 0.24em;
-  text-transform: uppercase;
-  color: var(--color-text);
-  line-height: 1;
-  transition: letter-spacing 400ms ease;
-}
-
-.logoStudio {
-  font-family: var(--font-sans);
-  font-size: 7px;
-  font-weight: 400;
-  letter-spacing: 0.34em;
-  text-transform: uppercase;
-  color: var(--color-muted);
-  line-height: 1;
-  transition: letter-spacing 400ms ease, opacity 300ms ease;
+@media (max-width: 768px) {
+  .logoImg {
+    width: 36px;
+    height: 36px;
+  }
 }
 
 /* ── Desktop nav (CENTERED with equal space on either side) ─ */
@@ -120,23 +103,50 @@
   .desktopNav { display: none; }
 }
 
+/* Nav item wrapper & trigger */
+.navItemWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
 /* Nav link with animated underline */
-.navLink {
+.navLink,
+.navTrigger {
   position: relative;
   font-family: var(--font-sans);
   font-size: 10px;
   font-weight: 400;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-secondary);
+  color: var(--color-text);
   text-decoration: none;
   padding-bottom: 3px;
   white-space: nowrap;
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0;
 
-  /* staggered fade-drop entrance (delay set via inline style in TSX) */
+  /* staggered fade-drop entrance */
   opacity: 0;
   animation: navFadeIn 500ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
   transition: color 220ms ease;
+}
+
+.chevronIcon {
+  color: var(--color-muted);
+  transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), color 200ms ease;
+  position: relative;
+  top: 0.5px;
+}
+
+.chevronOpen {
+  transform: rotate(180deg);
+  color: var(--color-text);
 }
 
 @keyframes navFadeIn {
@@ -145,7 +155,8 @@
 }
 
 /* sliding underline from left */
-.navLink::after {
+.navLink::after,
+.navTrigger::after {
   content: '';
   position: absolute;
   bottom: 0;
@@ -158,20 +169,172 @@
   transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.navLink:hover {
-  color: var(--color-text);
-}
-
-.navLink:hover::after {
+.navLink:hover::after,
+.navTrigger:hover::after,
+.navLinkActive::after,
+.navTriggerActive::after {
   transform: scaleX(1);
 }
 
-.navLinkActive {
+.navLink:hover,
+.navTrigger:hover,
+.navLinkActive,
+.navTriggerActive {
   color: var(--color-text);
 }
 
-.navLinkActive::after {
-  transform: scaleX(1);
+/* ── Animated Dropdown Container ──────────────────────────── */
+.dropdownContainer {
+  position: absolute;
+  top: calc(100% + 14px);
+  left: 50%;
+  transform: translateX(-50%) translateY(-6px) scale(0.97);
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transition:
+    opacity 240ms cubic-bezier(0.16, 1, 0.3, 1),
+    transform 240ms cubic-bezier(0.16, 1, 0.3, 1),
+    visibility 240ms;
+  z-index: 150;
+}
+
+/* Invisible bridge so moving cursor between trigger and card does not close */
+.dropdownContainer::before {
+  content: '';
+  position: absolute;
+  top: -18px;
+  left: 0;
+  right: 0;
+  height: 20px;
+}
+
+.dropdownContainerOpen,
+.navItemWrapper:hover .dropdownContainer,
+.navItemWrapper:focus-within .dropdownContainer {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  transform: translateX(-50%) translateY(0) scale(1);
+}
+
+.dropdownCard {
+  position: relative;
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(23, 21, 20, 0.08);
+  border-radius: 12px;
+  box-shadow:
+    0 24px 48px -12px rgba(23, 21, 20, 0.12),
+    0 8px 16px -4px rgba(23, 21, 20, 0.04),
+    0 0 0 1px rgba(255, 255, 255, 0.9) inset;
+  padding: 18px 20px;
+}
+
+.dropdownArrow {
+  position: absolute;
+  top: -6px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 10px;
+  height: 10px;
+  background: rgba(255, 255, 255, 0.98);
+  border-left: 1px solid rgba(23, 21, 20, 0.08);
+  border-top: 1px solid rgba(23, 21, 20, 0.08);
+}
+
+.dropdownHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(23, 21, 20, 0.06);
+}
+
+.dropdownSubTitle {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  font-weight: 500;
+}
+
+.dropdownViewAll {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  opacity: 0.7;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.dropdownViewAll:hover {
+  opacity: 1;
+  transform: translateX(2px);
+}
+
+/* Grid layout for Dresses */
+.dropdownGridDresses {
+  display: grid;
+  grid-template-columns: repeat(2, 150px);
+  gap: 4px;
+}
+
+/* Stack layout for Accessories */
+.dropdownGridAccessories {
+  display: flex;
+  flex-direction: column;
+  width: 180px;
+  gap: 4px;
+}
+
+.dropdownItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  border-radius: 6px;
+  text-decoration: none;
+  color: var(--color-text);
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition:
+    background-color 180ms ease,
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+.dropdownItem:hover {
+  background-color: rgba(23, 21, 20, 0.04);
+  transform: translateX(3px);
+  color: var(--color-black);
+}
+
+.itemLabel {
+  white-space: nowrap;
+}
+
+.itemArrow {
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 180ms ease, transform 180ms ease;
+  color: var(--color-muted);
+}
+
+.dropdownItem:hover .itemArrow {
+  opacity: 1;
+  transform: translateX(0);
+  color: var(--color-text);
 }
 
 /* ── Right actions ────────────────────────────────────────── */
@@ -303,19 +466,8 @@
 
 .mobileLogoSmall {
   display: flex;
-  flex-direction: column;
-  gap: 2px;
+  align-items: center;
   text-decoration: none;
-}
-
-.mobileLogoSmall .logoName {
-  font-size: 19px;
-  letter-spacing: 0.20em;
-}
-
-.mobileLogoSmall .logoStudio {
-  font-size: 6.5px;
-  letter-spacing: 0.28em;
 }
 
 .mobileNavItems {
@@ -332,7 +484,7 @@
   font-weight: 400;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--color-secondary);
+  color: var(--color-text);
   text-decoration: none;
   padding: 14px 0;
   border-bottom: 1px solid var(--color-border);
@@ -348,6 +500,71 @@
 .mobileNavLinkActive {
   color: var(--color-text);
   padding-left: 6px;
+}
+
+.mobileNavItemWrapper {
+  border-bottom: 1px solid var(--color-border);
+}
+
+.mobileAccordionHeader {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.mobileAccordionTitle {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 400;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--color-text);
+  transition: color 200ms ease;
+}
+
+.mobileAccordionChevron {
+  transition: transform 260ms ease, color 200ms ease;
+  color: var(--color-muted);
+}
+
+.mobileAccordionOpen .mobileAccordionChevron {
+  transform: rotate(180deg);
+  color: var(--color-text);
+}
+
+.mobileSubmenu {
+  display: flex;
+  flex-direction: column;
+  padding: 4px 0 14px 12px;
+  gap: 6px;
+  animation: mobileSubmenuFade 240ms ease forwards;
+}
+
+@keyframes mobileSubmenuFade {
+  from { opacity: 0; transform: translateY(-4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.mobileSubLink {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--color-secondary);
+  text-decoration: none;
+  padding: 6px 0;
+  transition: color 180ms ease, padding-left 180ms ease;
+}
+
+.mobileSubLink:hover {
+  color: var(--color-text);
+  padding-left: 4px;
 }
 
 .mobileDrawerFooter {

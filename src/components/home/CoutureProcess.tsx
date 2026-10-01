@@ -23,8 +23,8 @@ export default function CoutureProcess() {
               Our couture process is a deeply personal journey — one we
               take together.
             </p>
-            <Link href="/couture" className="btn btn-primary" style={{ marginTop: '8px' }}>
-              Discover the Journey
+            <Link href="/contact" className="btn btn-primary" style={{ marginTop: '8px' }}>
+              Book an Appointment
             </Link>
           </ScrollReveal>
         </div>
