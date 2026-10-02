@@ -31,13 +31,12 @@ export default function Hero() {
           <div className={styles.divider} aria-hidden="true" />
 
           <p className={styles.subtext}>
-            Timeless designs. Thoughtfully crafted.<br className={styles.br} />
-            Made for your every moment.
+            Curated ready-to-wear styles for every moment.
           </p>
 
           <div className={styles.btnWrap}>
             <Link href="/collections" className={styles.primaryBtn}>
-              Explore Collection
+              SHOP COLLECTIONS
             </Link>
             <Link href="/about" className={styles.ghostLink}>
               Our Story <span className={styles.arrow} aria-hidden="true">→</span>

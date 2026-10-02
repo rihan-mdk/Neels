@@ -1,0 +1,151 @@
+/* ── Floating Luxury Cart Notification Toast ───────────────── */
+.notificationWrapper {
+  position: fixed;
+  top: 76px;
+  right: 28px;
+  z-index: 9999;
+  width: calc(100% - 48px);
+  max-width: 440px;
+  background-color: #171514;
+  color: #ffffff;
+  border: 1px solid rgba(181, 154, 120, 0.4);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 18px;
+  animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-16px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.thumbWrapper {
+  position: relative;
+  width: 52px;
+  height: 68px;
+  flex-shrink: 0;
+  overflow: hidden;
+  background-color: #24201e;
+}
+
+.thumb {
+  object-fit: cover;
+  object-position: center top;
+}
+
+.details {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  gap: 3px;
+}
+
+.statusRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.checkDot {
+  width: 6px;
+  height: 6px;
+  background-color: #b59a78;
+  border-radius: 50%;
+}
+
+.statusText {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #b59a78;
+}
+
+.productName {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  color: #ffffff;
+  font-weight: 400;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  line-height: 1.2;
+}
+
+.metaText {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.actionRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.viewCartBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 9px 16px;
+  background-color: #ffffff;
+  color: #171514;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  border-radius: 0;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  white-space: nowrap;
+}
+
+.viewCartBtn:hover {
+  background-color: #ece6dc;
+  transform: translateY(-1px);
+}
+
+.closeBtn {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  padding: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s ease;
+}
+
+.closeBtn:hover {
+  color: #ffffff;
+}
+
+@media (max-width: 480px) {
+  .notificationWrapper {
+    top: 64px;
+    right: 14px;
+    left: 14px;
+    width: auto;
+    padding: 12px 14px;
+    gap: 12px;
+  }
+  .viewCartBtn {
+    padding: 8px 12px;
+    font-size: 9px;
+  }
+}

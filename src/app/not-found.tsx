@@ -12,7 +12,7 @@ export default function NotFound() {
           It may have moved, or the link may be incorrect.
         </p>
         <div className={styles.links}>
-          <Link href="/" className="btn btn-primary">
+          <Link href="/home" className="btn btn-primary">
             Return Home
           </Link>
           <Link href="/collections" className="btn btn-secondary">

@@ -6,6 +6,8 @@ import React, {
   useReducer,
   useEffect,
   useCallback,
+  useState,
+  useRef,
 } from 'react';
 import { Product, ProductSize } from '@/data/products';
 
@@ -32,6 +34,12 @@ type CartAction =
   | { type: 'CLEAR_CART' }
   | { type: 'LOAD_CART'; payload: CartItem[] };
 
+export interface CartNotificationItem {
+  product: Product;
+  size: ProductSize;
+  timestamp: number;
+}
+
 interface CartContextValue {
   items: CartItem[];
   addToCart: (product: Product, size: ProductSize) => void;
@@ -42,6 +50,8 @@ interface CartContextValue {
   getCartTotal: () => number;
   getCartCount: () => number;
   isInCart: (productId: string, size: ProductSize) => boolean;
+  lastAdded: CartNotificationItem | null;
+  dismissNotification: () => void;
 }
 
 // ============================================================
@@ -136,8 +146,21 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     }
   }, [state.items]);
 
+  const [lastAdded, setLastAdded] = useState<CartNotificationItem | null>(null);
+  const notificationTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+
+  const dismissNotification = useCallback(() => {
+    if (notificationTimeoutRef.current) clearTimeout(notificationTimeoutRef.current);
+    setLastAdded(null);
+  }, []);
+
   const addToCart = useCallback((product: Product, size: ProductSize) => {
     dispatch({ type: 'ADD_ITEM', payload: { product, size } });
+    setLastAdded({ product, size, timestamp: Date.now() });
+    if (notificationTimeoutRef.current) clearTimeout(notificationTimeoutRef.current);
+    notificationTimeoutRef.current = setTimeout(() => {
+      setLastAdded(null);
+    }, 6000);
   }, []);
 
   const removeFromCart = useCallback((cartId: string) => {
@@ -186,6 +209,8 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         getCartTotal,
         getCartCount,
         isInCart,
+        lastAdded,
+        dismissNotification,
       }}
     >
       {children}

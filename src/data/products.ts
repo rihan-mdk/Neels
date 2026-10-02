@@ -348,7 +348,123 @@ export const PRODUCTS: Product[] = [
     isNew: true,
   },
 
-  // â”€â”€ SUITS & DRESSES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+  // ── SUITS & DRESSES ──────────────────────────────────────────
+  {
+    id: 'sui-new-001',
+    slug: 'ivory-fuchsia-embroidered-suit',
+    name: 'Ivory & Fuchsia Embroidered Kurti Ensemble',
+    brand: 'Neels',
+    category: 'suits-dresses',
+    collection: 'The Signature Edit',
+    collectionSlug: 'the-signature-edit',
+    price: 48000,
+    priceFormatted: '₹48,000',
+    images: {
+      primary: '/hero-gallery-1.jpeg',
+      hover: '/hero-gallery-1.jpeg',
+      gallery: ['/hero-gallery-1.jpeg'],
+    },
+    sizes: ['XS', 'S', 'M', 'L', 'XL', 'CUSTOM SIZE'],
+    description:
+      'Artisanal ivory georgette kurti set featuring vivid fuchsia floral embroidery, tassel placket detailing, paired with palazzo trousers and a sheer floral dupatta.',
+    details: [
+      'Pure georgette base with intricate floral thread embroidery',
+      'Handcrafted front placket with traditional hanging tassels',
+      'Wide-leg matching embroidered palazzo pants',
+      'Lightweight dupatta with delicate border accents',
+    ],
+    fabric: 'Georgette with crepe lining',
+    care: 'Dry clean only.',
+    isNew: true,
+    isFeatured: true,
+  },
+  {
+    id: 'sui-new-002',
+    slug: 'royal-crimson-zardozi-anarkali',
+    name: 'Royal Crimson Embroidered Anarkali Suit',
+    brand: 'Neels',
+    category: 'suits-dresses',
+    collection: 'The Bridal Couture',
+    collectionSlug: 'the-bridal-couture',
+    price: 64000,
+    priceFormatted: '₹64,000',
+    images: {
+      primary: '/hero-gallery-2.jpeg',
+      hover: '/hero-gallery-2.jpeg',
+      gallery: ['/hero-gallery-2.jpeg'],
+    },
+    sizes: ['XS', 'S', 'M', 'L', 'XL', 'CUSTOM SIZE'],
+    description:
+      'Rich deep crimson silk velvet anarkali suit embellished with elaborate gold zardozi and gota patti craftsmanship. Complete with ornate scalloped dupatta.',
+    details: [
+      'Rich silk velvet silhouette with intricate yoke embroidery',
+      'Heavy gold zari border hemline with tassel drops',
+      'Statement sheer dupatta with scalloped borders',
+      'Includes tailored flared trousers',
+    ],
+    fabric: 'Silk velvet and organza',
+    care: 'Dry clean only.',
+    isNew: true,
+    isFeatured: true,
+  },
+  {
+    id: 'sui-new-003',
+    slug: 'shimmering-bronze-evening-gown',
+    name: 'Shimmering Bronze Evening Silhouette',
+    brand: 'Neels',
+    category: 'suits-dresses',
+    collection: 'The Signature Edit',
+    collectionSlug: 'the-signature-edit',
+    price: 36000,
+    priceFormatted: '₹36,000',
+    images: {
+      primary: '/hero-gallery-3.jpeg',
+      hover: '/hero-gallery-3.jpeg',
+      gallery: ['/hero-gallery-3.jpeg'],
+    },
+    sizes: ['XS', 'S', 'M', 'L', 'XL'],
+    description:
+      'Contemporary draped shimmer dress in metallic bronze, tailored with flattering crossover neckline, ruched waistline, and an asymmetric modern hem.',
+    details: [
+      'Textured metallic lurex fabric with stretch comfort',
+      'Flattering wrap silhouette with ruched gathering',
+      'Concealed back zip closure',
+      'Ideal for festive cocktail evenings and gala receptions',
+    ],
+    fabric: 'Metallic shimmer lurex blend',
+    care: 'Dry clean only.',
+    isNew: true,
+    isFeatured: true,
+  },
+  {
+    id: 'sui-new-004',
+    slug: 'sage-green-pearl-embroidered-suit',
+    name: 'Sage Green Pearl Embroidered Suit',
+    brand: 'Neels',
+    category: 'suits-dresses',
+    collection: 'The Artisan Series',
+    collectionSlug: 'the-artisan-series',
+    price: 52000,
+    priceFormatted: '₹52,000',
+    images: {
+      primary: '/hero-gallery-4.jpeg',
+      hover: '/hero-gallery-4.jpeg',
+      gallery: ['/hero-gallery-4.jpeg'],
+    },
+    sizes: ['XS', 'S', 'M', 'L', 'XL', 'CUSTOM SIZE'],
+    description:
+      'Pastel sage green straight-cut suit adorned with fine pearl drops, threadwork florals, and a shimmering tissue-striped organza dupatta.',
+    details: [
+      'Pure chanderi silk base with delicate pearl embellishments',
+      'Intricate floral vine embroidery along bodice and hem',
+      'Organza dupatta with zari tissue stripes and pearl hangings',
+      'Straight-leg pants with coordinating embroidered borders',
+    ],
+    fabric: 'Chanderi silk with organza dupatta',
+    care: 'Dry clean only.',
+    isNew: true,
+    isFeatured: true,
+  },
   {
     id: 'sui-001',
     slug: 'signature-velvet-suit',
@@ -655,6 +771,13 @@ export function getProductsByCollection(collectionSlug: string): Product[] {
 
 export function getFeaturedProducts(limit = 4): Product[] {
   return PRODUCTS.filter((p) => p.isFeatured).slice(0, limit);
+}
+
+export function getNewArrivals(limit = 8): Product[] {
+  const newItems = PRODUCTS.filter((p) => p.isNew);
+  if (newItems.length >= limit) return newItems.slice(0, limit);
+  const remaining = PRODUCTS.filter((p) => !p.isNew);
+  return [...newItems, ...remaining].slice(0, limit);
 }
 
 export function searchProducts(query: string): Product[] {

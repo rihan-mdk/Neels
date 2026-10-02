@@ -4,8 +4,9 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Search, ShoppingBag, Menu, X, ChevronDown, ArrowUpRight, UserCircle2 } from 'lucide-react';
+import { Search, ShoppingBag, Menu, X, ChevronDown, ArrowUpRight, UserCircle2, Heart } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import { useWishlist } from '@/context/WishlistContext';
 import SearchOverlay from '@/components/overlays/SearchOverlay';
 import styles from './Header.module.css';
 
@@ -24,18 +25,18 @@ interface NavItem {
 const NAV_ITEMS: NavItem[] = [
   { label: 'Home', href: '/' },
   {
-    label: 'Dresses',
-    href: '/suits-dresses',
+    label: 'Collection',
+    href: '/collections',
     subTitle: 'Atelier Silhouettes',
     subItems: [
-      { label: 'Korean', href: '/suits-dresses?category=korean' },
-      { label: 'Short kurti', href: '/suits-dresses?category=short-kurti' },
-      { label: 'Pakistani', href: '/suits-dresses?category=pakistani' },
+      { label: 'Korean', href: '/collections?category=korean' },
+      { label: 'Short kurti', href: '/collections?category=short-kurti' },
+      { label: 'Pakistani', href: '/collections?category=pakistani' },
       { label: 'Lehenga', href: '/lehengas' },
-      { label: 'Gown', href: '/suits-dresses?category=gown' },
-      { label: 'Party wear', href: '/suits-dresses?category=party-wear' },
-      { label: 'Co-ord set', href: '/suits-dresses?category=coord-set' },
-      { label: 'Jeans', href: '/suits-dresses?category=jeans' },
+      { label: 'Gown', href: '/collections?category=gown' },
+      { label: 'Party wear', href: '/collections?category=party-wear' },
+      { label: 'Co-ord set', href: '/collections?category=coord-set' },
+      { label: 'Jeans', href: '/collections?category=jeans' },
     ],
   },
   {
@@ -48,7 +49,6 @@ const NAV_ITEMS: NavItem[] = [
       { label: 'Rings', href: '/jewellery?category=rings' },
     ],
   },
-  { label: 'Collections', href: '/collections' },
   { label: 'About', href: '/about' },
 ];
 
@@ -62,7 +62,9 @@ export default function Header() {
 
   const pathname = usePathname();
   const { getCartCount } = useCart();
+  const { getWishlistCount } = useWishlist();
   const cartCount = getCartCount();
+  const wishlistCount = getWishlistCount();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -106,7 +108,7 @@ export default function Header() {
         <div className={styles.bar}>
 
           {/* ── LEFT: Logo (Icon Only) ──────────────── */}
-          <Link href="/" className={styles.logo} aria-label="Neels Designer Studio — Home">
+          <Link href="/home" className={styles.logo} aria-label="Neels Designer Studio — Home">
             <Image
               src="/logo-black.png"
               alt="Neels Designer Studio Logo"
@@ -222,6 +224,16 @@ export default function Header() {
               <Search size={15} strokeWidth={1.5} />
             </button>
             <Link
+              href="/wishlist"
+              className={styles.iconBtn}
+              aria-label={`Wishlist, ${wishlistCount} items`}
+            >
+              <Heart size={15} strokeWidth={1.5} />
+              {wishlistCount > 0 && (
+                <span className={styles.cartBadge}>{wishlistCount}</span>
+              )}
+            </Link>
+            <Link
               href="/profile"
               className={styles.iconBtn}
               aria-label="My profile"
@@ -264,7 +276,7 @@ export default function Header() {
         aria-hidden={!mobileOpen}
       >
         <div className={styles.mobileDrawerHeader}>
-          <Link href="/" className={styles.mobileLogoSmall} onClick={() => setMobileOpen(false)} aria-label="Neels Designer Studio — Home">
+          <Link href="/home" className={styles.mobileLogoSmall} onClick={() => setMobileOpen(false)} aria-label="Neels Designer Studio — Home">
             <Image
               src="/logo-black.png"
               alt="Neels Designer Studio Logo"
@@ -355,6 +367,13 @@ export default function Header() {
           >
             Search
           </button>
+          <Link
+            href="/wishlist"
+            className={styles.mobileUtilLink}
+            onClick={() => setMobileOpen(false)}
+          >
+            Wishlist ({wishlistCount})
+          </Link>
           <Link
             href="/cart"
             className={styles.mobileUtilLink}

@@ -44,13 +44,13 @@ export const CATEGORIES: Category[] = [
   },
   {
     id: 'cat-003',
-    slug: 'suits-dresses',
-    name: 'Suit & Dress',
-    pluralName: 'Suits & Dresses',
-    path: '/suits-dresses',
-    description: 'Refined Indian silhouettes for the contemporary celebration — from anarkalis to palazzo suits to draped ensembles.',
+    slug: 'collections',
+    name: 'Collection',
+    pluralName: 'Collections',
+    path: '/collections',
+    description: 'Refined Indian silhouettes and contemporary ready-to-wear for celebrations — from anarkalis to palazzo suits to draped ensembles.',
     editorialDescription:
-      'NEELSH\'s suits and dresses bring the precision of tailoring together with the luxury of Indian textiles. Each piece is designed for the modern woman who inhabits both worlds — celebrating her heritage while living firmly in the present.',
+      'Neels Designer Studio\'s collections bring the precision of tailoring together with the luxury of Indian textiles. Each piece is designed for the modern woman who inhabits both worlds — celebrating her heritage while living firmly in the present.',
     image: IMAGES.categories.suitsAndDresses,
     category: 'suits-dresses',
   },
@@ -69,5 +69,8 @@ export const CATEGORIES: Category[] = [
 ];
 
 export function getCategoryBySlug(slug: string): Category | undefined {
+  if (slug === 'collections' || slug === 'suits-dresses') {
+    return CATEGORIES.find((c) => c.slug === 'collections' || c.slug === 'suits-dresses');
+  }
   return CATEGORIES.find((c) => c.slug === slug);
 }

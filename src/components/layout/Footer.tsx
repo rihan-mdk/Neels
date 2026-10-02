@@ -15,10 +15,8 @@ function InstagramIcon() {
 
 const footerLinks = {
   shop: [
-    { label: 'Dresses', href: '/suits-dresses' },
+    { label: 'Collection', href: '/collections' },
     { label: 'Accessories', href: '/jewellery' },
-    { label: 'Lehengas', href: '/lehengas' },
-    { label: 'Collections', href: '/collections' },
   ],
   company: [
     { label: 'About Us', href: '/about' },
@@ -40,7 +38,7 @@ export default function Footer() {
         {/* Top */}
         <div className={styles.top}>
           <div className={styles.brand}>
-            <Link href="/" className={styles.logo} aria-label="Neels Designer Studio — Home">
+            <Link href="/home" className={styles.logo} aria-label="Neels Designer Studio — Home">
               <Image
                 src="/logo-black.png"
                 alt="Neels Designer Studio Logo"

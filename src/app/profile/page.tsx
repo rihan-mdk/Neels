@@ -34,7 +34,7 @@ const STATUS_COLORS: Record<string, string> = {
   Cancelled: 'var(--color-muted)',
 };
 
-type Tab = 'orders' | 'wishlist' | 'settings';
+type Tab = 'orders' | 'settings';
 
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<Tab>('orders');
@@ -58,9 +58,6 @@ export default function ProfilePage() {
             <h1 className={styles.name}>Neels Studio</h1>
             <p className={styles.email}>studio@neelsdesignerstudio.com</p>
           </div>
-          <div className={styles.heroActions}>
-            <Link href="/contact" className="btn btn-secondary">Book Appointment</Link>
-          </div>
         </div>
 
         {/* ── Stats Row ── */}
@@ -71,11 +68,6 @@ export default function ProfilePage() {
           </div>
           <div className={styles.statDivider} />
           <div className={styles.stat}>
-            <span className={styles.statVal}>5</span>
-            <span className={styles.statLabel}>Wishlist</span>
-          </div>
-          <div className={styles.statDivider} />
-          <div className={styles.stat}>
             <span className={styles.statVal}>₹ 2,62,000</span>
             <span className={styles.statLabel}>Total Spent</span>
           </div>
@@ -83,13 +75,13 @@ export default function ProfilePage() {
 
         {/* ── Tabs ── */}
         <div className={styles.tabs}>
-          {(['orders', 'wishlist', 'settings'] as Tab[]).map((tab) => (
+          {(['orders', 'settings'] as Tab[]).map((tab) => (
             <button
               key={tab}
               className={`${styles.tab} ${activeTab === tab ? styles.tabActive : ''}`}
               onClick={() => setActiveTab(tab)}
             >
-              {tab === 'orders' ? 'My Orders' : tab === 'wishlist' ? 'Wishlist' : 'Settings'}
+              {tab === 'orders' ? 'My Orders' : 'Settings'}
             </button>
           ))}
         </div>
@@ -123,18 +115,6 @@ export default function ProfilePage() {
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-        )}
-
-        {/* ── Wishlist Tab ── */}
-        {activeTab === 'wishlist' && (
-          <div className={styles.tabContent}>
-            <div className={styles.emptyState}>
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--color-muted)" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-              <p className={styles.emptyTitle}>Your wishlist is empty</p>
-              <p className={styles.emptyText}>Save pieces you love and revisit them at any time.</p>
-              <Link href="/collections" className="btn btn-primary" style={{ marginTop: '8px' }}>Explore Collections</Link>
             </div>
           </div>
         )}
@@ -213,6 +193,31 @@ export default function ProfilePage() {
             </div>
           </div>
         )}
+
+        {/* ── Mobile Quick Links (visible only on mobile) ── */}
+        <div className={styles.mobileLinks}>
+          <div className={styles.mobileLinkGroup}>
+            <h3 className={styles.mobileLinkTitle}>Shop</h3>
+            <Link href="/collections" className={styles.mobileLink}>Collection</Link>
+            <Link href="/jewellery" className={styles.mobileLink}>Accessories</Link>
+          </div>
+          <div className={styles.mobileLinkGroup}>
+            <h3 className={styles.mobileLinkTitle}>Company</h3>
+            <Link href="/about" className={styles.mobileLink}>About Us</Link>
+            <Link href="/stores" className={styles.mobileLink}>Our Stores</Link>
+            <Link href="/contact" className={styles.mobileLink}>Contact</Link>
+          </div>
+          <div className={styles.mobileLinkGroup}>
+            <h3 className={styles.mobileLinkTitle}>Support</h3>
+            <Link href="/customer-care" className={styles.mobileLink}>Customer Care</Link>
+            <Link href="/shipping-returns" className={styles.mobileLink}>Shipping & Returns</Link>
+          </div>
+          <div className={styles.mobileLinkGroup}>
+            <h3 className={styles.mobileLinkTitle}>Legal</h3>
+            <Link href="/privacy-policy" className={styles.mobileLink}>Privacy Policy</Link>
+            <Link href="/terms-of-service" className={styles.mobileLink}>Terms of Service</Link>
+          </div>
+        </div>
 
       </div>
     </div>

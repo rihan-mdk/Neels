@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { CartProvider } from '@/context/CartContext';
+import { WishlistProvider } from '@/context/WishlistContext';
+import CartNotification from '@/components/ui/CartNotification';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import LenisProvider from '@/components/ui/LenisProvider';
@@ -57,13 +59,16 @@ export default function RootLayout({
       </head>
       <body>
         <LenisProvider>
-          <CartProvider>
-            <Header />
-            <main id="main-content" tabIndex={-1}>
-              {children}
-            </main>
-            <Footer />
-          </CartProvider>
+          <WishlistProvider>
+            <CartProvider>
+              <Header />
+              <CartNotification />
+              <main id="main-content" tabIndex={-1}>
+                {children}
+              </main>
+              <Footer />
+            </CartProvider>
+          </WishlistProvider>
         </LenisProvider>
       </body>
     </html>

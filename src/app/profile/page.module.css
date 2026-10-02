@@ -449,3 +449,49 @@
 .toggle input:checked + .toggleSlider::before {
   transform: translateX(18px);
 }
+
+/* ── Mobile Quick Links (hidden on desktop) ── */
+.mobileLinks {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .mobileLinks {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 32px 24px;
+    margin-top: 64px;
+    padding-top: 48px;
+    border-top: 1px solid var(--color-border);
+  }
+
+  .mobileLinkGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .mobileLinkTitle {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    margin-bottom: 4px;
+  }
+
+  .mobileLink {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 300;
+    color: var(--color-secondary);
+    text-decoration: none;
+    line-height: 1.6;
+    transition: color var(--transition-fast);
+  }
+
+  .mobileLink:active {
+    color: var(--color-text);
+  }
+}

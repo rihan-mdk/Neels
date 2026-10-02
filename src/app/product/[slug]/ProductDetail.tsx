@@ -44,7 +44,7 @@ export default function ProductDetailClient({
     }
     addToCart(product, selectedSize);
     setAddedToBag(true);
-    setTimeout(() => setAddedToBag(false), 2000);
+    setTimeout(() => setAddedToBag(false), 5000);
   };
 
   const categoryLabel = product.category === 'suits-dresses' ? 'Suits & Dresses' : product.category.charAt(0).toUpperCase() + product.category.slice(1);
@@ -172,6 +172,16 @@ export default function ProductDetailClient({
                   Buy It Now
                 </Link>
               </div>
+
+              {/* Short note to view cart */}
+              {addedToBag && (
+                <div className={styles.addedNotice}>
+                  <span>✓ Item added to your shopping bag.</span>
+                  <Link href="/cart" className={styles.viewCartLink}>
+                    View Cart →
+                  </Link>
+                </div>
+              )}
 
               {/* Accordions */}
               <Accordion items={accordionItems} />
