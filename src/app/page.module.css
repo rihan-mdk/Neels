@@ -23,30 +23,15 @@
   .inner { padding: 0 24px; }
 }
 
-/* ── Hero overlap layout ────────────────────────────────────── */
+/* ── Normal Static Hero Slot (No Sticky Animation) ── */
 .heroSlot {
-  /* Pinned static hero while page scrolls */
-  position: sticky;
-  top: 58px;
-  height: calc(100vh - 58px);
+  position: relative;
   width: 100%;
-  z-index: 1;
-  background-color: #f2eee5;
-  overflow: hidden;
-}
-
-@media (max-width: 768px) {
-  .heroSlot {
-    top: 52px;
-    height: calc(100vh - 52px);
-  }
+  background-color: #F7E9E7;
 }
 
 .contentStack {
-  /* Slides up and overlaps the static hero */
   position: relative;
-  z-index: 10;
+  width: 100%;
   background-color: var(--color-background);
-  border-radius: 0; /* Clean square corners — no curves */
-  box-shadow: 0 -14px 40px rgba(35, 28, 20, 0.12);
 }

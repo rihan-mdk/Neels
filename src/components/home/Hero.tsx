@@ -2,60 +2,90 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { ExpandableGallery } from '@/components/ui/gallery-animation';
+import Image from 'next/image';
+import { motion } from 'framer-motion';
+import { ArrowRight } from 'lucide-react';
 import styles from './Hero.module.css';
-
-const HERO_GALLERY_IMAGES = [
-  '/hero-gallery-1.jpeg',
-  '/hero-gallery-2.jpeg',
-  '/hero-gallery-3.jpeg',
-  '/hero-gallery-4.jpeg',
-];
 
 export default function Hero() {
   return (
     <section className={styles.hero} aria-label="Hero">
       <div className={styles.container}>
-        {/* Left Column: Brand Story & Typography */}
-        <div className={styles.textColumn}>
-          <div className={styles.badgeWrapper}>
-            <span className={styles.badgeDot} />
-            <p className={styles.eyebrow}>Neels Designer Studio</p>
-          </div>
+        {/* ── Left Column: Typography & CTAs (45%) ── */}
+        <motion.div
+          className={styles.textColumn}
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        >
+          {/* Eyebrow */}
+          <motion.div
+            className={styles.eyebrowWrap}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.1 }}
+          >
+            <span className={styles.eyebrowDot} />
+            <p className={styles.eyebrow}>NEEL’S DESIGNER STUDIO</p>
+          </motion.div>
 
-          <h1 className={styles.heading}>
-            Wear the Story.<br />
-            <span className={styles.headingItalic}>Live the Style.</span>
-          </h1>
+          {/* Main Headline */}
+          <motion.h1
+            className={styles.headline}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+          >
+            Style, Curated<br />
+            For You.
+          </motion.h1>
 
-          <div className={styles.divider} aria-hidden="true" />
+          {/* Supporting Sentence */}
+          <motion.p
+            className={styles.supportText}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          >
+            Discover thoughtfully selected ready-to-wear styles for every occasion.
+          </motion.p>
 
-          <p className={styles.subtext}>
-            Curated ready-to-wear styles for every moment.
-          </p>
-
-          <div className={styles.btnWrap}>
+          {/* CTAs */}
+          <motion.div
+            className={styles.ctaRow}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
             <Link href="/collections" className={styles.primaryBtn}>
               SHOP COLLECTIONS
             </Link>
-            <Link href="/about" className={styles.ghostLink}>
-              Our Story <span className={styles.arrow} aria-hidden="true">→</span>
+            <Link href="/jewellery" className={styles.secondaryBtn}>
+              EXPLORE ACCESSORIES <ArrowRight size={13} className={styles.arrow} />
             </Link>
+          </motion.div>
+        </motion.div>
+
+        {/* ── Right Column: Blended Fashion Image (55%) ── */}
+        <motion.div
+          className={styles.imageColumn}
+          initial={{ opacity: 0, scale: 0.98 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <div className={styles.imageFrame}>
+            <Image
+              src="/hero-image.jpeg"
+              alt="Neel’s Designer Studio — High Fashion Couture"
+              fill
+              priority
+              sizes="(max-width: 768px) 100vw, 55vw"
+              className={styles.image}
+            />
+            {/* Soft Organic Blend Overlay into Hero Background */}
+            <div className={styles.blendOverlay} />
           </div>
-        </div>
-
-        {/* Right Column: Expandable Gallery Showcase */}
-        <div className={styles.imageColumn}>
-          <ExpandableGallery images={HERO_GALLERY_IMAGES} />
-        </div>
-      </div>
-
-      {/* Subtle Scroll Indicator */}
-      <div className={styles.scrollIndicator} aria-hidden="true">
-        <span className={styles.scrollText}>Scroll</span>
-        <div className={styles.scrollLine}>
-          <div className={styles.scrollDot} />
-        </div>
+        </motion.div>
       </div>
     </section>
   );

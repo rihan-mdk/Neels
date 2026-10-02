@@ -89,24 +89,55 @@
   color: rgba(255, 255, 255, 0.65);
 }
 
+.loginNotice {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  color: #b59a78;
+  margin-top: 2px;
+  letter-spacing: 0.02em;
+}
+
 .actionRow {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
   flex-shrink: 0;
+}
+
+.signInBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 12px;
+  background-color: #b59a78;
+  color: #ffffff;
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border-radius: 0;
+  text-decoration: none;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+  white-space: nowrap;
+}
+
+.signInBtn:hover {
+  background-color: #9e8363;
+  transform: translateY(-1px);
 }
 
 .viewCartBtn {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 9px 16px;
+  padding: 8px 12px;
   background-color: #ffffff;
   color: #171514;
   font-family: var(--font-sans);
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 600;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
   border-radius: 0;
   text-decoration: none;

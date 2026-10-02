@@ -1,14 +1,22 @@
 'use client';
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { X, ArrowRight } from 'lucide-react';
+import { X, ArrowRight, UserCheck } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
 import styles from './CartNotification.module.css';
 
 export default function CartNotification() {
   const { lastAdded, dismissNotification } = useCart();
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
+
+  useEffect(() => {
+    if (typeof window !== 'undefined' && lastAdded) {
+      const user = localStorage.getItem('neelsh_user');
+      setIsLoggedIn(Boolean(user));
+    }
+  }, [lastAdded]);
 
   if (!lastAdded) return null;
 
@@ -36,11 +44,27 @@ export default function CartNotification() {
           <span className={styles.statusText}>Added to Bag</span>
         </div>
         <p className={styles.productName}>{lastAdded.product.name}</p>
-        <span className={styles.metaText}>Size: {lastAdded.size}</span>
+        <span className={styles.metaText}>
+          Size: {lastAdded.size} {!isLoggedIn && '• Guest mode'}
+        </span>
+        {!isLoggedIn && (
+          <p className={styles.loginNotice}>
+            Please sign in to save your cart &amp; track orders.
+          </p>
+        )}
       </div>
 
-      {/* Action: View Cart */}
+      {/* Actions */}
       <div className={styles.actionRow}>
+        {!isLoggedIn && (
+          <Link
+            href="/login"
+            className={styles.signInBtn}
+            onClick={dismissNotification}
+          >
+            Sign In <UserCheck size={12} />
+          </Link>
+        )}
         <Link
           href="/cart"
           className={styles.viewCartBtn}

@@ -115,11 +115,14 @@ function SignInView({
     formState: { errors },
   } = useForm<SignInData>({ resolver: zodResolver(signInSchema) });
 
-  const onSubmit = async (_data: SignInData) => {
+  const onSubmit = async (data: SignInData) => {
     setLoading(true);
     setError(null);
-    // Simulate auth — replace with real auth call
     await new Promise((r) => setTimeout(r, 1200));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("neelsh_visited", "true");
+      localStorage.setItem("neelsh_user", JSON.stringify({ email: data.email, loggedIn: true }));
+    }
     setLoading(false);
     router.push("/");
   };
@@ -225,10 +228,14 @@ function SignUpView({ onSignIn }: { onSignIn: () => void }) {
     formState: { errors },
   } = useForm<SignUpData>({ resolver: zodResolver(signUpSchema) });
 
-  const onSubmit = async (_data: SignUpData) => {
+  const onSubmit = async (data: SignUpData) => {
     setLoading(true);
     setError(null);
     await new Promise((r) => setTimeout(r, 1200));
+    if (typeof window !== "undefined") {
+      localStorage.setItem("neelsh_visited", "true");
+      localStorage.setItem("neelsh_user", JSON.stringify({ email: data.email, name: data.name, loggedIn: true }));
+    }
     setLoading(false);
     router.push("/");
   };

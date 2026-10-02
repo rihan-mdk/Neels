@@ -23,7 +23,12 @@ export default function IntroPage() {
         <button
           type="button"
           className={styles.guestBtn}
-          onClick={() => router.push("/")}
+          onClick={() => {
+            if (typeof window !== "undefined") {
+              localStorage.setItem("neelsh_visited", "true");
+            }
+            router.push("/");
+          }}
         >
           Continue as Guest →
         </button>
