@@ -10,7 +10,7 @@ const u = (id: string, w = 900, q = 85) =>
 export const IMAGES = {
   // ── HERO ──────────────────────────────────────────────────
   hero: {
-    homepage: u('1610030469983-98e550d6193c', 1800, 90),
+    homepage: '/hero.jpg',
     couture: u('1609357605129-26f69add5d6e', 1800, 90),
     collections: u('1594938298603-c8148c4dae35', 1800, 90),
   },
