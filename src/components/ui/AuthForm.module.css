@@ -1,14 +1,12 @@
 /* ── Card ── */
 .card {
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border: 1px solid rgba(221, 217, 211, 0.6);
+  background: #ffffff;
+  border: 1px solid var(--color-border, #DDD9D3);
   width: 100%;
   max-width: 420px;
   box-shadow:
-    0 4px 6px rgba(5, 5, 5, 0.04),
-    0 24px 48px rgba(5, 5, 5, 0.14);
+    0 4px 12px rgba(23, 21, 20, 0.03),
+    0 20px 40px rgba(23, 21, 20, 0.06);
   overflow: hidden;
   min-height: 420px;
 }
@@ -356,7 +354,28 @@
 
 /* ── Mobile ── */
 @media (max-width: 480px) {
+  .card {
+    min-height: auto;
+    border-radius: 4px;
+  }
   .view {
-    padding: 32px 24px 28px;
+    padding: 24px 20px 22px;
+  }
+  .heading {
+    margin-bottom: 20px;
+  }
+  .form {
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .input {
+    height: 42px;
+  }
+  .primaryBtn {
+    height: 44px;
+  }
+  .googleBtn {
+    height: 42px;
+    margin-bottom: 16px;
   }
 }

@@ -57,6 +57,9 @@ export default function ProfilePage() {
             <p className={styles.eyebrow}>Member Since 2026</p>
             <h1 className={styles.name}>Neels Studio</h1>
             <p className={styles.email}>studio@neelsdesignerstudio.com</p>
+            <Link href="/login" style={{ fontSize: '12px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-gold)', marginTop: '8px', display: 'inline-block', textDecoration: 'underline' }}>
+              Sign Out / Switch Account →
+            </Link>
           </div>
         </div>
 

@@ -1,98 +1,56 @@
-/* ── Intro Page ── */
+/* ── Intro / Login Page Layout ── */
 .intro {
-  position: fixed;
-  inset: 0;
+  min-height: 100vh;
   width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background: #0e0b09;
+  background-color: #FAF8F5;
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 9999;
-}
-
-/* ── Shop front image ── */
-.imageWrap {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.imageVisible {
-  opacity: 1;
-}
-
-.image {
-  object-fit: cover;
-  object-position: center;
-  transition: filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-/* Blur kicks in when form appears */
-.imageBlurred {
-  filter: blur(10px) brightness(0.75) saturate(0.85);
-}
-
-/* Bottom gradient overlay */
-.overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    135deg,
-    rgba(10, 7, 5, 0.1) 0%,
-    rgba(10, 7, 5, 0.05) 50%,
-    rgba(10, 7, 5, 0.1) 100%
-  );
-  transition: background 0.9s ease;
-}
-
-/* Overlay darkens slightly when form shows */
-.overlayDark {
-  background: rgba(10, 7, 5, 0.32);
+  padding: 40px 20px;
 }
 
 /* ── Form wrapper — centered ── */
 .formWrap {
-  position: relative;
-  z-index: 10;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 20px;
-  padding: 24px;
   width: 100%;
-  max-width: 480px;
-  /* Allow scroll on very small screens */
-  max-height: 100vh;
-  overflow-y: auto;
+  max-width: 440px;
 }
 
 /* ── Guest button ── */
 .guestBtn {
   background: none;
   border: none;
-  color: rgba(255, 255, 255, 0.55);
+  color: var(--color-secondary, #66615D);
   font-family: var(--font-sans);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 400;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   cursor: pointer;
-  transition: color 0.2s ease;
-  padding: 4px 0;
+  transition: color 0.2s ease, opacity 0.2s ease;
+  padding: 6px 12px;
 }
 
 .guestBtn:hover {
-  color: rgba(255, 255, 255, 0.9);
+  color: var(--color-text, #171514);
+  opacity: 0.8;
 }
 
 /* ── Mobile ── */
 @media (max-width: 480px) {
+  .intro {
+    padding: 24px 16px;
+  }
+
   .formWrap {
-    padding: 16px;
     gap: 16px;
-    justify-content: center;
+  }
+
+  .guestBtn {
+    font-size: 10px;
+    letter-spacing: 0.12em;
   }
 }

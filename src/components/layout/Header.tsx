@@ -108,7 +108,7 @@ export default function Header() {
         <div className={styles.bar}>
 
           {/* ── LEFT: Logo (Icon Only) ──────────────── */}
-          <Link href="/home" className={styles.logo} aria-label="Neels Designer Studio — Home">
+          <Link href="/" className={styles.logo} aria-label="Neels Designer Studio — Home">
             <Image
               src="/logo-black.png"
               alt="Neels Designer Studio Logo"

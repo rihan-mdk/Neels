@@ -121,7 +121,7 @@ function SignInView({
     // Simulate auth — replace with real auth call
     await new Promise((r) => setTimeout(r, 1200));
     setLoading(false);
-    router.push("/home");
+    router.push("/");
   };
 
   return (
@@ -230,7 +230,7 @@ function SignUpView({ onSignIn }: { onSignIn: () => void }) {
     setError(null);
     await new Promise((r) => setTimeout(r, 1200));
     setLoading(false);
-    router.push("/home");
+    router.push("/");
   };
 
   return (
