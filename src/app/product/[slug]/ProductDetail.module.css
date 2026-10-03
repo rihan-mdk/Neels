@@ -1,3 +1,8 @@
+/* ============================================================
+   ProductDetail — Desktop + Mobile Redesign with Social Proof,
+   Dropdown Q&A, and Fear-Busting Guarantees
+   ============================================================ */
+
 .page {
   padding: 48px 0 120px;
 }
@@ -13,15 +18,18 @@
 }
 
 @media (max-width: 768px) {
-  .inner { padding: 0 24px; }
+  .inner { padding: 0; }
 }
+
+/* Desktop-only wrapper */
+.desktopOnly { display: block; }
 
 .layout {
   display: grid;
   grid-template-columns: 55% 45%;
   gap: 64px;
   align-items: start;
-  margin-bottom: 96px;
+  margin-bottom: 72px;
 }
 
 @media (max-width: 1024px) {
@@ -104,23 +112,57 @@
   font-size: 16px;
   font-weight: 300;
   color: var(--color-text);
+  letter-spacing: 0.05em;
+  margin: 0;
+}
+
+.dPriceRatingRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   margin-top: 4px;
+}
+
+.dRatingBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 10px;
+  background-color: #FAF8F5;
+  border: 1px solid #ECE7DE;
+  border-radius: 20px;
+}
+
+.starsRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.ratingText {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  color: #181515;
+  letter-spacing: 0.02em;
 }
 
 .taxNote {
   font-family: var(--font-sans);
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 300;
   color: var(--color-muted);
   line-height: 1.6;
+  margin: 0;
 }
 
 .description {
   font-family: var(--font-sans);
   font-size: 13px;
   font-weight: 300;
-  line-height: 1.85;
   color: var(--color-secondary);
+  line-height: 1.8;
 }
 
 .ctas {
@@ -128,16 +170,49 @@
   gap: 12px;
 }
 
-@media (max-width: 480px) {
-  .ctas {
-    flex-direction: column;
-  }
+/* Fear-busting policies in desktop info column */
+.dTrustCol {
+  padding: 18px;
+  background-color: #FAF8F5;
+  border: 1px solid #EDE8DF;
 }
 
-/* Stylist accordion content */
-.stylistContent {
+.dTrustGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.dTrustItem {
   display: flex;
-  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+
+.dTrustIcon {
+  color: #B57A7A;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.dTrustTitle {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: #181515;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dTrustDesc {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 300;
+  color: #66615D;
+  line-height: 1.4;
+  margin-top: 2px;
 }
 
 .stylistContent p {
@@ -216,6 +291,371 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
+/* ────────────────────────────────────────────────
+   DESKTOP FEAR-BUSTING ASSURANCE BANNER (Full width)
+   ──────────────────────────────────────────────── */
+.dFullTrustBanner {
+  margin: 64px 0 80px;
+  padding: 40px 32px;
+  background-color: #FAF8F5;
+  border-top: 1px solid #ECE7DE;
+  border-bottom: 1px solid #ECE7DE;
+}
+
+.dTrustBannerGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+}
+
+@media (max-width: 1024px) {
+  .dTrustBannerGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+}
+
+.dTrustBannerCard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.dTrustBannerIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background-color: #F7E9E7;
+  color: #B57A7A;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 14px;
+  transition: transform 250ms ease;
+}
+
+.dTrustBannerCard:hover .dTrustBannerIcon {
+  transform: translateY(-3px);
+}
+
+.dTrustBannerHeading {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #181515;
+  margin: 0 0 6px;
+}
+
+.dTrustBannerText {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: #66615D;
+  margin: 0;
+  max-width: 240px;
+}
+
+/* ────────────────────────────────────────────────
+   DESKTOP REVIEWS & SOCIAL PROOF
+   ──────────────────────────────────────────────── */
+.dReviewsSection {
+  margin-bottom: 96px;
+  padding-top: 48px;
+  border-top: 1px solid var(--color-border);
+}
+
+.dReviewsHeader {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 40px;
+}
+
+.dReviewsEyebrow {
+  display: block;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: #B57A7A;
+  margin-bottom: 6px;
+}
+
+.dReviewsTitle {
+  font-family: var(--font-serif);
+  font-size: clamp(22px, 2.5vw, 32px);
+  font-weight: 400;
+  letter-spacing: 0.04em;
+  color: #181515;
+  margin: 0;
+}
+
+.dRatingMetrics {
+  display: flex;
+  align-items: center;
+  gap: 48px;
+  padding: 32px;
+  background-color: #FAF8F5;
+  border: 1px solid #ECE7DE;
+  margin-bottom: 40px;
+}
+
+.dScoreCol {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-width: 180px;
+  padding-right: 48px;
+  border-right: 1px solid #E5DFD4;
+}
+
+.dScoreNum {
+  font-family: var(--font-serif);
+  font-size: 48px;
+  font-weight: 400;
+  color: #181515;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.dScoreCount {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 400;
+  color: #66615D;
+  margin-top: 8px;
+  letter-spacing: 0.02em;
+}
+
+.dMetricBars {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dMetricItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.dMetricLabel {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 400;
+  color: #181515;
+  width: 170px;
+}
+
+.dBarTrack {
+  flex: 1;
+  height: 6px;
+  background-color: #E8E2D8;
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.dBarFill {
+  height: 100%;
+  background-color: #C5A059;
+  border-radius: 3px;
+}
+
+.dMetricVal {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  color: #181515;
+  width: 28px;
+  text-align: right;
+}
+
+.dReviewsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+@media (max-width: 1024px) {
+  .dReviewsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.dReviewCard {
+  display: flex;
+  flex-direction: column;
+  padding: 28px;
+  background-color: #FFFFFF;
+  border: 1px solid #ECE7DE;
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+
+.dReviewCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04);
+}
+
+.dReviewTop {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.verifiedBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  color: #4A7C59;
+  background-color: #EDF5F0;
+  padding: 3px 8px;
+  border-radius: 12px;
+}
+
+.dReviewHeading {
+  font-family: var(--font-serif);
+  font-size: 15px;
+  font-weight: 400;
+  color: #181515;
+  line-height: 1.4;
+  margin: 0 0 10px;
+}
+
+.dReviewComment {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: #55504C;
+  flex: 1;
+  margin: 0 0 20px;
+}
+
+.dReviewFooter {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-top: 16px;
+  border-top: 1px solid #F0ECE4;
+}
+
+.dReviewAuthor {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: #181515;
+  margin: 0;
+}
+
+.dReviewLocation {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 400;
+  color: #8C8681;
+  margin: 2px 0 0;
+}
+
+.reviewFitTag {
+  font-family: var(--font-sans);
+  font-size: 10px;
+  font-weight: 500;
+  color: #6E5A44;
+  background-color: #F8F4EE;
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+/* ────────────────────────────────────────────────
+   DESKTOP FAQ / Q&A SECTION
+   ──────────────────────────────────────────────── */
+.dFaqSection {
+  margin-bottom: 96px;
+  padding-top: 48px;
+  border-top: 1px solid var(--color-border);
+}
+
+.dFaqHeader {
+  max-width: 640px;
+  margin-bottom: 36px;
+}
+
+.dFaqSubtitle {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: #66615D;
+  margin: 8px 0 0;
+}
+
+.dFaqList {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.dFaqItem {
+  border: 1px solid #ECE7DE;
+  background-color: #FFFFFF;
+  transition: border-color 200ms ease;
+}
+
+.dFaqItemActive {
+  border-color: #181515;
+}
+
+.dFaqQuestion {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 24px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: left;
+}
+
+.dFaqQText {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  color: #181515;
+  letter-spacing: 0.02em;
+}
+
+.dFaqIcon {
+  color: #181515;
+  flex-shrink: 0;
+  margin-left: 16px;
+}
+
+.dFaqAnswer {
+  padding: 0 24px 22px;
+  animation: fadeIn 0.2s ease both;
+}
+
+.dFaqAnswer p {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.8;
+  color: #55504C;
+  margin: 0;
+}
+
 /* Related */
 .related {
   border-top: 1px solid var(--color-border);
@@ -230,4 +670,944 @@
   text-transform: uppercase;
   color: var(--color-text);
   margin-bottom: 40px;
+}
+
+
+/* ================================================================
+   MOBILE PRODUCT PAGE — ≤ 768px
+   ================================================================ */
+
+/* Hide mobile layout on desktop */
+.mobileLayout { display: none; }
+
+@media (max-width: 768px) {
+
+  .page {
+    padding: 0 0 100px;
+  }
+
+  /* Hide desktop, show mobile */
+  .desktopOnly { display: none; }
+  .mobileLayout { display: block; }
+
+  /* ── Top bar ── */
+  .mTopBar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background-color: rgba(255, 253, 252, 0.94);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(220, 207, 200, 0.4);
+  }
+
+  .mBackBtn,
+  .mWishBtn {
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #181515;
+    padding: 0;
+  }
+
+  .mTopTitle {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    color: #181515;
+  }
+
+  /* ── Image gallery — half viewport height ── */
+  .mGallery {
+    position: relative;
+    width: 100%;
+    height: 50vh;
+    overflow: hidden;
+    background-color: #F7E9E7;
+  }
+
+  .mGalleryTrack {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    transition: transform 350ms cubic-bezier(0.36, 0.66, 0.04, 1);
+    will-change: transform;
+  }
+
+  .mGallerySlide {
+    flex: 0 0 100%;
+    position: relative;
+    height: 100%;
+  }
+
+  .mGalleryImg {
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .mImgCounter {
+    position: absolute;
+    bottom: 16px;
+    left: 16px;
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 500;
+    color: #181515;
+    background-color: rgba(255, 253, 252, 0.88);
+    backdrop-filter: blur(6px);
+    padding: 4px 10px;
+    border-radius: 12px;
+    letter-spacing: 0.04em;
+    z-index: 2;
+  }
+
+  .mGalleryDots {
+    position: absolute;
+    bottom: 16px;
+    right: 16px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    z-index: 2;
+  }
+
+  .mDot,
+  .mDotActive {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    transition: background-color 200ms ease, width 200ms ease;
+  }
+
+  .mDot {
+    background-color: rgba(24, 21, 21, 0.25);
+  }
+
+  .mDotActive {
+    width: 14px;
+    background-color: #B57A7A;
+    border-radius: 3px;
+  }
+
+  /* ── Product info block ── */
+  .mInfo {
+    padding: 20px 16px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .mCategory {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: #B57A7A;
+    margin: 0;
+  }
+
+  .mName {
+    font-family: var(--font-serif);
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: 0.04em;
+    color: #181515;
+    margin: 0;
+  }
+
+  .mPriceRatingRow {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 6px 0 0;
+  }
+
+  .mPrice {
+    font-family: var(--font-sans);
+    font-size: 19px;
+    font-weight: 600;
+    color: #181515;
+    margin: 0;
+  }
+
+  .mRatingPill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background-color: #FAF8F5;
+    border: 1px solid #ECE7DE;
+    padding: 3px 8px;
+    border-radius: 12px;
+  }
+
+  /* ── Size + Color row ── */
+  .mSizeColorRow {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(220, 207, 200, 0.5);
+  }
+
+  .mSizeBlock {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .mBlockHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .mSizeGuideLink {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 400;
+    color: #B57A7A;
+    background: none;
+    border: none;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .mColorBlock {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .mBlockLabel {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #181515;
+  }
+
+  .mSizeOptions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .mSizeBtn {
+    height: 36px;
+    min-width: 40px;
+    padding: 0 10px;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.06em;
+    color: #181515;
+    background: transparent;
+    border: 1px solid #DDD9D3;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 180ms ease;
+  }
+
+  .mSizeBtnActive {
+    background-color: #181515;
+    color: #FFFDFC;
+    border-color: #181515;
+  }
+
+  .mColorOptions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .mColorDot {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 1.5px solid rgba(220, 207, 200, 0.6);
+    cursor: pointer;
+  }
+
+  .mColorDotActive {
+    border: 2px solid #181515;
+  }
+
+  /* ── Description toggle ── */
+  .mDescBlock {
+    margin-top: 14px;
+    border-top: 1px solid rgba(220, 207, 200, 0.5);
+    padding-top: 14px;
+  }
+
+  .mDescToggle {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: 0;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    color: #181515;
+    letter-spacing: 0.02em;
+  }
+
+  .mDescContent {
+    margin-top: 10px;
+    animation: fadeIn 0.2s ease both;
+  }
+
+  .mDescText {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 1.75;
+    color: #66615D;
+    margin: 0;
+  }
+
+  .mFabricTag {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-top: 10px;
+    padding: 8px 12px;
+    background-color: #FAF8F5;
+    border-radius: 4px;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    color: #7A746E;
+  }
+
+  /* ── CTA row — Add to Cart + Buy Now side by side ── */
+  .mCtaRow {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+  }
+
+  .mAddToCart {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 48px;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #181515;
+    background-color: transparent;
+    border: 1.5px solid #181515;
+    border-radius: 0;
+    cursor: pointer;
+  }
+
+  .mBuyNow {
+    flex: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #FFFDFC;
+    background-color: #181515;
+    border: none;
+    border-radius: 0;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .mobileLayout .addedNotice {
+    margin: 12px 0 0;
+    font-size: 11px;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* ────────────────────────────────────────────────
+     FEAR-BUSTING POLICIES (Mobile)
+     ──────────────────────────────────────────────── */
+  .mTrustSection {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(220, 207, 200, 0.5);
+  }
+
+  .trustGrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .trustCard {
+    display: flex;
+    flex-direction: column;
+    padding: 14px;
+    background-color: #FAF8F5;
+    border: 1px solid #ECE7DE;
+    border-radius: 6px;
+  }
+
+  .trustIconWrap {
+    color: #B57A7A;
+    margin-bottom: 8px;
+  }
+
+  .trustTitle {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: #181515;
+    margin: 0 0 4px;
+  }
+
+  .trustDesc {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    font-weight: 300;
+    line-height: 1.45;
+    color: #66615D;
+    margin: 0;
+  }
+
+  .mConciergeBanner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    background-color: #F7E9E7;
+    border-radius: 6px;
+    margin-top: 12px;
+  }
+
+  .conciergeInfo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 400;
+    color: #593535;
+  }
+
+  .conciergeBtn {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #181515;
+    background: #FFFFFF;
+    border: 1px solid rgba(24, 21, 21, 0.15);
+    padding: 6px 12px;
+    border-radius: 20px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  /* ────────────────────────────────────────────────
+     DROPDOWN Q&A / FAQs (Mobile)
+     ──────────────────────────────────────────────── */
+  .mFaqSection {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(220, 207, 200, 0.5);
+  }
+
+  .sectionHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 14px;
+  }
+
+  .sectionHeaderLeft {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .sectionIcon {
+    color: #B57A7A;
+  }
+
+  .sectionTitle {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    font-weight: 400;
+    color: #181515;
+    letter-spacing: 0.02em;
+    margin: 0;
+  }
+
+  .sectionSub {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #8C8681;
+  }
+
+  .faqList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .faqItem {
+    border: 1px solid #ECE7DE;
+    background-color: #FFFFFF;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .faqItemOpen {
+    border-color: #181515;
+  }
+
+  .faqQuestion {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    gap: 12px;
+  }
+
+  .faqQuestion span {
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 500;
+    color: #181515;
+    line-height: 1.4;
+  }
+
+  .faqAnswer {
+    padding: 0 16px 14px;
+    animation: fadeIn 0.2s ease both;
+  }
+
+  .faqAnswer p {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 300;
+    line-height: 1.65;
+    color: #66615D;
+    margin: 0;
+  }
+
+  /* ────────────────────────────────────────────────
+     SOCIAL PROOFS & REVIEWS (Mobile)
+     ──────────────────────────────────────────────── */
+  .mReviewsSection {
+    margin-top: 28px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(220, 207, 200, 0.5);
+  }
+
+  .writeReviewBtn {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #B57A7A;
+    background: none;
+    border: 1px solid rgba(181, 122, 122, 0.4);
+    padding: 4px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+  }
+
+  .scoreSnapshot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px;
+    background-color: #FAF8F5;
+    border: 1px solid #ECE7DE;
+    border-radius: 6px;
+    margin-bottom: 16px;
+  }
+
+  .scoreBig {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .scoreNum {
+    font-family: var(--font-serif);
+    font-size: 32px;
+    font-weight: 400;
+    color: #181515;
+    line-height: 1;
+  }
+
+  .scoreCount {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    font-weight: 400;
+    color: #8C8681;
+  }
+
+  .scoreHighlights {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .highlightPill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 500;
+    color: #2F593E;
+    background-color: #EDF5F0;
+    padding: 4px 8px;
+    border-radius: 4px;
+  }
+
+  .reviewCards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .reviewCard {
+    padding: 16px;
+    background-color: #FFFFFF;
+    border: 1px solid #ECE7DE;
+    border-radius: 6px;
+  }
+
+  .reviewCardTop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+
+  .reviewAuthorWrap {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .authorAvatar {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background-color: #F7E9E7;
+    color: #B57A7A;
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .reviewAuthor {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    color: #181515;
+    margin: 0;
+  }
+
+  .reviewMeta {
+    font-family: var(--font-sans);
+    font-size: 9px;
+    color: #8C8681;
+    margin: 2px 0 0;
+  }
+
+  .reviewCardStars {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
+  }
+
+  .reviewHeading {
+    font-family: var(--font-serif);
+    font-size: 13px;
+    font-weight: 400;
+    color: #181515;
+    margin: 0 0 6px;
+  }
+
+  .reviewText {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 300;
+    line-height: 1.6;
+    color: #55504C;
+    margin: 0;
+  }
+
+  /* ── You May Also Like ── */
+  .mRelated {
+    margin-top: 32px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(220, 207, 200, 0.5);
+  }
+
+  .mRelatedHead {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    padding: 0 16px 12px;
+  }
+
+  .mRelatedTitle {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    font-weight: 400;
+    color: #181515;
+    letter-spacing: 0.04em;
+    margin: 0;
+  }
+
+  .mRelatedViewAll {
+    font-family: var(--font-sans);
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #B57A7A;
+    text-decoration: none;
+    border-bottom: 1px solid rgba(181, 122, 122, 0.35);
+  }
+
+  .mRelatedRow {
+    display: flex;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-x: contain;
+    scrollbar-width: none;
+    gap: 12px;
+    padding: 0 16px 16px;
+    scroll-snap-type: x mandatory;
+  }
+
+  .mRelatedRow::-webkit-scrollbar { display: none; }
+
+  .mRelatedCard {
+    flex: 0 0 140px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    text-decoration: none;
+    scroll-snap-align: start;
+  }
+
+  .mRelatedImg {
+    position: relative;
+    width: 140px;
+    height: 175px;
+    background-color: #F7E9E7;
+    overflow: hidden;
+  }
+
+  .mRelatedImgInner {
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .mRelatedName {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 400;
+    color: #181515;
+    margin: 0;
+    line-height: 1.35;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .mRelatedPrice {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 500;
+    color: #181515;
+    margin: 0;
+  }
+}
+
+/* Small phones */
+@media (max-width: 390px) {
+  .mName { font-size: 20px; }
+  .mPrice { font-size: 16px; }
+  .mGallery { height: 44vh; }
+  .trustGrid { grid-template-columns: 1fr; }
+}
+
+/* ────────────────────────────────────────────────
+   REVIEW SUBMISSION MODAL
+   ──────────────────────────────────────────────── */
+.modalOverlay {
+  position: fixed;
+  inset: 0;
+  background-color: rgba(24, 21, 21, 0.65);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  animation: fadeIn 0.2s ease both;
+}
+
+.modalBox {
+  background-color: #FFFFFF;
+  width: 100%;
+  max-width: 480px;
+  padding: 28px;
+  border: 1px solid #ECE7DE;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.modalHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.modalTitle {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 400;
+  color: #181515;
+  margin: 0;
+}
+
+.modalCloseBtn {
+  background: none;
+  border: none;
+  color: #181515;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.modalSuccess {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 16px;
+  padding: 32px 16px;
+}
+
+.modalSuccess p {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.7;
+  color: #181515;
+  margin: 0;
+}
+
+.reviewForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formLabel {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #181515;
+}
+
+.starSelectRow {
+  display: flex;
+  gap: 6px;
+}
+
+.starSelectBtn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.formInput,
+.formTextarea {
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 300;
+  padding: 10px 14px;
+  border: 1px solid #DDD7CB;
+  background-color: #FAF8F5;
+  color: #181515;
+  outline: none;
+  border-radius: 0;
+  transition: border-color 200ms ease;
+}
+
+.formInput:focus,
+.formTextarea:focus {
+  border-color: #181515;
+  background-color: #FFFFFF;
+}
+
+.modalActions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.modalActions button {
+  flex: 1;
 }

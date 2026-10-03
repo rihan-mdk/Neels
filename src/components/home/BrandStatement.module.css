@@ -1,15 +1,25 @@
-.section {
+/* ============================================================
+   BrandStatement — Desktop clean quote + Mobile editorial banner
+   ============================================================ */
+
+/* ── DESKTOP ── */
+.sectionDesktop {
+  display: block;
   padding: 140px 0;
   background-color: var(--color-background);
   text-align: center;
 }
 
-@media (max-width: 768px) {
-  .section {
-    padding: 96px 0;
-  }
+.sectionMobile {
+  display: none;
 }
 
+@media (max-width: 768px) {
+  .sectionDesktop { display: none; }
+  .sectionMobile  { display: block; }
+}
+
+/* Desktop inner */
 .inner {
   max-width: var(--max-width);
   margin: 0 auto;
@@ -50,4 +60,92 @@
   letter-spacing: 0.20em;
   text-transform: uppercase;
   color: var(--color-muted);
+}
+
+/* ── MOBILE editorial banner ── */
+.mobileBanner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  overflow: hidden;
+  background-color: #181515;
+}
+
+.mobileBannerImg {
+  object-fit: cover;
+  object-position: center 30%;
+  filter: brightness(0.5) saturate(0.8);
+}
+
+.mobileBannerOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    135deg,
+    rgba(16, 12, 12, 0.82) 0%,
+    rgba(16, 12, 12, 0.45) 60%,
+    rgba(16, 12, 12, 0.3) 100%
+  );
+}
+
+.mobileBannerContent {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 28px 20px;
+  gap: 8px;
+}
+
+.mobileBannerEyebrow {
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: #D9A7A7;
+  margin: 0;
+}
+
+.mobileBannerHeading {
+  font-family: var(--font-serif);
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.2;
+  color: #FFFDFC;
+  margin: 0;
+  letter-spacing: 0.02em;
+}
+
+.mobileBannerSub {
+  font-family: var(--font-sans);
+  font-size: 11px;
+  font-weight: 300;
+  line-height: 1.6;
+  color: rgba(255, 253, 252, 0.65);
+  margin: 0;
+  max-width: 280px;
+}
+
+.mobileBannerCta {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 6px;
+  padding: 10px 20px;
+  background-color: rgba(217, 167, 167, 0.15);
+  border: 1px solid rgba(217, 167, 167, 0.5);
+  color: #D9A7A7;
+  font-family: var(--font-sans);
+  font-size: 9px;
+  font-weight: 500;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  text-decoration: none;
+  width: fit-content;
+  transition: background-color 200ms ease;
+}
+
+.mobileBannerCta:active {
+  background-color: rgba(217, 167, 167, 0.28);
 }
