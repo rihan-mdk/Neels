@@ -1,28 +1,34 @@
 import { createBrowserClient } from '@supabase/ssr';
-import { createClient as createJsClient, SupabaseClient } from '@supabase/supabase-js';
+import { SupabaseClient } from '@supabase/supabase-js';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+export function getSupabaseEnv() {
+  const url = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+  const key = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+  return { url, key };
+}
 
 export function isSupabaseConfigured(): boolean {
+  const { url, key } = getSupabaseEnv();
   return Boolean(
-    supabaseUrl &&
-    supabaseAnonKey &&
-    supabaseUrl !== 'https://your-supabase-project.supabase.co' &&
-    supabaseAnonKey !== 'your-supabase-anon-key'
+    url &&
+    key &&
+    url !== 'https://your-supabase-project.supabase.co' &&
+    key !== 'your-supabase-anon-key'
   );
 }
 
 let clientInstance: SupabaseClient | null = null;
 
 export function createClient(): SupabaseClient {
-  if (clientInstance) return clientInstance;
+  const { url, key } = getSupabaseEnv();
+  const configured = isSupabaseConfigured();
 
-  // Use dummy valid URL format for fallback client instantiation during build/unconfigured state
-  const validUrl = isSupabaseConfigured() ? supabaseUrl : 'https://placeholder.supabase.co';
-  const validKey = isSupabaseConfigured() ? supabaseAnonKey : 'placeholder-anon-key';
+  const validUrl = configured ? url : 'https://placeholder.supabase.co';
+  const validKey = configured ? key : 'placeholder-anon-key';
 
-  clientInstance = createBrowserClient(validUrl, validKey);
+  if (!clientInstance) {
+    clientInstance = createBrowserClient(validUrl, validKey);
+  }
   return clientInstance;
 }
 

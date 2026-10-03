@@ -9,6 +9,23 @@ if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
 }
 
+// ── Global accessor so any component can stop/start lenis ─────────────────────
+let _lenis: Lenis | null = null;
+
+export function getLenis(): Lenis | null {
+  return _lenis;
+}
+
+export function stopScroll() {
+  _lenis?.stop();
+}
+
+export function startScroll() {
+  _lenis?.start();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+
 export default function LenisProvider({ children }: { children: React.ReactNode }) {
   const lenisRef = useRef<Lenis | null>(null);
 
@@ -22,6 +39,7 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
     });
 
     lenisRef.current = lenis;
+    _lenis = lenis; // expose globally
 
     lenis.on('scroll', ScrollTrigger.update);
 
@@ -35,9 +53,9 @@ export default function LenisProvider({ children }: { children: React.ReactNode 
     return () => {
       gsap.ticker.remove(updateLenis);
       lenis.destroy();
+      _lenis = null;
     };
   }, []);
 
   return <>{children}</>;
 }
-

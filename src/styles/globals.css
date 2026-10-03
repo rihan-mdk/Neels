@@ -565,6 +565,30 @@ input, textarea, select {
 }
 
 /* ============================================================
+   CMDK — Command Palette Reset
+   Strip default black box / border from cmdk inputs
+   ============================================================ */
+
+[cmdk-input] {
+  border: none !important;
+  background: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+  appearance: none !important;
+  -webkit-appearance: none !important;
+}
+
+[cmdk-input-wrapper] {
+  border: none !important;
+  background: none !important;
+  box-shadow: none !important;
+}
+
+[cmdk-root] {
+  background: transparent !important;
+}
+
+/* ============================================================
    PRINT
    ============================================================ */
 

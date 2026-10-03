@@ -3,6 +3,7 @@ import { AuthProvider } from '@/context/AuthContext';
 import { CartProvider } from '@/context/CartContext';
 import { WishlistProvider } from '@/context/WishlistContext';
 import CartNotification from '@/components/ui/CartNotification';
+import BackToTop from '@/components/ui/BackToTop';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
 import LenisProvider from '@/components/ui/LenisProvider';
@@ -69,6 +70,7 @@ export default function RootLayout({
               <CartProvider>
                 <Header />
                 <CartNotification />
+                <BackToTop />
                 <main id="main-content" tabIndex={-1}>
                   {children}
                 </main>
