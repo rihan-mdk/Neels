@@ -1,0 +1,178 @@
+/* ============================================================
+   Welcome / Entrance Screen
+   Full-screen dark entrance — covers the header intentionally
+   ============================================================ */
+
+/* Full-screen dark overlay — positioned to cover header + footer */
+.page {
+  position: fixed;
+  inset: 0;
+  z-index: 600; /* above header (z-index ~400) */
+  background-color: #100D0D;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  /* Safe-area on notch devices */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+
+/* ── Ambient glow — very subtle warm bloom behind text ── */
+.glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(60vw, 420px);
+  height: min(40vh, 300px);
+  background: radial-gradient(
+    ellipse at center,
+    rgba(181, 122, 122, 0.12) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+  border-radius: 50%;
+  filter: blur(40px);
+}
+
+/* ── Content container ── */
+.content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  max-width: 560px;
+  padding: 0 24px;
+  gap: 0;
+}
+
+/* ── Brand eyebrow ── */
+.eyebrow {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 400;
+  letter-spacing: 0.36em;
+  text-transform: uppercase;
+  color: rgba(217, 167, 167, 0.55);
+  margin: 0 0 28px;
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ── Hero wrap — constrain the SVG width ── */
+.heroWrap {
+  width: 100%;
+  /* On desktop, cap the rendered width so text stays large but not giant */
+  max-width: min(480px, 88vw);
+}
+
+/* ── Button wrap ── */
+.btnWrap {
+  margin-top: 48px;
+}
+
+/* ── GET STARTED button ── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 32px;
+  border: 1px solid rgba(217, 167, 167, 0.4);
+  background: transparent;
+  cursor: pointer;
+  transition:
+    border-color 220ms ease,
+    background-color 220ms ease;
+  /* No border-radius — sharp minimal edge matching Neel's aesthetic */
+}
+
+.btn:hover {
+  border-color: rgba(217, 167, 167, 0.9);
+  background-color: rgba(217, 167, 167, 0.06);
+}
+
+.btn:active {
+  background-color: rgba(217, 167, 167, 0.12);
+}
+
+.btnText {
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: 10px;
+  font-weight: 400;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: rgba(217, 167, 167, 0.85);
+}
+
+.btnArrow {
+  font-size: 12px;
+  color: rgba(217, 167, 167, 0.5);
+  transition: transform 220ms ease;
+}
+
+.btn:hover .btnArrow {
+  transform: translateX(4px);
+  color: rgba(217, 167, 167, 0.9);
+}
+
+/* ── Bottom decorative rule ── */
+.bottomRule {
+  position: absolute;
+  bottom: 40px;
+  left: 50%;
+  transform: translateX(-50%);
+  transform-origin: left center;
+  width: 40px;
+  height: 1px;
+  background-color: rgba(217, 167, 167, 0.2);
+}
+
+/* ── Mobile adjustments ── */
+@media (max-width: 480px) {
+  .eyebrow {
+    font-size: 8px;
+    letter-spacing: 0.28em;
+    margin-bottom: 20px;
+  }
+
+  .heroWrap {
+    max-width: 90vw;
+  }
+
+  .btnWrap {
+    margin-top: 36px;
+  }
+
+  .btn {
+    padding: 12px 28px;
+  }
+
+  .btnText {
+    font-size: 9px;
+    letter-spacing: 0.22em;
+  }
+
+  .bottomRule {
+    bottom: 28px;
+  }
+}
+
+/* ── Large screens — keep it tasteful ── */
+@media (min-width: 768px) {
+  .heroWrap {
+    max-width: min(520px, 72vw);
+  }
+
+  .eyebrow {
+    font-size: 10px;
+    margin-bottom: 32px;
+  }
+
+  .btnWrap {
+    margin-top: 56px;
+  }
+}

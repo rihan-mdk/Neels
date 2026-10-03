@@ -27,7 +27,7 @@ export default function RootHomePage() {
     const visited = typeof window !== "undefined" ? localStorage.getItem("neelsh_visited") : null;
 
     if (!user && !isGuest && !visited) {
-      router.replace("/login");
+      router.replace("/welcome");   // → animated entrance → /login
     } else {
       setChecked(true);
     }
