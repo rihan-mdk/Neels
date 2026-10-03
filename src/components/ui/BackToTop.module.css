@@ -39,12 +39,9 @@
   background-color: var(--color-gold);
 }
 
-/* Mobile — slightly smaller and tucked in */
-@media (max-width: 640px) {
+/* Mobile — hide completely per user instruction */
+@media (max-width: 768px) {
   .btn {
-    bottom: 24px;
-    right: 16px;
-    width: 34px;
-    height: 34px;
+    display: none !important;
   }
 }

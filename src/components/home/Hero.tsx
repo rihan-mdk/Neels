@@ -154,6 +154,7 @@ export default function Hero() {
         onTouchEnd={handleTouchEnd}
         aria-label="Featured collections slider"
       >
+
         {/* Slide images */}
         <div className={styles.slideTrack}
           style={{ transform: `translateX(-${current * 100}%)` }}>
@@ -174,15 +175,6 @@ export default function Hero() {
         {/* Gradient + content overlay */}
         <div className={styles.slideOverlay} aria-hidden="true" />
         <div className={styles.slideContent}>
-          <motion.span
-            key={`tag-${current}`}
-            className={styles.slideTag}
-            initial={{ opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.35 }}
-          >
-            {slide.tag}
-          </motion.span>
           <motion.h2
             key={`title-${current}`}
             className={styles.slideTitle}

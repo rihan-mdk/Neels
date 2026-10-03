@@ -5,6 +5,7 @@ import { WishlistProvider } from '@/context/WishlistContext';
 import CartNotification from '@/components/ui/CartNotification';
 import BackToTop from '@/components/ui/BackToTop';
 import Header from '@/components/layout/Header';
+import MobileHeader from '@/components/layout/MobileHeader';
 import Footer from '@/components/layout/Footer';
 import LumaBar from '@/components/ui/futuristic-nav';
 import LenisProvider from '@/components/ui/LenisProvider';
@@ -69,7 +70,10 @@ export default function RootLayout({
           <LenisProvider>
             <WishlistProvider>
               <CartProvider>
-                <Header />
+                <div className="hidden md:block">
+                  <Header />
+                </div>
+                <MobileHeader />
                 <CartNotification />
                 <BackToTop />
                 <main id="main-content" tabIndex={-1}>

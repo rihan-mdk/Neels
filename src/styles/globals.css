@@ -597,3 +597,15 @@ input, textarea, select {
     display: none;
   }
 }
+
+/* ============================================================
+   MOBILE — Global side breathing room
+   Applied ONLY on ≤ 768px. Desktop untouched.
+   ============================================================ */
+
+@media (max-width: 768px) {
+  #main-content {
+    padding-left: 12px;
+    padding-right: 12px;
+  }
+}

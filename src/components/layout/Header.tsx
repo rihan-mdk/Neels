@@ -102,7 +102,7 @@ export default function Header() {
   return (
     <>
       <header
-        className={`${styles.header} ${scrolled ? styles.scrolled : ''}`}
+        className={`hidden md:block ${styles.header} ${scrolled ? styles.scrolled : ''}`}
         role="banner"
       >
         <div className={styles.bar}>

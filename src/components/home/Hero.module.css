@@ -318,14 +318,25 @@
 
 @media (max-width: 768px) {
 
+  /* Mobile hero container — transparent with no excess height or gaps */
+  .hero {
+    min-height: auto;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
+    display: block;
+  }
+
   /* Hide desktop split layout on mobile */
   .container { display: none; }
 
-  /* ── Carousel wrapper ── */
+  /* ── Carousel wrapper — fills 100% width within global side breathing room ── */
   .mobileSlider {
     display: block;
     position: relative;
     width: 100%;
+    margin: 0;
+    border-radius: 14px;
     /* Landscape 2:1 banner ratio */
     aspect-ratio: 2 / 1;
     overflow: hidden;

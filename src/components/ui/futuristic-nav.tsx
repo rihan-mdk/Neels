@@ -4,25 +4,29 @@ import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion } from 'framer-motion';
+import { Home, LayoutGrid, Gem, User } from 'lucide-react';
 
-export interface NavItem {
+interface NavItem {
   id: number;
   label: string;
   href: string;
+  Icon: React.ElementType;
 }
 
-export const NAV_ITEMS: NavItem[] = [
-  { id: 0, label: 'Home', href: '/' },
-  { id: 1, label: 'Collections', href: '/collections' },
-  { id: 2, label: 'Accessories', href: '/jewellery' },
-  { id: 3, label: 'Profile', href: '/profile' },
+const NAV_ITEMS: NavItem[] = [
+  { id: 0, label: 'Home',        href: '/',            Icon: Home },
+  { id: 1, label: 'Collections', href: '/collections', Icon: LayoutGrid },
+  { id: 2, label: 'Accessories', href: '/jewellery',   Icon: Gem },
+  { id: 3, label: 'Profile',     href: '/profile',     Icon: User },
 ];
 
 const LumaBar = () => {
   const pathname = usePathname();
   const [active, setActive] = useState(0);
+  const [mounted, setMounted] = useState(false);
 
-  // Automatically sync active tab with current route
+  useEffect(() => { setMounted(true); }, []);
+
   useEffect(() => {
     if (!pathname) return;
     if (pathname === '/') {
@@ -47,58 +51,119 @@ const LumaBar = () => {
     }
   }, [pathname]);
 
+  if (!mounted) return null;
+
   return (
     <nav
-      className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 pointer-events-auto md:hidden"
       aria-label="Mobile Bottom Navigation"
-      style={{ paddingBottom: 'env(safe-area-inset-bottom, 0px)' }}
+      className="md:hidden"
+      style={{
+        position: 'fixed',
+        bottom: 14,
+        left: '50%',
+        transform: 'translateX(-50%)',
+        zIndex: 50,
+        width: '94vw',
+        maxWidth: 460,
+        paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+      }}
     >
-      {/* 
-        Clean, wide, spacious luxury text-only pill navigation 
-        - Increased width (94vw up to 430px)
-        - Increased height (52px)
-        - Breathable padding & generous flex distribution
-      */}
-      <div className="relative flex items-center justify-between w-[94vw] max-w-[430px] h-[52px] bg-[#FFFDFC]/95 backdrop-blur-2xl rounded-full p-1.5 shadow-[0_16px_40px_rgba(24,21,21,0.13)] border border-[#D9A7A7]/50">
-        {NAV_ITEMS.map((item, index) => {
-          const isActive = index === active;
-          return (
-            <div key={item.id} className="relative flex-1 h-full">
+      {/* Floating navbar container */}
+      <div
+        style={{
+          background: '#FFFDFC',
+          border: '1px solid #DCCFC8',
+          borderRadius: 22,
+          boxShadow: '0 4px 24px rgba(24, 21, 21, 0.08), 0 1px 4px rgba(24, 21, 21, 0.04)',
+          overflow: 'hidden',
+        }}
+      >
+        {/* ── Nav items row ── */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'stretch',
+            height: 58,
+          }}
+        >
+          {NAV_ITEMS.map((item, index) => {
+            const isActive = index === active;
+            const { Icon } = item;
+
+            return (
               <Link
+                key={item.id}
                 href={item.href}
                 onClick={() => setActive(index)}
-                className={`relative flex items-center justify-center w-full h-full px-2 rounded-full transition-colors duration-200 select-none ${
-                  isActive ? 'text-[#181515]' : 'text-[#66615D] hover:text-[#181515]'
-                }`}
                 aria-label={item.label}
+                aria-current={isActive ? 'page' : undefined}
+                style={{
+                  flex: 1,
+                  position: 'relative',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 3,
+                  textDecoration: 'none',
+                  minWidth: 44,
+                  padding: '6px 4px',
+                  WebkitTapHighlightColor: 'transparent',
+                }}
               >
-                {/* Active Sliding Pill Capsule */}
+                {/* Active capsule */}
                 {isActive && (
                   <motion.div
-                    layoutId="active-mobile-pill"
-                    className="absolute inset-0.5 bg-[#F7E9E7] border border-[#D9A7A7]/70 rounded-full -z-10 shadow-sm"
-                    transition={{
-                      type: 'spring',
-                      stiffness: 450,
-                      damping: 32,
+                    layoutId="nav-capsule"
+                    transition={{ type: 'spring', stiffness: 420, damping: 36 }}
+                    style={{
+                      position: 'absolute',
+                      inset: '6px 8px',
+                      background: '#F7E9E7',
+                      borderRadius: 14,
+                      border: '1px solid #D9A7A7',
+                      zIndex: 0,
                     }}
                   />
                 )}
 
-                {/* Clean, high-legibility typography with generous breathing room */}
+                {/* Icon */}
+                <motion.div
+                  animate={{ scale: isActive ? 1.03 : 1 }}
+                  transition={{ duration: 0.18, ease: 'easeOut' }}
+                  style={{ position: 'relative', zIndex: 1, lineHeight: 0 }}
+                >
+                  <Icon
+                    size={20}
+                    strokeWidth={1.6}
+                    style={{
+                      color: isActive ? '#B57A7A' : 'rgba(24, 21, 21, 0.45)',
+                      transition: 'color 180ms ease',
+                    }}
+                  />
+                </motion.div>
+
+                {/* Label */}
                 <span
-                  className={`text-[11px] tracking-[0.12em] uppercase font-sans whitespace-nowrap transition-all ${
-                    isActive
-                      ? 'font-semibold text-[#181515] scale-[1.03]'
-                      : 'font-normal text-[#66615D]'
-                  }`}
+                  style={{
+                    position: 'relative',
+                    zIndex: 1,
+                    fontSize: 10,
+                    fontWeight: isActive ? 500 : 400,
+                    fontFamily: 'var(--font-sans, system-ui, sans-serif)',
+                    letterSpacing: '0.04em',
+                    color: isActive ? '#181515' : 'rgba(24, 21, 21, 0.45)',
+                    transition: 'color 180ms ease',
+                    lineHeight: 1,
+                    whiteSpace: 'nowrap',
+                  }}
                 >
                   {item.label}
                 </span>
               </Link>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </nav>
   );

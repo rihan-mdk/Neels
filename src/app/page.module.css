@@ -30,6 +30,12 @@
   background-color: #F7E9E7;
 }
 
+@media (max-width: 768px) {
+  .heroSlot {
+    background-color: transparent;
+  }
+}
+
 .contentStack {
   position: relative;
   width: 100%;
