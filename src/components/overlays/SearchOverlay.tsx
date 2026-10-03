@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { X, Search, ArrowUpRight, Package } from 'lucide-react';
@@ -24,28 +24,25 @@ const CATEGORY_MAP: Record<string, string> = {
 export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
   const [query, setQuery] = React.useState('');
   const [results, setResults] = React.useState<Product[]>([]);
+  const backdropRef = useRef<HTMLDivElement>(null);
+  const scrollYRef = useRef(0);
 
-  // ── Lock ALL scroll (Lenis + native) when overlay is open ─────────────────
+  // ── Scroll lock: stop Lenis + freeze body ──────────────────────────────────
   useEffect(() => {
     if (isOpen) {
-      // Stop Lenis smooth scroll engine
+      // 1. Stop Lenis smooth scroll engine
       stopScroll();
-      // Also lock native scroll as fallback (e.g. iOS Safari momentum)
-      const scrollY = window.scrollY;
+      // 2. Freeze native body scroll (saves position to restore on close)
+      scrollYRef.current = window.scrollY;
       document.body.style.position = 'fixed';
-      document.body.style.top = `-${scrollY}px`;
+      document.body.style.top = `-${scrollYRef.current}px`;
       document.body.style.width = '100%';
-      document.body.style.overflowY = 'scroll'; // keep scrollbar space to avoid layout shift
     } else {
-      // Restore native scroll position
-      const scrollY = document.body.style.top;
+      // Restore body scroll position
       document.body.style.position = '';
       document.body.style.top = '';
       document.body.style.width = '';
-      document.body.style.overflowY = '';
-      if (scrollY) {
-        window.scrollTo(0, parseInt(scrollY) * -1);
-      }
+      window.scrollTo(0, scrollYRef.current);
       // Re-enable Lenis
       startScroll();
       // Reset search state
@@ -54,13 +51,30 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
     }
 
     return () => {
-      // Safety cleanup on unmount
+      // Safety cleanup if component unmounts while open
       document.body.style.position = '';
       document.body.style.top = '';
       document.body.style.width = '';
-      document.body.style.overflowY = '';
       startScroll();
     };
+  }, [isOpen]);
+
+  // ── Block wheel scroll on backdrop (but NOT on the panel) ─────────────────
+  // This prevents any residual wheel events reaching the page behind the overlay.
+  useEffect(() => {
+    const el = backdropRef.current;
+    if (!el || !isOpen) return;
+
+    const blockWheel = (e: WheelEvent) => {
+      // Only block if the scroll target is the backdrop itself, not the panel
+      if (e.target === el) {
+        e.preventDefault();
+      }
+    };
+
+    // { passive: false } required to be able to call preventDefault
+    el.addEventListener('wheel', blockWheel, { passive: false });
+    return () => el.removeEventListener('wheel', blockWheel);
   }, [isOpen]);
 
   // ── Product search ─────────────────────────────────────────────────────────
@@ -88,6 +102,7 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
 
   return (
     <div
+      ref={backdropRef}
       className={styles.backdrop}
       role="dialog"
       aria-modal="true"
@@ -128,92 +143,85 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
             )}
           </div>
 
-          <Command.List className={styles.list}>
+          {/* Scrollable list wrapper — data-lenis-prevent tells Lenis to not intercept wheel events here */}
+          <div className={styles.listScroll} data-lenis-prevent>
+            <Command.List className={styles.list}>
 
-            {/* ── Empty state: no query typed yet ── */}
-            {!showProducts && (
-              <div className={styles.hint}>
-                <Search size={22} strokeWidth={1} className={styles.hintIcon} />
-                <p className={styles.hintText}>
-                  Begin typing to search across our collections.
-                </p>
-              </div>
-            )}
-
-            {/* ── No results ── */}
-            {noResults && (
-              <Command.Empty className={styles.empty}>
-                <Search size={28} strokeWidth={1} className={styles.emptyIcon} />
-                <p className={styles.emptyTitle}>No results for &ldquo;{query}&rdquo;</p>
-                <p className={styles.emptyText}>Try a different search term.</p>
-              </Command.Empty>
-            )}
-
-            {/* ── Product Results ── */}
-            {showProducts && results.length > 0 && (
-              <Command.Group className={styles.group}>
-                <div className={styles.groupHeading}>
-                  <Package size={11} strokeWidth={1.5} />
-                  Products
+              {/* ── Empty state: no query typed yet ── */}
+              {!showProducts && (
+                <div className={styles.hint}>
+                  <Search size={22} strokeWidth={1} className={styles.hintIcon} />
+                  <p className={styles.hintText}>
+                    Begin typing to search across our collections.
+                  </p>
                 </div>
-                <div className={styles.productGrid}>
-                  {results.slice(0, 6).map((product) => (
-                    <Command.Item
-                      key={product.id}
-                      value={product.name}
-                      onSelect={() => {
-                        onClose();
-                        window.location.href = `/product/${product.slug}`;
-                      }}
-                      className={styles.productItem}
-                      asChild
+              )}
+
+              {/* ── No results ── */}
+              {noResults && (
+                <Command.Empty className={styles.empty}>
+                  <Search size={28} strokeWidth={1} className={styles.emptyIcon} />
+                  <p className={styles.emptyTitle}>No results for &ldquo;{query}&rdquo;</p>
+                  <p className={styles.emptyText}>Try a different search term.</p>
+                </Command.Empty>
+              )}
+
+              {/* ── Product Results ── */}
+              {showProducts && results.length > 0 && (
+                <Command.Group className={styles.group}>
+                  <div className={styles.groupHeading}>
+                    <Package size={11} strokeWidth={1.5} />
+                    Products
+                  </div>
+                  <div className={styles.productGrid}>
+                    {results.slice(0, 6).map((product) => (
+                      <Command.Item
+                        key={product.id}
+                        value={product.name}
+                        onSelect={() => {
+                          onClose();
+                          window.location.href = `/product/${product.slug}`;
+                        }}
+                        className={styles.productItem}
+                        asChild
+                      >
+                        <Link href={`/product/${product.slug}`} onClick={onClose} className={styles.productLink}>
+                          <div className={styles.productImage}>
+                            <Image
+                              src={product.images.primary}
+                              alt={product.name}
+                              fill
+                              sizes="72px"
+                              className={styles.productImg}
+                            />
+                          </div>
+                          <div className={styles.productInfo}>
+                            <span className={styles.productCategory}>
+                              {CATEGORY_MAP[product.category] ?? product.category}
+                            </span>
+                            <span className={styles.productName}>{product.name}</span>
+                            <span className={styles.productPrice}>{product.priceFormatted}</span>
+                          </div>
+                          <ArrowUpRight size={12} className={styles.productArrow} />
+                        </Link>
+                      </Command.Item>
+                    ))}
+                  </div>
+                  {results.length > 6 && (
+                    <Link
+                      href={`/collections?search=${encodeURIComponent(query)}`}
+                      onClick={onClose}
+                      className={styles.viewAll}
                     >
-                      <Link href={`/product/${product.slug}`} onClick={onClose} className={styles.productLink}>
-                        <div className={styles.productImage}>
-                          <Image
-                            src={product.images.primary}
-                            alt={product.name}
-                            fill
-                            sizes="72px"
-                            className={styles.productImg}
-                          />
-                        </div>
-                        <div className={styles.productInfo}>
-                          <span className={styles.productCategory}>
-                            {CATEGORY_MAP[product.category] ?? product.category}
-                          </span>
-                          <span className={styles.productName}>{product.name}</span>
-                          <span className={styles.productPrice}>{product.priceFormatted}</span>
-                        </div>
-                        <ArrowUpRight size={12} className={styles.productArrow} />
-                      </Link>
-                    </Command.Item>
-                  ))}
-                </div>
-                {results.length > 6 && (
-                  <Link
-                    href={`/collections?search=${encodeURIComponent(query)}`}
-                    onClick={onClose}
-                    className={styles.viewAll}
-                  >
-                    View all {results.length} results
-                    <ArrowUpRight size={11} />
-                  </Link>
-                )}
-              </Command.Group>
-            )}
-          </Command.List>
+                      View all {results.length} results
+                      <ArrowUpRight size={11} />
+                    </Link>
+                  )}
+                </Command.Group>
+              )}
+            </Command.List>
+          </div>
         </Command>
-
-        {/* ── Footer hint ── */}
-        <div className={styles.footer}>
-          <span className={styles.kbd}>↑↓</span>
-          <span className={styles.footerHint}>navigate</span>
-          <span className={styles.kbd}>↵</span>
-          <span className={styles.footerHint}>select</span>
-          <span className={styles.kbd}>Esc</span>
-          <span className={styles.footerHint}>close</span>
-        </div>
 
       </div>
     </div>

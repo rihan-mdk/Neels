@@ -37,7 +37,8 @@
   border-radius: 2px;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  /* Do NOT use overflow:hidden here — it blocks child scroll */
+  overflow: clip; /* clips border-radius without blocking scroll */
   animation: panelIn 220ms cubic-bezier(0.16, 1, 0.3, 1);
   box-shadow: 0 24px 64px rgba(0, 0, 0, 0.18), 0 4px 16px rgba(0, 0, 0, 0.08);
 }
@@ -151,25 +152,33 @@
   color: var(--color-text);
 }
 
-/* List */
-.list {
+/* Scroll wrapper — we own this, cmdk doesn't interfere */
+.listScroll {
   overflow-y: auto;
+  overflow-x: hidden;
   max-height: 420px;
-  padding: 12px 0 4px;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
 }
 
-.list::-webkit-scrollbar {
+.listScroll::-webkit-scrollbar {
   width: 4px;
 }
 
-.list::-webkit-scrollbar-track {
+.listScroll::-webkit-scrollbar-track {
   background: transparent;
 }
 
-.list::-webkit-scrollbar-thumb {
+.listScroll::-webkit-scrollbar-thumb {
   background: var(--color-border);
   border-radius: 2px;
 }
+
+/* Command.List — let it size naturally, scroll is handled by .listScroll */
+.list {
+  padding: 12px 0 4px;
+}
+
 
 /* Group */
 .group {
@@ -360,39 +369,6 @@
   color: var(--color-muted);
 }
 
-/* Footer */
-.footer {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border-top: 1px solid var(--color-border);
-  background-color: var(--color-background);
-}
-
-.kbd {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 2px 6px;
-  border: 1px solid var(--color-border);
-  border-radius: 2px;
-  font-family: var(--font-sans);
-  font-size: 10px;
-  font-weight: 400;
-  color: var(--color-secondary);
-  background-color: var(--color-ivory);
-  letter-spacing: 0.02em;
-}
-
-.footerHint {
-  font-family: var(--font-sans);
-  font-size: 10px;
-  font-weight: 300;
-  color: var(--color-muted);
-  letter-spacing: 0.06em;
-  margin-right: 8px;
-}
 
 /* ── Responsive ── */
 @media (max-width: 640px) {
@@ -421,7 +397,7 @@
     }
   }
 
-  .list {
+  .listScroll {
     max-height: 55vh;
   }
 }
