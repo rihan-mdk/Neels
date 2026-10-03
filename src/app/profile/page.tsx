@@ -1,7 +1,9 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/AuthContext';
 import styles from './page.module.css';
 
 const MOCK_ORDERS = [
@@ -38,6 +40,38 @@ type Tab = 'orders' | 'settings';
 
 export default function ProfilePage() {
   const [activeTab, setActiveTab] = useState<Tab>('orders');
+  const { user, loading, signOut } = useAuth();
+  const router = useRouter();
+
+  useEffect(() => {
+    if (!loading && !user) {
+      router.replace('/login');
+    }
+  }, [user, loading, router]);
+
+  if (loading || !user) {
+    return (
+      <div className={styles.page} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '60vh' }}>
+        <p style={{ fontFamily: 'var(--font-sans)', fontSize: '12px', letterSpacing: '0.14em', textTransform: 'uppercase', color: 'var(--color-muted)' }}>
+          Loading profile…
+        </p>
+      </div>
+    );
+  }
+
+  const fullName = user.user_metadata?.full_name || user.email?.split('@')[0] || 'Studio Member';
+  const email = user.email || '';
+  const initials = fullName
+    .split(' ')
+    .map((n: string) => n[0])
+    .join('')
+    .substring(0, 2)
+    .toUpperCase();
+
+  const handleSignOut = async () => {
+    await signOut();
+    router.push('/login');
+  };
 
   return (
     <div className={styles.page}>
@@ -47,19 +81,34 @@ export default function ProfilePage() {
         <div className={styles.hero}>
           <div className={styles.avatarWrap}>
             <div className={styles.avatar}>
-              <span className={styles.avatarInitials}>NS</span>
+              <span className={styles.avatarInitials}>{initials}</span>
             </div>
             <div className={styles.avatarBadge}>
               <svg width="10" height="10" viewBox="0 0 24 24" fill="var(--color-ivory)" stroke="none"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
             </div>
           </div>
           <div className={styles.heroText}>
-            <p className={styles.eyebrow}>Member Since 2026</p>
-            <h1 className={styles.name}>Neels Studio</h1>
-            <p className={styles.email}>studio@neelsdesignerstudio.com</p>
-            <Link href="/login" style={{ fontSize: '12px', letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--color-gold)', marginTop: '8px', display: 'inline-block', textDecoration: 'underline' }}>
-              Sign Out / Switch Account →
-            </Link>
+            <p className={styles.eyebrow}>Authenticated Member</p>
+            <h1 className={styles.name}>{fullName}</h1>
+            <p className={styles.email}>{email}</p>
+            <button
+              onClick={handleSignOut}
+              style={{
+                fontSize: '11px',
+                letterSpacing: '0.1em',
+                textTransform: 'uppercase',
+                color: 'var(--color-gold)',
+                marginTop: '10px',
+                background: 'none',
+                border: 'none',
+                cursor: 'pointer',
+                padding: 0,
+                textDecoration: 'underline',
+                fontFamily: 'var(--font-sans)',
+              }}
+            >
+              Sign Out →
+            </button>
           </div>
         </div>
 
@@ -130,11 +179,11 @@ export default function ProfilePage() {
                 <h2 className={styles.settingsTitle}>Personal Details</h2>
                 <div className={styles.field}>
                   <label className={styles.label}>Full Name</label>
-                  <input className={styles.input} defaultValue="Neels Studio" />
+                  <input className={styles.input} defaultValue={fullName} />
                 </div>
                 <div className={styles.field}>
                   <label className={styles.label}>Email Address</label>
-                  <input className={styles.input} defaultValue="studio@neelsdesignerstudio.com" />
+                  <input className={styles.input} defaultValue={email} readOnly />
                 </div>
                 <div className={styles.field}>
                   <label className={styles.label}>Phone Number</label>
@@ -197,7 +246,7 @@ export default function ProfilePage() {
           </div>
         )}
 
-        {/* ── Mobile Quick Links (visible only on mobile) ── */}
+        {/* ── Mobile Quick Links ── */}
         <div className={styles.mobileLinks}>
           <div className={styles.mobileLinkGroup}>
             <h3 className={styles.mobileLinkTitle}>Shop</h3>

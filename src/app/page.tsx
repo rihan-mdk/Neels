@@ -13,23 +13,27 @@ import ProductGrid from "@/components/products/ProductGrid";
 import SectionHeading from "@/components/ui/SectionHeading";
 import ScrollReveal from "@/components/ui/ScrollReveal";
 import { getFeaturedProducts } from "@/data/products";
+import { useAuth } from "@/context/AuthContext";
 import styles from "./page.module.css";
 
 export default function RootHomePage() {
   const router = useRouter();
+  const { user, loading, isGuest } = useAuth();
   const [checked, setChecked] = useState(false);
 
   useEffect(() => {
-    // First-time visit check: redirect to /login if user has not visited yet
-    const visited = localStorage.getItem("neelsh_visited");
-    if (!visited) {
+    if (loading) return;
+
+    const visited = typeof window !== "undefined" ? localStorage.getItem("neelsh_visited") : null;
+
+    if (!user && !isGuest && !visited) {
       router.replace("/login");
     } else {
       setChecked(true);
     }
-  }, [router]);
+  }, [user, loading, isGuest, router]);
 
-  if (!checked) {
+  if (loading || !checked) {
     return <div style={{ minHeight: "100vh", backgroundColor: "#FAF8F5" }} />;
   }
 
@@ -37,16 +41,14 @@ export default function RootHomePage() {
 
   return (
     <>
-      {/* Hero: sticky so the contentStack slides over it on scroll */}
+      {/* Hero */}
       <div className={styles.heroSlot}>
         <Hero />
       </div>
 
-      {/* Everything below slides up and overlaps the hero */}
+      {/* Main Content Stack */}
       <div className={styles.contentStack}>
-        {/* New Arrival section right below the hero */}
         <NewArrivals />
-
         <FeaturedStory />
         <CuratedCategories />
         <FeaturedCollections />

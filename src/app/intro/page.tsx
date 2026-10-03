@@ -1,13 +1,26 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { AuthForm } from "@/components/ui/AuthForm";
+import { useAuth } from "@/context/AuthContext";
 import styles from "./page.module.css";
 
 export default function IntroPage() {
   const router = useRouter();
+  const { user, loading, continueAsGuest } = useAuth();
+
+  useEffect(() => {
+    if (!loading && user) {
+      router.replace("/");
+    }
+  }, [user, loading, router]);
+
+  const handleGuestClick = () => {
+    continueAsGuest();
+    router.push("/");
+  };
 
   return (
     <div className={styles.intro}>
@@ -23,12 +36,7 @@ export default function IntroPage() {
         <button
           type="button"
           className={styles.guestBtn}
-          onClick={() => {
-            if (typeof window !== "undefined") {
-              localStorage.setItem("neelsh_visited", "true");
-            }
-            router.push("/");
-          }}
+          onClick={handleGuestClick}
         >
           Continue as Guest →
         </button>

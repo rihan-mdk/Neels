@@ -6,19 +6,20 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { motion, AnimatePresence } from "framer-motion";
-import { Eye, EyeOff, Loader2, ArrowLeft, MailCheck } from "lucide-react";
+import { Eye, EyeOff, Loader2, ArrowLeft, MailCheck, CheckCircle2 } from "lucide-react";
+import { useAuth } from "@/context/AuthContext";
 import styles from "./AuthForm.module.css";
 
 // ── Schemas ──────────────────────────────────────────────────
 const signInSchema = z.object({
   email: z.string().email("Enter a valid email"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
 const signUpSchema = z.object({
   name: z.string().min(2, "Name must be at least 2 characters"),
   email: z.string().email("Enter a valid email"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
+  password: z.string().min(6, "Password must be at least 6 characters"),
 });
 
 const forgotSchema = z.object({
@@ -29,7 +30,7 @@ type SignInData = z.infer<typeof signInSchema>;
 type SignUpData = z.infer<typeof signUpSchema>;
 type ForgotData = z.infer<typeof forgotSchema>;
 
-type View = "signin" | "signup" | "forgot" | "success";
+type View = "signin" | "signup" | "forgot" | "success" | "signup-success";
 
 // ── Main Auth Form ────────────────────────────────────────────
 export function AuthForm() {
@@ -46,7 +47,14 @@ export function AuthForm() {
           />
         )}
         {view === "signup" && (
-          <SignUpView key="signup" onSignIn={() => setView("signin")} />
+          <SignUpView
+            key="signup"
+            onSignIn={() => setView("signin")}
+            onSuccess={() => setView("signup-success")}
+          />
+        )}
+        {view === "signup-success" && (
+          <SignUpSuccessView key="signup-success" onSignIn={() => setView("signin")} />
         )}
         {view === "forgot" && (
           <ForgotView
@@ -105,6 +113,7 @@ function SignInView({
   onSignUp: () => void;
 }) {
   const router = useRouter();
+  const { signIn, signInWithGoogle } = useAuth();
   const [showPw, setShowPw] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -118,13 +127,28 @@ function SignInView({
   const onSubmit = async (data: SignInData) => {
     setLoading(true);
     setError(null);
-    await new Promise((r) => setTimeout(r, 1200));
-    if (typeof window !== "undefined") {
-      localStorage.setItem("neelsh_visited", "true");
-      localStorage.setItem("neelsh_user", JSON.stringify({ email: data.email, loggedIn: true }));
-    }
+    const { error } = await signIn(data.email, data.password);
     setLoading(false);
-    router.push("/");
+
+    if (error) {
+      if (error.message.includes("Invalid login credentials")) {
+        setError("Invalid email or password. If you haven't created an account yet, click 'Create one' below.");
+      } else {
+        setError(error.message);
+      }
+    } else {
+      router.push("/");
+    }
+  };
+
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    setError(null);
+    const { error } = await signInWithGoogle();
+    setLoading(false);
+    if (error) {
+      setError(error.message);
+    }
   };
 
   return (
@@ -195,7 +219,12 @@ function SignInView({
       </div>
 
       {/* Google */}
-      <button className={styles.googleBtn} type="button" disabled={loading}>
+      <button
+        className={styles.googleBtn}
+        type="button"
+        disabled={loading}
+        onClick={handleGoogleSignIn}
+      >
         <svg width="16" height="16" viewBox="0 0 24 24">
           <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
           <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
@@ -216,8 +245,15 @@ function SignInView({
 }
 
 // ── Sign Up ───────────────────────────────────────────────────
-function SignUpView({ onSignIn }: { onSignIn: () => void }) {
+function SignUpView({
+  onSignIn,
+  onSuccess,
+}: {
+  onSignIn: () => void;
+  onSuccess: () => void;
+}) {
   const router = useRouter();
+  const { signUp } = useAuth();
   const [showPw, setShowPw] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -231,13 +267,16 @@ function SignUpView({ onSignIn }: { onSignIn: () => void }) {
   const onSubmit = async (data: SignUpData) => {
     setLoading(true);
     setError(null);
-    await new Promise((r) => setTimeout(r, 1200));
-    if (typeof window !== "undefined") {
-      localStorage.setItem("neelsh_visited", "true");
-      localStorage.setItem("neelsh_user", JSON.stringify({ email: data.email, name: data.name, loggedIn: true }));
-    }
+    const res = await signUp(data.email, data.password, data.name);
     setLoading(false);
-    router.push("/");
+
+    if (res.error) {
+      setError(res.error.message);
+    } else if (res.requiresConfirmation) {
+      onSuccess();
+    } else {
+      router.push("/");
+    }
   };
 
   return (
@@ -290,8 +329,27 @@ function SignUpView({ onSignIn }: { onSignIn: () => void }) {
   );
 }
 
+// ── Sign Up Success (Confirmation Notice) ──────────────────────
+function SignUpSuccessView({ onSignIn }: { onSignIn: () => void }) {
+  return (
+    <motion.div {...slide} className={`${styles.view} ${styles.centeredView}`}>
+      <div className={styles.successIcon}>
+        <CheckCircle2 size={36} strokeWidth={1.5} />
+      </div>
+      <h1 className={styles.title}>Account Created</h1>
+      <p className={styles.subtitle}>
+        Please check your email inbox to confirm your account, then sign in.
+      </p>
+      <button type="button" className={styles.outlineBtn} onClick={onSignIn}>
+        Proceed to Sign In
+      </button>
+    </motion.div>
+  );
+}
+
 // ── Forgot Password ───────────────────────────────────────────
 function ForgotView({ onBack, onSuccess }: { onBack: () => void; onSuccess: () => void }) {
+  const { resetPassword } = useAuth();
   const [loading, setLoading] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
 
@@ -301,12 +359,17 @@ function ForgotView({ onBack, onSuccess }: { onBack: () => void; onSuccess: () =
     formState: { errors },
   } = useForm<ForgotData>({ resolver: zodResolver(forgotSchema) });
 
-  const onSubmit = async (_data: ForgotData) => {
+  const onSubmit = async (data: ForgotData) => {
     setLoading(true);
     setError(null);
-    await new Promise((r) => setTimeout(r, 1200));
+    const { error } = await resetPassword(data.email);
     setLoading(false);
-    onSuccess();
+
+    if (error) {
+      setError(error.message);
+    } else {
+      onSuccess();
+    }
   };
 
   return (

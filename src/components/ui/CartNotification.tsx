@@ -1,22 +1,17 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { X, ArrowRight, UserCheck } from 'lucide-react';
 import { useCart } from '@/context/CartContext';
+import { useAuth } from '@/context/AuthContext';
 import styles from './CartNotification.module.css';
 
 export default function CartNotification() {
   const { lastAdded, dismissNotification } = useCart();
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-
-  useEffect(() => {
-    if (typeof window !== 'undefined' && lastAdded) {
-      const user = localStorage.getItem('neelsh_user');
-      setIsLoggedIn(Boolean(user));
-    }
-  }, [lastAdded]);
+  const { user } = useAuth();
+  const isLoggedIn = Boolean(user);
 
   if (!lastAdded) return null;
 
