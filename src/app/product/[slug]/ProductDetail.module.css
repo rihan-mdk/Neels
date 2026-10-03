@@ -1279,6 +1279,33 @@
     line-height: 1;
   }
 
+  .scoreStars {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 4px !important;
+    flex-wrap: nowrap !important;
+    margin: 3px 0 !important;
+  }
+
+  .scoreStars svg {
+    display: inline-block !important;
+    flex-shrink: 0 !important;
+  }
+
+  .starsRow {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 3px !important;
+    flex-wrap: nowrap !important;
+  }
+
+  .starsRow svg {
+    display: inline-block !important;
+    flex-shrink: 0 !important;
+  }
+
   .scoreCount {
     font-family: var(--font-sans);
     font-size: 9px;

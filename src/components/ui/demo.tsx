@@ -1,7 +1,5 @@
-'use client';
-
-import { Component } from "@/components/ui/gallery-animation";
+import LumaBar from '@/components/ui/futuristic-nav';
 
 export default function DemoOne() {
-  return <Component />;
+  return <LumaBar />;
 }

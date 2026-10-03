@@ -17,11 +17,17 @@
   transform: var(--intro-nav-transform, translateY(0));
 }
 
-
 .header.scrolled {
   background-color: rgba(250, 249, 245, 0.90);
   border-color: rgba(200, 190, 175, 0.50);
   box-shadow: 0 1px 24px rgba(0, 0, 0, 0.055);
+}
+
+/* Hide top navbar ONLY on mobile (≤ 768px) */
+@media (max-width: 768px) {
+  .header {
+    display: none !important;
+  }
 }
 
 /* ── Single bar — logo left, nav centered, actions right ───── */

@@ -577,9 +577,11 @@ export default function ProductDetailClient({
                     </div>
 
                     <div className={styles.reviewCardStars}>
-                      {[...Array(rev.rating)].map((_, i) => (
-                        <Star key={i} size={12} fill="#C5A059" color="#C5A059" />
-                      ))}
+                      <div className={styles.starsRow}>
+                        {[...Array(rev.rating)].map((_, i) => (
+                          <Star key={i} size={12} fill="#C5A059" color="#C5A059" />
+                        ))}
+                      </div>
                       <span className={styles.reviewFitTag}>{rev.fit}</span>
                     </div>
 

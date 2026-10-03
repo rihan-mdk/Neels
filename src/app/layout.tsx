@@ -6,6 +6,7 @@ import CartNotification from '@/components/ui/CartNotification';
 import BackToTop from '@/components/ui/BackToTop';
 import Header from '@/components/layout/Header';
 import Footer from '@/components/layout/Footer';
+import LumaBar from '@/components/ui/futuristic-nav';
 import LenisProvider from '@/components/ui/LenisProvider';
 import '@/styles/globals.css';
 
@@ -74,6 +75,7 @@ export default function RootLayout({
                 <main id="main-content" tabIndex={-1}>
                   {children}
                 </main>
+                <LumaBar />
                 <Footer />
               </CartProvider>
             </WishlistProvider>
