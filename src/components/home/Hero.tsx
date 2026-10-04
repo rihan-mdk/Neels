@@ -16,6 +16,7 @@ const HERO_SLIDES = [
     title: 'Style,\nCurated\nFor You.',
     cta: 'Shop Collections',
     href: '/collections',
+    position: 'center 20%',
   },
   {
     id: 2,
@@ -24,6 +25,7 @@ const HERO_SLIDES = [
     title: 'Royal\nLehengas\nAwaits.',
     cta: 'Explore Lehengas',
     href: '/lehengas',
+    position: 'center 20%',
   },
   {
     id: 3,
@@ -32,6 +34,7 @@ const HERO_SLIDES = [
     title: 'Timeless\nSarees,\nCrafted.',
     cta: 'View Sarees',
     href: '/sarees',
+    position: 'center 25%',
   },
   {
     id: 4,
@@ -40,6 +43,7 @@ const HERO_SLIDES = [
     title: 'Elegant\nSuits &\nAnarkalis.',
     cta: 'Shop Suits',
     href: '/suits-dresses',
+    position: 'center 40%',
   },
 ];
 
@@ -167,6 +171,7 @@ export default function Hero() {
                 priority={s.id === 1}
                 sizes="100vw"
                 className={styles.slideImage}
+                style={{ objectPosition: s.position || 'center 25%' }}
               />
             </div>
           ))}

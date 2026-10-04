@@ -335,10 +335,11 @@
     display: block;
     position: relative;
     width: 100%;
-    margin: 0;
-    border-radius: 14px;
-    /* Landscape 2:1 banner ratio */
-    aspect-ratio: 2 / 1;
+    margin: 8px 0 0;
+    border-radius: 16px;
+    /* Editorial fashion 4:5 ratio — fits portrait photography and keeps titles unobstructed */
+    aspect-ratio: 4 / 5;
+    max-height: 520px;
     overflow: hidden;
     background-color: #1a1515;
   }
@@ -361,7 +362,7 @@
 
   .slideImage {
     object-fit: cover;
-    object-position: center top;
+    object-position: center 25%;
   }
 
   /* ── Gradient overlay — dark bottom so text reads clean ── */
@@ -372,8 +373,8 @@
       linear-gradient(
         to top,
         rgba(16, 12, 12, 0.88) 0%,
-        rgba(16, 12, 12, 0.45) 38%,
-        transparent 65%
+        rgba(16, 12, 12, 0.45) 42%,
+        transparent 70%
       );
     pointer-events: none;
     z-index: 1;
@@ -386,7 +387,7 @@
     left: 0;
     right: 0;
     z-index: 2;
-    padding: 0 20px 72px; /* 72px leaves room for dots */
+    padding: 0 20px 48px; /* 48px leaves room for dots */
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -410,9 +411,9 @@
   /* Slide headline */
   .slideTitle {
     font-family: var(--font-serif);
-    font-size: 38px;
+    font-size: clamp(28px, 7.5vw, 36px);
     font-weight: 400;
-    line-height: 1.08;
+    line-height: 1.12;
     letter-spacing: 0.01em;
     color: #FFFDFC;
     white-space: pre-line;
@@ -444,7 +445,7 @@
   /* ── Dots indicator ── */
   .slideDots {
     position: absolute;
-    bottom: 24px;
+    bottom: 18px;
     left: 50%;
     transform: translateX(-50%);
     z-index: 3;
@@ -480,7 +481,8 @@
 
 /* Small phones — slightly smaller text */
 @media (max-width: 390px) {
-  .slideTitle { font-size: 32px; }
-  .slideContent { padding-bottom: 60px; }
+  .slideTitle { font-size: 26px; }
+  .slideContent { padding-bottom: 42px; }
+  .slideDots { bottom: 14px; }
 }
 
