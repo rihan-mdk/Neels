@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { AlertTriangle, Loader2 } from 'lucide-react';
 
 interface DeleteConfirmModalProps {
   isOpen: boolean;
@@ -25,35 +24,40 @@ export default function DeleteConfirmModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
-      <div className="bg-[#FFFDFC] border border-[#E5DFD7] rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
-        <div className="flex items-start gap-3.5">
-          <div className="w-10 h-10 rounded-full bg-[#C0392B]/10 text-[#C0392B] flex items-center justify-center shrink-0">
-            <AlertTriangle size={20} />
-          </div>
-          <div className="space-y-1">
-            <h3 className="font-serif text-lg font-semibold text-[#181515]">
-              {title}
-            </h3>
-            <p className="text-xs text-[#5A524D] leading-relaxed">
-              {description}
-            </p>
-          </div>
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#0D0D0D]/60 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="bg-[#FFFFFF] border border-[#E4E1DA] rounded-[6px] max-w-md w-full p-6 shadow-xl space-y-4">
+        <div className="space-y-1">
+          <h3
+            className="text-[19px] font-normal text-[#111111] leading-tight"
+            style={{ fontFamily: "'Cormorant Garamond', serif" }}
+          >
+            {title}
+          </h3>
+          <p
+            className="text-[11.5px] text-[#68655F] leading-relaxed font-normal"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            {description}
+          </p>
         </div>
 
         {warningText && (
-          <div className="p-3 bg-[#FBF9F5] border border-[#E5DFD7] rounded-xl text-[11px] text-[#8E867E] leading-normal">
-            <strong className="text-[#181515] font-semibold">Note: </strong>
+          <div
+            className="p-3 bg-[#F7F6F2] border border-[#E4E1DA] rounded-[6px] text-[11px] text-[#68655F] leading-normal"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            <strong className="text-[#111111] font-semibold">Note: </strong>
             {warningText}
           </div>
         )}
 
-        <div className="flex items-center justify-end gap-2.5 pt-2">
+        <div className="flex items-center justify-end gap-3.5 pt-3 border-t border-[#E4E1DA]">
           <button
             type="button"
             onClick={onClose}
             disabled={isLoading}
-            className="px-4 py-2 text-xs font-medium text-[#5A524D] hover:text-[#181515] bg-[#F7F5F0] hover:bg-[#E5DFD7] rounded-lg transition-colors disabled:opacity-50"
+            className="h-[36px] px-4 text-[10.5px] font-semibold uppercase tracking-[0.06em] text-[#111111] hover:text-[#000000] bg-[#FFFFFF] hover:bg-[#F7F6F2] border border-[#111111] rounded-[6px] transition-colors disabled:opacity-50 cursor-pointer"
+            style={{ fontFamily: "'Inter', sans-serif" }}
           >
             Cancel
           </button>
@@ -61,10 +65,10 @@ export default function DeleteConfirmModal({
             type="button"
             onClick={onConfirm}
             disabled={isLoading}
-            className="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium text-white bg-[#C0392B] hover:bg-[#A93226] rounded-lg transition-colors shadow-sm disabled:opacity-50"
+            className="inline-flex items-center justify-center h-[36px] px-4.5 text-[10.5px] font-semibold uppercase tracking-[0.05em] text-white bg-[#C0392B] hover:bg-[#A93226] rounded-[6px] transition-colors shadow-sm disabled:opacity-50 cursor-pointer"
+            style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            {isLoading && <Loader2 size={14} className="animate-spin" />}
-            <span>Delete Forever</span>
+            <span>{isLoading ? 'Deleting...' : 'Delete Permanently'}</span>
           </button>
         </div>
       </div>

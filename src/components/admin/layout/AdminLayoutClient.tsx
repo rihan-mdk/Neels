@@ -50,7 +50,7 @@ export default function AdminLayoutClient({
           onToggleSidebar={() => setMobileOpen((prev) => !prev)}
           adminEmail={adminEmail}
         />
-        <main className="flex-1 p-5 sm:p-7 md:p-8">
+        <main className="flex-1 px-8 sm:px-12 md:px-16 lg:px-20 py-8 md:py-10 max-w-[1700px] w-full mx-auto">
           {children}
         </main>
       </div>

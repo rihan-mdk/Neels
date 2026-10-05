@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { Edit2, Trash2, ChevronUp, ChevronDown, ExternalLink, Sparkles } from 'lucide-react';
 import { CollectionRecord } from '@/lib/validations/collection.schema';
 
 interface CollectionListTableProps {
@@ -23,53 +22,53 @@ export default function CollectionListTable({
 }: CollectionListTableProps) {
   return (
     <div className="overflow-x-auto">
-      <table className="w-full text-left text-xs">
-        <thead className="bg-[#F7F5F0] text-[#8E867E] uppercase tracking-wider text-[10px] border-b border-[#E5DFD7]">
+      <table className="w-full text-left text-xs min-w-[760px]">
+        <thead className="bg-[#F7F6F2] text-[#68655F] uppercase tracking-[0.14em] text-[9.5px] font-semibold border-b border-[#E4E1DA]">
           <tr>
-            <th className="py-3.5 px-4 w-12 text-center">Order</th>
-            <th className="py-3.5 px-4 w-20">Image</th>
-            <th className="py-3.5 px-4">Title & Short Name</th>
-            <th className="py-3.5 px-4">Slug & Season</th>
-            <th className="py-3.5 px-4 hidden md:table-cell">Narrative</th>
-            <th className="py-3.5 px-4 text-right w-28">Actions</th>
+            <th className="py-3.5 px-5 w-[8%] text-center" style={{ fontFamily: "'Inter', sans-serif" }}>Order</th>
+            <th className="py-3.5 px-5 w-[10%]" style={{ fontFamily: "'Inter', sans-serif" }}>Image</th>
+            <th className="py-3.5 px-5 w-[22%]" style={{ fontFamily: "'Inter', sans-serif" }}>Title & Short Name</th>
+            <th className="py-3.5 px-5 w-[18%]" style={{ fontFamily: "'Inter', sans-serif" }}>Slug & Season</th>
+            <th className="py-3.5 px-5 w-[30%] hidden md:table-cell" style={{ fontFamily: "'Inter', sans-serif" }}>Narrative</th>
+            <th className="py-3.5 px-5 w-[12%] text-right" style={{ fontFamily: "'Inter', sans-serif" }}>Actions</th>
           </tr>
         </thead>
-        <tbody className="divide-y divide-[#E5DFD7]">
+        <tbody className="divide-y divide-[#EEECE7]">
           {collections.map((col, idx) => (
             <tr
               key={col.slug}
-              className="hover:bg-[#FBF9F5] transition-colors group"
+              className="hover:bg-[#F7F6F2] transition-colors group"
             >
               {/* Display Order with Up/Down Controls */}
-              <td className="py-3.5 px-4 text-center">
-                <div className="flex flex-col items-center justify-center gap-0.5">
+              <td className="py-4 px-5 text-center">
+                <div className="flex items-center justify-center gap-2">
                   <button
                     type="button"
                     onClick={() => onMoveUp(idx)}
                     disabled={idx === 0 || isReordering}
-                    className="p-0.5 text-[#8E867E] hover:text-[#181515] disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
+                    className="text-[12px] text-[#99958D] hover:text-[#111111] disabled:opacity-20 disabled:cursor-not-allowed transition-colors cursor-pointer"
                     title="Move Up"
                   >
-                    <ChevronUp size={14} />
+                    ↑
                   </button>
-                  <span className="font-mono text-[11px] text-[#5A524D] font-medium">
+                  <span className="font-mono text-[12px] text-[#111111] font-medium px-1">
                     {col.display_order}
                   </span>
                   <button
                     type="button"
                     onClick={() => onMoveDown(idx)}
                     disabled={idx === collections.length - 1 || isReordering}
-                    className="p-0.5 text-[#8E867E] hover:text-[#181515] disabled:opacity-20 disabled:cursor-not-allowed transition-colors"
+                    className="text-[12px] text-[#99958D] hover:text-[#111111] disabled:opacity-20 disabled:cursor-not-allowed transition-colors cursor-pointer"
                     title="Move Down"
                   >
-                    <ChevronDown size={14} />
+                    ↓
                   </button>
                 </div>
               </td>
 
               {/* Cover Thumbnail */}
-              <td className="py-3.5 px-4">
-                <div className="w-14 h-14 rounded-lg overflow-hidden border border-[#E5DFD7] bg-[#F7F5F0] shrink-0">
+              <td className="py-4 px-5">
+                <div className="w-13 h-13 rounded-[4px] overflow-hidden border border-[#E4E1DA] bg-[#F7F6F2] shrink-0">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     src={col.image}
@@ -80,57 +79,71 @@ export default function CollectionListTable({
               </td>
 
               {/* Title & Short Name */}
-              <td className="py-3.5 px-4">
-                <div className="space-y-0.5">
-                  <p className="font-medium text-[#181515] text-sm flex items-center gap-1.5">
-                    <span>{col.name}</span>
+              <td className="py-4 px-5">
+                <div className="space-y-1">
+                  <p
+                    className="font-semibold text-[#111111] text-[13px] leading-tight"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    {col.name}
                   </p>
-                  <p className="text-[11px] text-[#8E867E]">
-                    Short: <span className="text-[#5A524D]">{col.short_name}</span>
+                  <p
+                    className="text-[11px] text-[#78746D]"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    Short: <span className="text-[#111111] font-medium">{col.short_name}</span>
                   </p>
                 </div>
               </td>
 
               {/* Slug & Season Badge */}
-              <td className="py-3.5 px-4">
-                <div className="space-y-1">
-                  <span className="inline-block font-mono text-[11px] px-2 py-0.5 bg-[#181515]/5 text-[#181515] rounded">
+              <td className="py-4 px-5">
+                <div className="space-y-1.5">
+                  <span className="inline-block font-mono text-[11px] px-2.5 py-0.5 bg-[#F3F0E9] border border-[#E4E1DA] text-[#111111] rounded-[4px]">
                     {col.slug}
                   </span>
                   <div>
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium bg-[#B07D3E]/10 text-[#B07D3E]">
-                      <Sparkles size={10} />
-                      <span>{col.season || 'Perennial'}</span>
+                    <span
+                      className="inline-block px-2 py-0.5 rounded-[4px] text-[10px] font-medium uppercase tracking-wider bg-[#F7F6F2] border border-[#E4E1DA] text-[#55514E]"
+                      style={{ fontFamily: "'Inter', sans-serif" }}
+                    >
+                      {col.season || 'Perennial'}
                     </span>
                   </div>
                 </div>
               </td>
 
               {/* Description Preview */}
-              <td className="py-3.5 px-4 hidden md:table-cell text-[#5A524D] max-w-xs">
-                <p className="line-clamp-2 text-xs leading-relaxed">
+              <td className="py-4 px-5 hidden md:table-cell text-[#55514E]">
+                <p
+                  className="line-clamp-2 text-[12px] leading-relaxed font-normal"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
                   {col.description}
                 </p>
               </td>
 
               {/* Action Buttons */}
-              <td className="py-3.5 px-4 text-right">
-                <div className="inline-flex items-center gap-1.5">
+              <td className="py-4 px-5 text-right">
+                <div className="inline-flex items-center gap-3 justify-end">
                   <button
                     type="button"
                     onClick={() => onEdit(col)}
-                    className="p-1.5 text-[#5A524D] hover:text-[#181515] hover:bg-[#F7F5F0] rounded-lg transition-colors"
+                    className="text-[11.5px] font-semibold text-[#111111] hover:underline uppercase tracking-[0.06em] cursor-pointer"
                     title="Edit Collection"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
                   >
-                    <Edit2 size={15} />
+                    Edit
                   </button>
+                  <span className="text-[#DCD8D0]">&bull;</span>
                   <button
                     type="button"
                     onClick={() => onDelete(col)}
-                    className="p-1.5 text-[#C0392B] hover:bg-[#C0392B]/10 rounded-lg transition-colors"
+                    className="text-[11.5px] font-semibold text-[#C0392B] hover:text-[#A93226] hover:underline uppercase tracking-[0.06em] cursor-pointer"
                     title="Delete Collection"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
                   >
-                    <Trash2 size={15} />
+                    Delete
                   </button>
                 </div>
               </td>

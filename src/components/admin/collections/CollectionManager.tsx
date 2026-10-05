@@ -158,26 +158,32 @@ export default function CollectionManager({
   });
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-5">
       {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 border-b border-[#E4E1DA] pb-5">
         <div>
-          <h1 className="font-serif text-2xl font-semibold text-[#181515]">
+          <h1
+            className="text-3xl md:text-[32px] font-normal text-[#171717] tracking-tight leading-none"
+            style={{ fontFamily: "'Cormorant Garamond', serif" }}
+          >
             Collections
           </h1>
-          <p className="text-xs text-[#8E867E] mt-0.5">
+          <p
+            className="text-[12px] text-[#68655F] mt-1.5 font-normal"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
             Manage seasonal couture stories, curatorial edits, and campaign imagery
           </p>
         </div>
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-3.5 flex-shrink-0">
           <button
             type="button"
             onClick={loadCollections}
             disabled={isLoading}
-            className="p-2.5 bg-[#FFFDFC] border border-[#E5DFD7] text-[#5A524D] hover:text-[#181515] rounded-lg shadow-2xs hover:bg-[#F7F5F0] transition-colors disabled:opacity-50"
+            className="w-[38px] h-[38px] flex items-center justify-center bg-[#FFFFFF] hover:bg-[#EAE7E0] border border-[#111111] text-[#111111] hover:text-[#111111] transition-colors duration-150 disabled:opacity-40 rounded-[6px] shadow-xs cursor-pointer"
             title="Refresh list"
           >
-            <RefreshCw size={15} className={isLoading ? 'animate-spin' : ''} />
+            <RefreshCw size={15} strokeWidth={2} className={`text-[#111111] ${isLoading ? 'animate-spin' : ''}`} />
           </button>
           <button
             type="button"
@@ -185,10 +191,10 @@ export default function CollectionManager({
               setEditingCollection(null);
               setActiveModal('create');
             }}
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-[#181515] hover:bg-[#2A2421] text-[#FFFDFC] text-xs font-medium uppercase tracking-wider rounded-lg shadow-sm transition-colors"
+            className="inline-flex items-center justify-center h-[38px] min-w-[140px] px-5 bg-[#FFFFFF] hover:bg-[#EAE7E0] border border-[#111111] text-[#111111] hover:text-[#111111] text-[11px] font-semibold uppercase tracking-[0.06em] transition-colors duration-150 rounded-[6px] shadow-xs cursor-pointer"
+            style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            <Plus size={15} />
-            <span>Add Collection</span>
+            Add Collection
           </button>
         </div>
       </div>
@@ -196,24 +202,20 @@ export default function CollectionManager({
       {/* Feedback Toast Banner */}
       {feedback && (
         <div
-          className={`p-3.5 rounded-xl border flex items-center justify-between text-xs transition-all ${
+          className={`px-4 py-3 border flex items-center justify-between text-[11px] rounded-[3px] ${
             feedback.type === 'success'
-              ? 'bg-[#EBF7EE] border-[#C2E8C8] text-[#1E7E34]'
-              : 'bg-[#FDEDEC] border-[#FADBD8] text-[#C0392B]'
+              ? 'bg-[#F0F7F3] border-[#C3E6D3] text-[#2D6A4F]'
+              : 'bg-[#FDF2F2] border-[#F0C9C9] text-[#A93226]'
           }`}
+          style={{ fontFamily: "'Inter', sans-serif" }}
         >
           <div className="flex items-center gap-2.5">
-            {feedback.type === 'success' ? (
-              <CheckCircle2 size={16} className="shrink-0" />
-            ) : (
-              <AlertCircle size={16} className="shrink-0" />
-            )}
             <span>{feedback.message}</span>
           </div>
           <button
             type="button"
             onClick={() => setFeedback(null)}
-            className="text-xs font-bold opacity-60 hover:opacity-100"
+            className="text-xs opacity-50 hover:opacity-100 transition-opacity"
           >
             &times;
           </button>
@@ -221,41 +223,48 @@ export default function CollectionManager({
       )}
 
       {/* Search & Controls */}
-      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#FFFDFC] border border-[#E5DFD7] p-3 rounded-xl shadow-2xs">
-        <div className="relative w-full sm:w-72">
-          <Search
-            size={14}
-            className="absolute left-3 top-1/2 -translate-y-1/2 text-[#8E867E]"
-          />
+      <div className="flex flex-col sm:flex-row items-center justify-between gap-3 bg-[#FFFFFF] border border-[#E4E1DA] p-3 rounded-[4px]">
+        <div className="relative w-full sm:w-80">
           <input
             type="text"
             placeholder="Search collections or seasons..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-8 pr-3 py-1.5 text-xs rounded-lg border border-[#E5DFD7] bg-[#FBF9F5] text-[#181515] placeholder-[#8E867E] focus:outline-none focus:border-[#B07D3E]"
+            className="w-full px-3.5 h-[38px] text-[12px] rounded-[4px] border border-[#E2DED6] bg-[#FFFFFF] text-[#202020] placeholder-[#9A968E] focus:outline-none focus:border-[#55514B]"
+            style={{ fontFamily: "'Inter', sans-serif" }}
           />
         </div>
-        <div className="text-xs text-[#8E867E] font-medium self-end sm:self-center">
+        <div
+          className="text-[11px] text-[#99958D] font-normal self-end sm:self-center"
+          style={{ fontFamily: "'Inter', sans-serif" }}
+        >
           {collections.length} {collections.length === 1 ? 'Collection' : 'Collections'} Total
         </div>
       </div>
 
       {/* Content Container */}
-      <div className="bg-[#FFFDFC] border border-[#E5DFD7] rounded-xl shadow-2xs overflow-hidden">
+      <div className="bg-[#FFFFFF] border border-[#E4E1DA] rounded-[4px] overflow-hidden">
         {isLoading ? (
-          <div className="p-16 text-center flex flex-col items-center justify-center">
-            <Loader2 size={28} className="text-[#B07D3E] animate-spin mb-3" />
-            <p className="text-xs text-[#8E867E]">Loading collections from Supabase...</p>
+          <div className="h-[140px] flex flex-col items-center justify-center">
+            <p
+              className="text-[12px] text-[#68655F] font-normal"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              Loading collections…
+            </p>
           </div>
         ) : filteredCollections.length === 0 ? (
-          <div className="p-16 text-center flex flex-col items-center justify-center">
-            <div className="w-14 h-14 rounded-full bg-[#181515]/5 text-[#8E867E] flex items-center justify-center mb-4">
-              <Sparkles size={26} />
-            </div>
-            <h3 className="text-sm font-semibold text-[#181515]">
+          <div className="h-[130px] flex flex-col items-center justify-center text-center px-4">
+            <h3
+              className="text-[13px] font-medium text-[#171717]"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
               {searchQuery ? 'No matching collections found' : 'No collections created yet'}
             </h3>
-            <p className="text-xs text-[#8E867E] mt-1 max-w-sm">
+            <p
+              className="text-[11px] text-[#99958D] mt-1 max-w-xs font-normal"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
               {searchQuery
                 ? 'Try adjusting your search terms.'
                 : 'Click "Add Collection" above to create your first seasonal couture edit.'}

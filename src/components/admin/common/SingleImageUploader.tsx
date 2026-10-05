@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import { Upload, X, Loader2 } from 'lucide-react';
 import { validateImageFile } from '@/lib/services/storage.service';
 
 interface SingleImageUploaderProps {
@@ -84,13 +83,21 @@ export default function SingleImageUploader({
   const displayError = error || localError;
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-1.5">
       <div className="flex items-center justify-between">
-        <label className="block text-xs font-semibold uppercase tracking-[0.14em] text-[#101010]">
+        <label
+          className="block text-[10.5px] font-semibold uppercase tracking-[0.06em] text-[#55514E]"
+          style={{ fontFamily: "'Inter', sans-serif" }}
+        >
           {label}
           {required && <span className="text-[#C0392B]"> *</span>}
         </label>
-        <span className="text-[11px] text-[#7A736A]">{aspectRatioHint}</span>
+        <span
+          className="text-[10px] text-[#99958D]"
+          style={{ fontFamily: "'Inter', sans-serif" }}
+        >
+          {aspectRatioHint}
+        </span>
       </div>
 
       <input
@@ -104,7 +111,7 @@ export default function SingleImageUploader({
 
       {previewUrl ? (
         <div
-          className={`relative group rounded-lg overflow-hidden border border-[#E8E4DC] bg-[#FAF8F5] shadow-xs flex items-center justify-center ${aspectRatioClass} w-full`}
+          className={`relative group rounded-[4px] overflow-hidden border border-[#E4E1DA] bg-[#F7F6F2] flex items-center justify-center ${aspectRatioClass} w-full max-h-[240px]`}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -112,12 +119,13 @@ export default function SingleImageUploader({
             alt="Preview"
             className="w-full h-full object-cover object-center"
           />
-          <div className="absolute inset-0 bg-[#101010]/55 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2.5 p-4">
+          <div className="absolute inset-0 bg-[#0D0D0D]/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3.5 p-4">
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
               disabled={disabled}
-              className="px-3.5 py-1.5 bg-[#FFFFFF] text-[#101010] hover:bg-[#F4F1EB] text-xs font-medium uppercase tracking-[0.08em] rounded-md shadow-sm transition-colors"
+              className="px-4 py-2 bg-[#FFFFFF] text-[#111111] hover:bg-[#F7F6F2] text-[10.5px] font-semibold uppercase tracking-[0.06em] rounded-[6px] border border-[#111111] shadow-sm transition-colors cursor-pointer"
+              style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Change Image
             </button>
@@ -125,15 +133,17 @@ export default function SingleImageUploader({
               type="button"
               onClick={handleRemove}
               disabled={disabled}
-              className="p-1.5 bg-[#C0392B] text-white hover:bg-[#A93226] rounded-md shadow-sm transition-colors"
+              className="px-3 py-2 bg-[#C0392B] text-white hover:bg-[#A93226] text-[10.5px] font-semibold uppercase tracking-[0.06em] rounded-[6px] shadow-sm transition-colors cursor-pointer"
               title="Remove image"
             >
-              <X size={15} />
+              Remove
             </button>
           </div>
           {selectedFile && (
-            <div className="absolute bottom-2.5 left-2.5 px-2.5 py-1 bg-[#101010]/85 text-[#FFFFFF] text-[10px] font-mono rounded backdrop-blur-xs">
-              {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB &bull; Auto-optimized to WebP
+            <div
+              className="absolute bottom-2 left-2 px-2 py-0.5 bg-[#0D0D0D]/80 text-[#FFFFFF] text-[9.5px] font-mono rounded-[3px]"
+            >
+              {(selectedFile.size / (1024 * 1024)).toFixed(2)} MB &bull; WebP Optimized
             </div>
           )}
         </div>
@@ -143,28 +153,36 @@ export default function SingleImageUploader({
           onDrop={handleDrop}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
-          className={`border border-dashed rounded-lg p-6 text-center cursor-pointer transition-all flex flex-col items-center justify-center gap-2.5 ${aspectRatioClass} w-full ${
+          className={`border border-dashed rounded-[6px] p-5 text-center cursor-pointer transition-all flex flex-col items-center justify-center gap-2 ${aspectRatioClass} w-full max-h-[220px] ${
             isDragging
-              ? 'border-[#9E7A44] bg-[#9E7A44]/5'
-              : 'border-[#D5CFBF] hover:border-[#9E7A44] bg-[#FAF8F5] hover:bg-[#FFFFFF]'
+              ? 'border-[#111111] bg-[#F3F0E9]'
+              : 'border-[#DCD8D0] hover:border-[#111111] bg-[#F7F6F2] hover:bg-[#FFFFFF]'
           } ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}
         >
-          <div className="w-10 h-10 rounded-full bg-[#FFFFFF] border border-[#E8E4DC] text-[#7A736A] flex items-center justify-center shadow-xs">
-            <Upload size={18} />
-          </div>
           <div>
-            <p className="text-xs font-medium text-[#101010]">
+            <p
+              className="text-[12px] font-semibold text-[#111111] uppercase tracking-[0.05em]"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
               Click to upload or drag & drop
             </p>
-            <p className="text-[11px] text-[#7A736A] mt-0.5">
-              JPEG, PNG, WebP, or AVIF
+            <p
+              className="text-[10px] text-[#99958D] mt-1"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              JPEG, PNG, WebP, or AVIF (max 10MB)
             </p>
           </div>
         </div>
       )}
 
       {displayError && (
-        <p className="text-[11px] text-[#C0392B] font-medium pt-0.5">{displayError}</p>
+        <p
+          className="text-[10.5px] text-[#C0392B] font-normal pt-0.5"
+          style={{ fontFamily: "'Inter', sans-serif" }}
+        >
+          {displayError}
+        </p>
       )}
     </div>
   );

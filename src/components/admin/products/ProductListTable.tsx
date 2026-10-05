@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { Edit2, Trash2, Copy, Star, StarOff, CheckCircle, XCircle, Sparkles } from 'lucide-react';
 import { ProductRecord } from '@/lib/validations/product.schema';
 
 interface ProductListTableProps {
@@ -27,43 +26,43 @@ export default function ProductListTable({
         <thead className="bg-[#F7F6F2] border-b border-[#E7E4DD]">
           <tr>
             <th
-              className="py-3 px-4 text-[9px] font-normal uppercase tracking-[0.16em] text-[#9B9891] w-14"
+              className="py-3 px-4 text-[9.5px] font-semibold uppercase tracking-[0.14em] text-[#68655F] w-14"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Image
             </th>
             <th
-              className="py-3 px-4 text-[9px] font-normal uppercase tracking-[0.16em] text-[#9B9891]"
+              className="py-3 px-4 text-[9.5px] font-semibold uppercase tracking-[0.14em] text-[#68655F]"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Name & Slug
             </th>
             <th
-              className="py-3 px-4 text-[9px] font-normal uppercase tracking-[0.16em] text-[#9B9891]"
+              className="py-3 px-4 text-[9.5px] font-semibold uppercase tracking-[0.14em] text-[#68655F]"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Category
             </th>
             <th
-              className="py-3 px-4 text-[9px] font-normal uppercase tracking-[0.16em] text-[#9B9891]"
+              className="py-3 px-4 text-[9.5px] font-semibold uppercase tracking-[0.14em] text-[#68655F]"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Price
             </th>
             <th
-              className="py-3 px-4 text-[9px] font-normal uppercase tracking-[0.16em] text-[#9B9891] text-center w-20"
+              className="py-3 px-4 text-[9.5px] font-semibold uppercase tracking-[0.14em] text-[#68655F] text-center w-20"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Active
             </th>
             <th
-              className="py-3 px-4 text-[9px] font-normal uppercase tracking-[0.16em] text-[#9B9891] text-center w-20"
+              className="py-3 px-4 text-[9.5px] font-semibold uppercase tracking-[0.14em] text-[#68655F] text-center w-20"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Featured
             </th>
             <th
-              className="py-3 px-4 text-[9px] font-normal uppercase tracking-[0.16em] text-[#9B9891] text-right w-28"
+              className="py-3 px-4 text-[9.5px] font-semibold uppercase tracking-[0.14em] text-[#68655F] text-right w-36"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Actions
@@ -89,28 +88,27 @@ export default function ProductListTable({
               <td className="py-3.5 px-4">
                 <div className="space-y-0.5">
                   <p
-                    className="font-normal text-[#171717] text-[12px] leading-snug max-w-56 line-clamp-2"
+                    className="font-medium text-[#171717] text-[12.5px] leading-snug max-w-56 line-clamp-2"
                     style={{ fontFamily: "'Inter', sans-serif" }}
                   >
                     {product.name}
                   </p>
                   <p
-                    className="font-mono text-[10px] text-[#9B9891]"
+                    className="font-mono text-[10px] text-[#99958D]"
                   >
                     {product.slug}
                   </p>
                   {product.collection_slug && (
                     <span
-                      className="inline-flex items-center gap-1 text-[9px] text-[#6F6D68] font-normal"
+                      className="inline-block text-[9.5px] text-[#68655F] font-normal"
                       style={{ fontFamily: "'Inter', sans-serif" }}
                     >
-                      <Sparkles size={9} strokeWidth={1.4} />
-                      <span>{product.collection_slug}</span>
+                      {product.collection_slug}
                     </span>
                   )}
                   {product.is_new && (
                     <span
-                      className="inline-block px-1.5 py-0.5 bg-[#F3F0E9] text-[#6F6D68] text-[9px] font-normal uppercase tracking-[0.08em] border border-[#E7E4DD] rounded-[2px]"
+                      className="inline-block ml-1 px-1.5 py-0.2 bg-[#F3F0E9] text-[#68655F] text-[9px] font-medium uppercase tracking-[0.08em] border border-[#E7E4DD] rounded-[2px]"
                       style={{ fontFamily: "'Inter', sans-serif" }}
                     >
                       New
@@ -122,7 +120,7 @@ export default function ProductListTable({
               {/* Category */}
               <td className="py-3.5 px-4">
                 <span
-                  className="inline-block px-2 py-0.5 bg-[#F3F0E9] text-[#6F6D68] text-[9px] font-normal uppercase tracking-[0.1em] border border-[#E7E4DD] rounded-[2px]"
+                  className="inline-block px-2 py-0.5 bg-[#F3F0E9] text-[#68655F] text-[9.5px] font-medium uppercase tracking-[0.08em] border border-[#E7E4DD] rounded-[2px]"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
                   {product.category_slug}
@@ -132,8 +130,8 @@ export default function ProductListTable({
               {/* Price */}
               <td className="py-3.5 px-4">
                 <span
-                  className={`text-[12px] font-normal ${
-                    product.price === null ? 'text-[#9B9891] italic' : 'text-[#171717]'
+                  className={`text-[12.5px] font-medium ${
+                    product.price === null ? 'text-[#99958D] italic font-normal' : 'text-[#171717]'
                   }`}
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
@@ -146,14 +144,15 @@ export default function ProductListTable({
                 <button
                   type="button"
                   onClick={() => onToggleActive(product.id, product.is_active)}
-                  className="inline-flex items-center justify-center w-7 h-7 rounded-[3px] transition-colors duration-150 hover:bg-[#EEECE7]"
+                  className={`inline-flex items-center justify-center px-2 py-1 text-[9.5px] font-semibold uppercase tracking-wider rounded-[3px] border transition-colors ${
+                    product.is_active
+                      ? 'bg-[#F0F7F3] border-[#C3E6D3] text-[#2D6A4F]'
+                      : 'bg-[#F7F6F2] border-[#E7E4DD] text-[#99958D]'
+                  }`}
                   title={product.is_active ? 'Published – click to draft' : 'Draft – click to publish'}
+                  style={{ fontFamily: "'Inter', sans-serif" }}
                 >
-                  {product.is_active ? (
-                    <CheckCircle size={15} strokeWidth={1.5} className="text-[#2D6A4F]" />
-                  ) : (
-                    <XCircle size={15} strokeWidth={1.5} className="text-[#9B9891]" />
-                  )}
+                  {product.is_active ? 'Live' : 'Draft'}
                 </button>
               </td>
 
@@ -162,43 +161,49 @@ export default function ProductListTable({
                 <button
                   type="button"
                   onClick={() => onToggleFeatured(product.id, product.is_featured)}
-                  className="inline-flex items-center justify-center w-7 h-7 rounded-[3px] transition-colors duration-150 hover:bg-[#EEECE7]"
+                  className={`inline-flex items-center justify-center px-2 py-1 text-[9.5px] font-semibold uppercase tracking-wider rounded-[3px] border transition-colors ${
+                    product.is_featured
+                      ? 'bg-[#111111] border-[#111111] text-[#FFFFFF]'
+                      : 'bg-[#FFFFFF] border-[#E4E1DA] text-[#99958D]'
+                  }`}
                   title={product.is_featured ? 'Featured – click to unfeature' : 'Not featured'}
+                  style={{ fontFamily: "'Inter', sans-serif" }}
                 >
-                  {product.is_featured ? (
-                    <Star size={14} strokeWidth={1.5} className="text-[#6F6D68] fill-[#6F6D68]" />
-                  ) : (
-                    <StarOff size={14} strokeWidth={1.5} className="text-[#C5C2BB]" />
-                  )}
+                  {product.is_featured ? 'Yes' : 'No'}
                 </button>
               </td>
 
               {/* Action Buttons */}
               <td className="py-3.5 px-4 text-right">
-                <div className="inline-flex items-center gap-0.5">
+                <div className="inline-flex items-center gap-3.5 justify-end">
                   <button
                     type="button"
                     onClick={() => onEdit(product)}
-                    className="p-1.5 text-[#6F6D68] hover:text-[#171717] hover:bg-[#EEECE7] rounded-[3px] transition-colors duration-150"
+                    className="text-[11.5px] font-semibold text-[#171717] hover:underline uppercase tracking-[0.06em]"
                     title="Edit Product"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
                   >
-                    <Edit2 size={13} strokeWidth={1.5} />
+                    Edit
                   </button>
+                  <span className="text-[#E4E1DA]">&bull;</span>
                   <button
                     type="button"
                     onClick={() => onClone(product)}
-                    className="p-1.5 text-[#6F6D68] hover:text-[#171717] hover:bg-[#EEECE7] rounded-[3px] transition-colors duration-150"
+                    className="text-[11.5px] font-semibold text-[#68655F] hover:text-[#171717] uppercase tracking-[0.06em]"
                     title="Clone Product"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
                   >
-                    <Copy size={13} strokeWidth={1.5} />
+                    Clone
                   </button>
+                  <span className="text-[#E4E1DA]">&bull;</span>
                   <button
                     type="button"
                     onClick={() => onDelete(product)}
-                    className="p-1.5 text-[#9B9891] hover:text-[#C0392B] hover:bg-[#C0392B]/8 rounded-[3px] transition-colors duration-150"
+                    className="text-[11.5px] font-semibold text-[#A93226] hover:underline uppercase tracking-[0.06em]"
                     title="Delete Product"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
                   >
-                    <Trash2 size={13} strokeWidth={1.5} />
+                    Delete
                   </button>
                 </div>
               </td>

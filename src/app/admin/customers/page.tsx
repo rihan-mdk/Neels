@@ -1,5 +1,4 @@
 import React from 'react';
-import { Users } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 
 export default async function AdminCustomersPage() {
@@ -12,44 +11,94 @@ export default async function AdminCustomersPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="font-serif text-2xl font-semibold text-[#181515]">Registered Customers</h1>
-        <p className="text-xs text-[#8E867E] mt-0.5">
-          Review customer accounts and profile contact information
+      <div className="border-b border-[#E4E1DA] pb-5">
+        <h1
+          className="text-3xl md:text-[32px] font-normal text-[#171717] tracking-tight leading-none"
+          style={{ fontFamily: "'Cormorant Garamond', serif" }}
+        >
+          Registered Customers
+        </h1>
+        <p
+          className="text-[12px] text-[#68655F] mt-1.5 font-normal"
+          style={{ fontFamily: "'Inter', sans-serif" }}
+        >
+          Review atelier customer accounts, client profiles, and registration records
         </p>
       </div>
 
-      <div className="bg-[#FFFDFC] border border-[#E5DFD7] rounded-xl shadow-sm overflow-hidden">
+      <div className="bg-[#FFFFFF] border border-[#E4E1DA] rounded-[4px] overflow-hidden">
         {(!customers || customers.length === 0) ? (
-          <div className="p-16 text-center flex flex-col items-center justify-center">
-            <div className="w-14 h-14 rounded-full bg-[#181515]/5 text-[#8E867E] flex items-center justify-center mb-4">
-              <Users size={26} />
-            </div>
-            <h3 className="text-sm font-semibold text-[#181515]">No registered customers</h3>
-            <p className="text-xs text-[#8E867E] mt-1 max-w-sm">
-              Customer accounts will be listed here when visitors register on the boutique website.
+          <div className="h-[130px] flex flex-col items-center justify-center text-center px-4">
+            <h3
+              className="text-[13px] font-medium text-[#171717]"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              No registered customers
+            </h3>
+            <p
+              className="text-[11px] text-[#99958D] mt-1 max-w-xs font-normal"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              Customer accounts will be listed here when visitors register on the boutique storefront.
             </p>
           </div>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left text-xs">
-              <thead className="bg-[#F7F5F0] text-[#8E867E] uppercase tracking-wider text-[10px] border-b border-[#E5DFD7]">
+            <table className="w-full text-left text-xs min-w-[650px]">
+              <thead className="bg-[#F7F6F2] border-b border-[#E4E1DA]">
                 <tr>
-                  <th className="py-3 px-5">Name</th>
-                  <th className="py-3 px-5">Email</th>
-                  <th className="py-3 px-5">Phone</th>
-                  <th className="py-3 px-5">Joined</th>
+                  <th
+                    className="py-3 px-5 w-[25%] text-[9.5px] font-semibold tracking-[0.14em] uppercase text-[#68655F]"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    Name
+                  </th>
+                  <th
+                    className="py-3 px-5 w-[35%] text-[9.5px] font-semibold tracking-[0.14em] uppercase text-[#68655F]"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    Email
+                  </th>
+                  <th
+                    className="py-3 px-5 w-[20%] text-[9.5px] font-semibold tracking-[0.14em] uppercase text-[#68655F]"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    Phone
+                  </th>
+                  <th
+                    className="py-3 px-5 w-[20%] text-[9.5px] font-semibold tracking-[0.14em] uppercase text-[#68655F]"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    Joined
+                  </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-[#E5DFD7]">
+              <tbody className="divide-y divide-[#EEECE7]">
                 {customers.map((c) => (
-                  <tr key={c.id} className="hover:bg-[#FDFBF7] transition-colors">
-                    <td className="py-3.5 px-5 font-medium text-[#181515]">
+                  <tr key={c.id} className="hover:bg-[#F7F6F2] transition-colors">
+                    <td
+                      className="py-3.5 px-5 font-medium text-[#171717] text-[12.5px]"
+                      style={{ fontFamily: "'Inter', sans-serif" }}
+                    >
                       {c.full_name || 'Studio Member'}
                     </td>
-                    <td className="py-3.5 px-5 text-[#5A524D]">{c.email}</td>
-                    <td className="py-3.5 px-5 text-[#8E867E]">{c.phone || '—'}</td>
-                    <td className="py-3.5 px-5 text-[#8E867E]">
+                    <td
+                      className="py-3.5 px-5 text-[#68655F] text-[12px] truncate max-w-[240px]"
+                      title={c.email}
+                      style={{ fontFamily: "'Inter', sans-serif" }}
+                    >
+                      {c.email}
+                    </td>
+                    <td
+                      className="py-3.5 px-5 text-[#99958D] text-[11.5px]"
+                      style={{ fontFamily: "'Inter', sans-serif" }}
+                    >
+                      {c.phone || '—'}
+                    </td>
+                    <td
+                      className="py-3.5 px-5 text-[#99958D] text-[11.5px]"
+                      style={{ fontFamily: "'Inter', sans-serif" }}
+                    >
                       {new Date(c.created_at).toLocaleDateString('en-IN', {
                         day: 'numeric',
                         month: 'short',

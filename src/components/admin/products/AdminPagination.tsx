@@ -39,21 +39,21 @@ export default function AdminPagination({
   };
 
   return (
-    <div className="flex items-center justify-between px-5 py-3 border-t border-[#E7E4DD] bg-[#FFFFFF]">
+    <div className="flex items-center justify-between px-6 py-3.5 border-t border-[#E4E1DA] bg-[#FFFFFF]">
       <p
-        className="text-[10px] text-[#9B9891] font-normal"
+        className="text-[11px] text-[#99958D] font-normal"
         style={{ fontFamily: "'Inter', sans-serif" }}
       >
-        Showing <span className="text-[#171717]">{from}–{to}</span> of{' '}
-        <span className="text-[#171717]">{totalCount}</span> products
+        Showing <span className="text-[#171717] font-medium">{from}–{to}</span> of{' '}
+        <span className="text-[#171717] font-medium">{totalCount}</span> products
       </p>
 
-      <div className="flex items-center gap-0.5">
+      <div className="flex items-center gap-1">
         <button
           type="button"
           onClick={() => onPageChange(page - 1)}
           disabled={page <= 1}
-          className="p-1.5 text-[#9B9891] hover:text-[#171717] hover:bg-[#F7F6F2] rounded-[3px] transition-colors duration-150 disabled:opacity-30 disabled:cursor-not-allowed"
+          className="w-7 h-7 flex items-center justify-center text-[#99958D] hover:text-[#171717] hover:bg-[#F7F6F2] rounded-[4px] border border-transparent hover:border-[#E4E1DA] transition-colors duration-150 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-transparent"
           aria-label="Previous page"
         >
           <ChevronLeft size={14} strokeWidth={1.5} />
@@ -61,7 +61,7 @@ export default function AdminPagination({
 
         {getPages().map((p, idx) =>
           p === '...' ? (
-            <span key={`ellipsis-${idx}`} className="px-1 text-[10px] text-[#9B9891]">
+            <span key={`ellipsis-${idx}`} className="px-1.5 text-[11px] text-[#99958D]">
               …
             </span>
           ) : (
@@ -69,10 +69,10 @@ export default function AdminPagination({
               key={p}
               type="button"
               onClick={() => onPageChange(p as number)}
-              className={`w-6 h-6 text-[10px] font-normal rounded-[3px] transition-colors duration-150 ${
+              className={`w-7 h-7 text-[11px] font-medium rounded-[4px] flex items-center justify-center transition-colors duration-150 ${
                 p === page
-                  ? 'bg-[#111111] text-white'
-                  : 'text-[#6F6D68] hover:bg-[#F7F6F2]'
+                  ? 'bg-[#111111] text-[#FFFFFF]'
+                  : 'text-[#68655F] hover:bg-[#F7F6F2] hover:text-[#171717]'
               }`}
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
@@ -85,7 +85,7 @@ export default function AdminPagination({
           type="button"
           onClick={() => onPageChange(page + 1)}
           disabled={page >= totalPages}
-          className="p-1.5 text-[#9B9891] hover:text-[#171717] hover:bg-[#F7F6F2] rounded-[3px] transition-colors duration-150 disabled:opacity-30 disabled:cursor-not-allowed"
+          className="w-7 h-7 flex items-center justify-center text-[#99958D] hover:text-[#171717] hover:bg-[#F7F6F2] rounded-[4px] border border-transparent hover:border-[#E4E1DA] transition-colors duration-150 disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-transparent disabled:hover:border-transparent"
           aria-label="Next page"
         >
           <ChevronRight size={14} strokeWidth={1.5} />

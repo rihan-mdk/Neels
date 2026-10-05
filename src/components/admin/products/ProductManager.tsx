@@ -228,30 +228,30 @@ export default function ProductManager({
   return (
     <div className="space-y-5">
       {/* Page Header */}
-      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 border-b border-[#E7E4DD] pb-5">
+      <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-4 border-b border-[#E4E1DA] pb-5">
         <div>
           <h1
-            className="text-3xl md:text-4xl font-light text-[#171717]"
+            className="text-3xl md:text-[32px] font-normal text-[#171717] tracking-tight leading-none"
             style={{ fontFamily: "'Cormorant Garamond', serif" }}
           >
             Product Catalog
           </h1>
           <p
-            className="text-[10px] text-[#9B9891] mt-1 font-normal tracking-wide"
+            className="text-[12px] text-[#68655F] mt-1.5 font-normal"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            Manage all your silhouettes, fabrics, pricing, and editorial imagery
+            Manage couture silhouettes, fabrics, pricing, and editorial imagery
           </p>
         </div>
-        <div className="flex items-center gap-2 flex-shrink-0">
+        <div className="flex items-center gap-3.5 flex-shrink-0">
           <button
             type="button"
             onClick={() => loadProducts(filters)}
             disabled={isLoading}
-            className="h-[34px] w-[34px] flex items-center justify-center bg-[#FFFFFF] border border-[#E4E1DA] text-[#6F6D68] hover:text-[#171717] hover:bg-[#F7F6F2] transition-colors duration-150 disabled:opacity-40 rounded-[3px]"
+            className="w-[38px] h-[38px] flex items-center justify-center bg-[#FFFFFF] hover:bg-[#EAE7E0] border border-[#111111] text-[#111111] hover:text-[#111111] transition-colors duration-150 disabled:opacity-40 rounded-[6px] shadow-xs cursor-pointer"
             title="Refresh list"
           >
-            <RefreshCw size={13} strokeWidth={1.4} className={isLoading ? 'animate-spin' : ''} />
+            <RefreshCw size={15} strokeWidth={2} className={`text-[#111111] ${isLoading ? 'animate-spin' : ''}`} />
           </button>
           <button
             type="button"
@@ -259,11 +259,10 @@ export default function ProductManager({
               setEditingProduct(null);
               setActiveModal('create');
             }}
-            className="inline-flex items-center gap-1.5 h-[34px] px-4 bg-[#111111] hover:bg-[#262626] text-white text-[10px] font-normal uppercase tracking-[0.12em] transition-colors duration-150 rounded-[3px]"
+            className="inline-flex items-center justify-center h-[38px] min-w-[130px] px-5 bg-[#FFFFFF] hover:bg-[#EAE7E0] border border-[#111111] text-[#111111] hover:text-[#111111] text-[11px] font-semibold uppercase tracking-[0.06em] transition-colors duration-150 rounded-[6px] shadow-xs cursor-pointer"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            <Plus size={13} strokeWidth={1.5} />
-            <span>Add Product</span>
+            Add Product
           </button>
         </div>
       </div>
@@ -281,13 +280,6 @@ export default function ProductManager({
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
           <div className="flex items-center gap-2.5">
-            {feedback.type === 'success' ? (
-              <CheckCircle2 size={14} strokeWidth={1.5} className="shrink-0" />
-            ) : feedback.type === 'warning' ? (
-              <AlertTriangle size={14} strokeWidth={1.5} className="shrink-0" />
-            ) : (
-              <AlertCircle size={14} strokeWidth={1.5} className="shrink-0" />
-            )}
             <span>{feedback.message}</span>
           </div>
           <button
@@ -310,35 +302,31 @@ export default function ProductManager({
       />
 
       {/* Product Table */}
-      <div className="bg-[#FFFFFF] border border-[#E7E4DD] overflow-hidden">
+      <div className="bg-[#FFFFFF] border border-[#E4E1DA] rounded-[4px] overflow-hidden">
         {isLoading ? (
-          <div className="p-16 text-center flex flex-col items-center justify-center">
-            <Loader2 size={22} strokeWidth={1.3} className="text-[#9B9891] animate-spin mb-3" />
+          <div className="h-[140px] flex flex-col items-center justify-center">
             <p
-              className="text-[11px] text-[#9B9891] font-normal"
+              className="text-[12px] text-[#68655F] font-normal"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Loading products…
             </p>
           </div>
         ) : result.products.length === 0 ? (
-          <div className="p-16 text-center flex flex-col items-center justify-center">
-            <div className="w-12 h-12 bg-[#F7F6F2] border border-[#E7E4DD] text-[#9B9891] flex items-center justify-center mb-4">
-              <Shirt size={20} strokeWidth={1.3} />
-            </div>
+          <div className="h-[130px] flex flex-col items-center justify-center text-center px-4">
             <h3
-              className="text-[13px] font-normal text-[#171717]"
+              className="text-[13px] font-medium text-[#171717]"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               No products found
             </h3>
             <p
-              className="text-[11px] text-[#9B9891] mt-1.5 max-w-xs leading-relaxed font-normal"
+              className="text-[11px] text-[#99958D] mt-1 max-w-xs font-normal"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               {filters.searchQuery
                 ? 'Try adjusting your search or filters.'
-                : 'Click \"Add Product\" to create your first atelier piece.'}
+                : 'Click "Add Product" to create your first atelier piece.'}
             </p>
           </div>
         ) : (

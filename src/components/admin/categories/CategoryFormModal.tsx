@@ -141,192 +141,229 @@ export default function CategoryFormModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs overflow-y-auto animate-in fade-in duration-200">
-      <div className="bg-[#FFFDFC] border border-[#E5DFD7] rounded-2xl max-w-2xl w-full p-6 shadow-2xl space-y-5 my-8 max-h-[90vh] flex flex-col">
-        {/* Header */}
-        <div className="flex items-center justify-between pb-3 border-b border-[#E5DFD7]">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-5 bg-[#0D0D0D]/60 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="bg-[#FFFFFF] border border-[#E4E1DA] rounded-[6px] max-w-[720px] w-full shadow-2xl flex flex-col max-h-[90vh] overflow-hidden my-auto">
+        {/* Fixed Header */}
+        <div className="flex items-center justify-between p-5 sm:px-6 pb-4 border-b border-[#E4E1DA] shrink-0 bg-[#FFFFFF]">
           <div>
-            <h2 className="font-serif text-xl font-semibold text-[#181515]">
+            <h2
+              className="text-[24px] font-normal text-[#171717] tracking-tight leading-none"
+              style={{ fontFamily: "'Cormorant Garamond', serif" }}
+            >
               {isEditing ? `Edit Category: ${initialData.name}` : 'Create New Category'}
             </h2>
-            <p className="text-xs text-[#8E867E] mt-0.5">
-              Configure department metadata and high-resolution cover image
+            <p
+              className="text-[12px] text-[#68655F] mt-1 font-normal"
+              style={{ fontFamily: "'Inter', sans-serif" }}
+            >
+              Configure department taxonomy, path, and high-resolution cover image
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="p-1.5 text-[#8E867E] hover:text-[#181515] hover:bg-[#F7F5F0] rounded-lg transition-colors"
+            className="p-1.5 text-[#99958D] hover:text-[#171717] hover:bg-[#F7F6F2] rounded-[3px] transition-colors cursor-pointer"
           >
-            <X size={18} />
+            <X size={16} strokeWidth={1.5} />
           </button>
         </div>
 
         {/* Server Error Alert */}
         {serverError && (
-          <div className="p-3 bg-[#C0392B]/10 border border-[#C0392B]/20 rounded-xl text-xs text-[#C0392B] flex items-start gap-2">
-            <AlertCircle size={16} className="shrink-0 mt-0.5" />
+          <div
+            className="mx-6 mt-4 p-3 bg-[#FDF2F2] border border-[#F0C9C9] rounded-[4px] text-[11px] text-[#A93226] flex items-start gap-2 shrink-0"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            <AlertCircle size={14} strokeWidth={1.5} className="shrink-0 mt-0.5" />
             <span>{serverError}</span>
           </div>
         )}
 
-        {/* Form Body */}
-        <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-4 overflow-y-auto pr-1 flex-1">
-          {/* Row 1: Name & Plural Name */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#5A524D]">
-                Category Name <span className="text-[#C0392B]">*</span>
-              </label>
-              <input
-                type="text"
-                placeholder="e.g. Lehenga"
-                {...register('name')}
-                onChange={handleNameChange}
-                disabled={isSubmitting}
-                className="w-full px-3 py-2 text-xs rounded-lg border border-[#E5DFD7] bg-[#FFFDFC] text-[#181515] focus:outline-none focus:border-[#B07D3E]"
-              />
-              {errors.name && (
-                <p className="text-[11px] text-[#C0392B]">{errors.name.message}</p>
-              )}
-            </div>
-
-            <div className="space-y-1">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#5A524D]">
-                Plural Name <span className="text-[#C0392B]">*</span>
-              </label>
-              <input
-                type="text"
-                placeholder="e.g. Lehengas"
-                {...register('plural_name')}
-                disabled={isSubmitting}
-                className="w-full px-3 py-2 text-xs rounded-lg border border-[#E5DFD7] bg-[#FFFDFC] text-[#181515] focus:outline-none focus:border-[#B07D3E]"
-              />
-              {errors.plural_name && (
-                <p className="text-[11px] text-[#C0392B]">{errors.plural_name.message}</p>
-              )}
-            </div>
-          </div>
-
-          {/* Row 2: Slug & Navigation Path */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-1">
-              <div className="flex items-center justify-between">
-                <label className="block text-xs font-semibold uppercase tracking-wider text-[#5A524D]">
-                  Slug (Primary Key) <span className="text-[#C0392B]">*</span>
+        {/* Form with Dedicated Scrollable Body & Fixed Footer */}
+        <form onSubmit={handleSubmit(onFormSubmit)} className="flex flex-col flex-1 min-h-0 overflow-hidden">
+          <div className="p-5 sm:p-6 overflow-y-auto flex-1 min-h-0 space-y-4">
+            {/* Row 1: Name & Plural Name */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <label
+                  className="block text-[10.5px] font-semibold uppercase tracking-[0.06em] text-[#55514E]"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  Category Name <span className="text-[#C0392B]">*</span>
                 </label>
-                {autoSlug && (
-                  <span className="text-[10px] text-[#B07D3E] font-medium">Auto-syncing</span>
+                <input
+                  type="text"
+                  placeholder="e.g. Lehenga"
+                  {...register('name')}
+                  onChange={handleNameChange}
+                  disabled={isSubmitting}
+                  className="w-full px-3.5 h-[38px] text-[12px] rounded-[4px] border border-[#E2DED6] bg-[#FFFFFF] text-[#202020] placeholder-[#9A968E] focus:outline-none focus:border-[#55514B]"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                />
+                {errors.name && (
+                  <p className="text-[10.5px] text-[#C0392B]">{errors.name.message}</p>
                 )}
               </div>
-              <input
-                type="text"
-                placeholder="e.g. lehengas"
-                {...register('slug')}
-                onChange={handleSlugManualChange}
-                disabled={isSubmitting}
-                className="w-full px-3 py-2 text-xs font-mono rounded-lg border border-[#E5DFD7] bg-[#FFFDFC] text-[#181515] focus:outline-none focus:border-[#B07D3E]"
-              />
-              {errors.slug && (
-                <p className="text-[11px] text-[#C0392B]">{errors.slug.message}</p>
-              )}
+
+              <div className="space-y-1.5">
+                <label
+                  className="block text-[10.5px] font-semibold uppercase tracking-[0.06em] text-[#55514E]"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  Plural Name <span className="text-[#C0392B]">*</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. Lehengas"
+                  {...register('plural_name')}
+                  disabled={isSubmitting}
+                  className="w-full px-3.5 h-[38px] text-[12px] rounded-[4px] border border-[#E2DED6] bg-[#FFFFFF] text-[#202020] placeholder-[#9A968E] focus:outline-none focus:border-[#55514B]"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                />
+                {errors.plural_name && (
+                  <p className="text-[10.5px] text-[#C0392B]">{errors.plural_name.message}</p>
+                )}
+              </div>
             </div>
 
-            <div className="space-y-1">
-              <label className="block text-xs font-semibold uppercase tracking-wider text-[#5A524D]">
-                Storefront Path <span className="text-[#C0392B]">*</span>
+            {/* Row 2: Slug & Navigation Path */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <label
+                    className="block text-[10.5px] font-semibold uppercase tracking-[0.06em] text-[#55514E]"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    Slug (Primary Key) <span className="text-[#C0392B]">*</span>
+                  </label>
+                  {autoSlug && (
+                    <span className="text-[10px] text-[#99958D] font-normal">Auto-syncing</span>
+                  )}
+                </div>
+                <input
+                  type="text"
+                  placeholder="e.g. lehengas"
+                  {...register('slug')}
+                  onChange={handleSlugManualChange}
+                  disabled={isSubmitting}
+                  className="w-full px-3.5 h-[38px] text-[12px] font-mono rounded-[4px] border border-[#E2DED6] bg-[#FFFFFF] text-[#202020] placeholder-[#9A968E] focus:outline-none focus:border-[#55514B]"
+                />
+                {errors.slug && (
+                  <p className="text-[10.5px] text-[#C0392B]">{errors.slug.message}</p>
+                )}
+              </div>
+
+              <div className="space-y-1.5">
+                <label
+                  className="block text-[10.5px] font-semibold uppercase tracking-[0.06em] text-[#55514E]"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  Storefront Path <span className="text-[#C0392B]">*</span>
+                </label>
+                <input
+                  type="text"
+                  placeholder="e.g. /lehengas"
+                  {...register('path')}
+                  disabled={isSubmitting}
+                  className="w-full px-3.5 h-[38px] text-[12px] font-mono rounded-[4px] border border-[#E2DED6] bg-[#FFFFFF] text-[#202020] placeholder-[#9A968E] focus:outline-none focus:border-[#55514B]"
+                />
+                {errors.path && (
+                  <p className="text-[10.5px] text-[#C0392B]">{errors.path.message}</p>
+                )}
+              </div>
+            </div>
+
+            {/* Row 3: Display Order */}
+            <div className="space-y-1.5">
+              <label
+                className="block text-[10.5px] font-semibold uppercase tracking-[0.06em] text-[#55514E]"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                Display Order
               </label>
               <input
-                type="text"
-                placeholder="e.g. /lehengas"
-                {...register('path')}
+                type="number"
+                min={0}
+                {...register('display_order', { valueAsNumber: true })}
                 disabled={isSubmitting}
-                className="w-full px-3 py-2 text-xs font-mono rounded-lg border border-[#E5DFD7] bg-[#FFFDFC] text-[#181515] focus:outline-none focus:border-[#B07D3E]"
+                className="w-32 px-3.5 h-[38px] text-[12px] font-mono rounded-[4px] border border-[#E2DED6] bg-[#FFFFFF] text-[#202020] focus:outline-none focus:border-[#55514B]"
               />
-              {errors.path && (
-                <p className="text-[11px] text-[#C0392B]">{errors.path.message}</p>
+              {errors.display_order && (
+                <p className="text-[10.5px] text-[#C0392B]">{errors.display_order.message}</p>
               )}
             </div>
-          </div>
 
-          {/* Row 3: Display Order */}
-          <div className="space-y-1">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-[#5A524D]">
-              Display Order
-            </label>
-            <input
-              type="number"
-              min={0}
-              {...register('display_order', { valueAsNumber: true })}
+            {/* Row 4: Short Description */}
+            <div className="space-y-1.5">
+              <label
+                className="block text-[10.5px] font-semibold uppercase tracking-[0.06em] text-[#55514E]"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                Summary Description <span className="text-[#C0392B]">*</span>
+              </label>
+              <textarea
+                rows={2}
+                placeholder="Brief overview used in category cards and grid headers..."
+                {...register('description')}
+                disabled={isSubmitting}
+                className="w-full p-3 text-[12px] rounded-[4px] border border-[#E2DED6] bg-[#FFFFFF] text-[#202020] placeholder-[#9A968E] focus:outline-none focus:border-[#55514B] resize-none"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              />
+              {errors.description && (
+                <p className="text-[10.5px] text-[#C0392B]">{errors.description.message}</p>
+              )}
+            </div>
+
+            {/* Row 5: Editorial Description */}
+            <div className="space-y-1.5">
+              <label
+                className="block text-[10.5px] font-semibold uppercase tracking-[0.06em] text-[#55514E]"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                Editorial Story <span className="text-[#C0392B]">*</span>
+              </label>
+              <textarea
+                rows={3}
+                placeholder="In-depth studio narrative displayed on the category landing page..."
+                {...register('editorial_description')}
+                disabled={isSubmitting}
+                className="w-full p-3 text-[12px] rounded-[4px] border border-[#E2DED6] bg-[#FFFFFF] text-[#202020] placeholder-[#9A968E] focus:outline-none focus:border-[#55514B]"
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              />
+              {errors.editorial_description && (
+                <p className="text-[10.5px] text-[#C0392B]">{errors.editorial_description.message}</p>
+              )}
+            </div>
+
+            {/* Row 6: Cover Image Uploader */}
+            <SingleImageUploader
+              currentImageUrl={initialData?.image}
+              onImageSelected={handleImageSelected}
+              error={errors.image?.message}
+              label="Category Cover Image"
               disabled={isSubmitting}
-              className="w-32 px-3 py-2 text-xs font-mono rounded-lg border border-[#E5DFD7] bg-[#FFFDFC] text-[#181515] focus:outline-none focus:border-[#B07D3E]"
             />
-            {errors.display_order && (
-              <p className="text-[11px] text-[#C0392B]">{errors.display_order.message}</p>
-            )}
           </div>
 
-          {/* Row 4: Short Description */}
-          <div className="space-y-1">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-[#5A524D]">
-              Summary Description <span className="text-[#C0392B]">*</span>
-            </label>
-            <textarea
-              rows={2}
-              placeholder="Brief overview used in category cards and grid headers..."
-              {...register('description')}
-              disabled={isSubmitting}
-              className="w-full px-3 py-2 text-xs rounded-lg border border-[#E5DFD7] bg-[#FFFDFC] text-[#181515] focus:outline-none focus:border-[#B07D3E] resize-none"
-            />
-            {errors.description && (
-              <p className="text-[11px] text-[#C0392B]">{errors.description.message}</p>
-            )}
-          </div>
-
-          {/* Row 5: Editorial Description */}
-          <div className="space-y-1">
-            <label className="block text-xs font-semibold uppercase tracking-wider text-[#5A524D]">
-              Editorial Story <span className="text-[#C0392B]">*</span>
-            </label>
-            <textarea
-              rows={4}
-              placeholder="In-depth studio narrative displayed on the category landing page..."
-              {...register('editorial_description')}
-              disabled={isSubmitting}
-              className="w-full px-3 py-2 text-xs rounded-lg border border-[#E5DFD7] bg-[#FFFDFC] text-[#181515] focus:outline-none focus:border-[#B07D3E]"
-            />
-            {errors.editorial_description && (
-              <p className="text-[11px] text-[#C0392B]">{errors.editorial_description.message}</p>
-            )}
-          </div>
-
-          {/* Row 6: Cover Image Uploader */}
-          <SingleImageUploader
-            currentImageUrl={initialData?.image}
-            onImageSelected={handleImageSelected}
-            error={errors.image?.message}
-            label="Category Cover Image"
-            disabled={isSubmitting}
-          />
-
-          {/* Footer Buttons */}
-          <div className="flex items-center justify-end gap-2.5 pt-4 border-t border-[#E5DFD7]">
+          {/* Fixed Footer Buttons */}
+          <div className="p-4 sm:px-6 bg-[#FAF9F5] border-t border-[#E4E1DA] flex items-center justify-end gap-3.5 shrink-0">
             <button
               type="button"
               onClick={onClose}
               disabled={isSubmitting}
-              className="px-4 py-2 text-xs font-medium text-[#5A524D] hover:text-[#181515] bg-[#F7F5F0] hover:bg-[#E5DFD7] rounded-lg transition-colors disabled:opacity-50"
+              className="h-[38px] px-5 bg-[#FFFFFF] border border-[#111111] text-[#111111] hover:bg-[#EAE7E0] hover:text-[#111111] text-[11px] font-semibold uppercase tracking-[0.06em] rounded-[6px] transition-colors disabled:opacity-50 shadow-xs cursor-pointer"
+              style={{ fontFamily: "'Inter', sans-serif" }}
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={isSubmitting}
-              className="inline-flex items-center gap-2 px-5 py-2 text-xs font-medium uppercase tracking-wider text-[#FFFDFC] bg-[#181515] hover:bg-[#2A2421] rounded-lg transition-colors shadow-sm disabled:opacity-50"
+              className="inline-flex items-center justify-center gap-2 h-[38px] px-6 bg-[#FFFFFF] hover:bg-[#EAE7E0] hover:text-[#111111] border border-[#111111] text-[#111111] text-[11px] font-semibold uppercase tracking-[0.06em] rounded-[6px] transition-colors shadow-xs disabled:opacity-50 cursor-pointer"
+              style={{ fontFamily: "'Inter', sans-serif" }}
             >
-              {isSubmitting && <Loader2 size={14} className="animate-spin" />}
-              <span>{isEditing ? 'Save Changes' : 'Create Category'}</span>
+              <span>{isSubmitting ? 'Saving…' : isEditing ? 'Save Changes' : 'Create Category'}</span>
             </button>
           </div>
         </form>

@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { Search, ChevronDown } from 'lucide-react';
 import { ProductQueryOptions } from '@/lib/validations/product.schema';
 
 interface CategoryOption { slug: string; name: string; }
@@ -16,11 +15,11 @@ interface ProductFilterToolbarProps {
 }
 
 const inputBase = [
-  'border border-[#E4E1DA] bg-[#FFFFFF] text-[#202020] placeholder-[#99958D]',
-  'focus:outline-none focus:border-[#171717]',
-  'transition-colors duration-150 rounded-[3px]',
-  'text-[11px]',
-  'h-[36px]',
+  'border border-[#E2DED6] bg-[#FFFFFF] text-[#202020] placeholder-[#9A968E]',
+  'focus:outline-none focus:border-[#55514B]',
+  'transition-colors duration-150 rounded-[4px]',
+  'text-[12px]',
+  'h-[38px]',
 ].join(' ');
 
 export default function ProductFilterToolbar({
@@ -31,28 +30,27 @@ export default function ProductFilterToolbar({
   totalCount,
 }: ProductFilterToolbarProps) {
   return (
-    <div className="space-y-2.5">
+    <div className="space-y-3">
       {/* Row 1: Search + dropdowns */}
-      <div className="flex flex-wrap items-center gap-2">
+      <div className="flex flex-wrap items-center gap-2.5">
         {/* Search */}
-        <div className="relative flex-1 min-w-48">
-          <Search size={13} strokeWidth={1.4} className="absolute left-3 top-1/2 -translate-y-1/2 text-[#99958D]" />
+        <div className="relative flex-1 min-w-56">
           <input
             type="text"
-            placeholder="Search by name, slug, or fabric..."
+            placeholder="Search silhouettes, fabrics, names..."
             value={filters.searchQuery || ''}
             onChange={(e) => onFiltersChange({ searchQuery: e.target.value, page: 1 })}
-            className={`${inputBase} w-full pl-8 pr-3`}
+            className={`${inputBase} w-full px-3.5`}
             style={{ fontFamily: "'Inter', sans-serif" }}
           />
         </div>
 
         {/* Category dropdown */}
-        <div className="relative">
+        <div className="relative w-[160px]">
           <select
             value={filters.categorySlug || 'all'}
             onChange={(e) => onFiltersChange({ categorySlug: e.target.value, page: 1 })}
-            className={`${inputBase} pl-3 pr-8 appearance-none cursor-pointer`}
+            className={`${inputBase} w-full px-3 cursor-pointer`}
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             <option value="all">All Categories</option>
@@ -60,15 +58,14 @@ export default function ProductFilterToolbar({
               <option key={c.slug} value={c.slug}>{c.name}</option>
             ))}
           </select>
-          <ChevronDown size={11} strokeWidth={1.5} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#99958D] pointer-events-none" />
         </div>
 
         {/* Collection dropdown */}
-        <div className="relative">
+        <div className="relative w-[160px]">
           <select
             value={filters.collectionSlug || 'all'}
             onChange={(e) => onFiltersChange({ collectionSlug: e.target.value, page: 1 })}
-            className={`${inputBase} pl-3 pr-8 appearance-none cursor-pointer`}
+            className={`${inputBase} w-full px-3 cursor-pointer`}
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             <option value="all">All Collections</option>
@@ -77,12 +74,11 @@ export default function ProductFilterToolbar({
               <option key={c.slug} value={c.slug}>{c.name}</option>
             ))}
           </select>
-          <ChevronDown size={11} strokeWidth={1.5} className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#99958D] pointer-events-none" />
         </div>
 
         {/* Total count */}
         <div
-          className="ml-auto text-[10px] text-[#9B9891] whitespace-nowrap font-normal tracking-wide"
+          className="ml-auto text-[11px] text-[#99958D] whitespace-nowrap font-normal"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
           {totalCount} {totalCount === 1 ? 'product' : 'products'}
@@ -90,7 +86,7 @@ export default function ProductFilterToolbar({
       </div>
 
       {/* Row 2: Status / Merchandising tabs */}
-      <div className="flex flex-wrap items-center gap-1.5">
+      <div className="flex flex-wrap items-center gap-3">
         {/* All / Active / Draft tabs */}
         {(['all', 'active', 'draft'] as const).map((status) => {
           const isActive = (filters.status || 'all') === status;
@@ -99,10 +95,10 @@ export default function ProductFilterToolbar({
               key={status}
               type="button"
               onClick={() => onFiltersChange({ status, page: 1 })}
-              className={`h-[28px] px-3 text-[10px] tracking-[0.1em] uppercase border transition-colors duration-150 rounded-[3px] font-normal ${
+              className={`h-[34px] px-4 text-[11px] tracking-[0.06em] uppercase border transition-colors duration-150 rounded-[6px] font-semibold ${
                 isActive
                   ? 'bg-[#111111] text-white border-[#111111]'
-                  : 'bg-[#FFFFFF] text-[#6F6D68] border-[#E4E1DA] hover:border-[#171717] hover:text-[#171717]'
+                  : 'bg-[#FFFFFF] text-[#68655F] border-[#E4E1DA] hover:border-[#171717] hover:text-[#171717]'
               }`}
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
@@ -115,24 +111,24 @@ export default function ProductFilterToolbar({
         <button
           type="button"
           onClick={() => onFiltersChange({ featuredOnly: !filters.featuredOnly, page: 1 })}
-          className={`h-[28px] px-3 text-[10px] tracking-[0.1em] uppercase border transition-colors duration-150 rounded-[3px] font-normal ${
+          className={`h-[34px] px-4 text-[11px] tracking-[0.06em] uppercase border transition-colors duration-150 rounded-[6px] font-semibold ${
             filters.featuredOnly
               ? 'bg-[#111111] text-white border-[#111111]'
-              : 'bg-[#FFFFFF] text-[#6F6D68] border-[#E4E1DA] hover:border-[#171717] hover:text-[#171717]'
+              : 'bg-[#FFFFFF] text-[#68655F] border-[#E4E1DA] hover:border-[#171717] hover:text-[#171717]'
           }`}
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
-          ★ Featured
+          Featured
         </button>
 
         {/* New Arrivals chip */}
         <button
           type="button"
           onClick={() => onFiltersChange({ newOnly: !filters.newOnly, page: 1 })}
-          className={`h-[28px] px-3 text-[10px] tracking-[0.1em] uppercase border transition-colors duration-150 rounded-[3px] font-normal ${
+          className={`h-[34px] px-4 text-[11px] tracking-[0.06em] uppercase border transition-colors duration-150 rounded-[6px] font-semibold ${
             filters.newOnly
               ? 'bg-[#111111] text-white border-[#111111]'
-              : 'bg-[#FFFFFF] text-[#6F6D68] border-[#E4E1DA] hover:border-[#171717] hover:text-[#171717]'
+              : 'bg-[#FFFFFF] text-[#68655F] border-[#E4E1DA] hover:border-[#171717] hover:text-[#171717]'
           }`}
           style={{ fontFamily: "'Inter', sans-serif" }}
         >

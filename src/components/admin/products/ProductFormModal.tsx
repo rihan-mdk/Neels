@@ -240,47 +240,47 @@ export default function ProductFormModal({
     : 'Create New Product';
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#0D0D0D]/60">
-      <div className="bg-[#FFFFFF] border border-[#E7E4DD] rounded-[4px] max-w-4xl w-full shadow-xl flex flex-col max-h-[92vh] h-[92vh] md:h-[840px] overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 bg-[#111111]/60 backdrop-blur-[2px]">
+      <div className="bg-[#FFFFFF] border border-[#E4E1DA] rounded-[8px] max-w-3xl w-full shadow-[0_12px_40px_rgba(0,0,0,0.08)] flex flex-col max-h-[88vh] overflow-hidden">
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-8 py-5 border-b border-[#E7E4DD] shrink-0 bg-[#FFFFFF]">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-[#E4E1DA] shrink-0 bg-[#FFFFFF]">
           <div>
             <h2
-              className="text-[24px] font-light text-[#171717] tracking-tight"
+              className="text-[23px] font-normal text-[#171717] tracking-tight leading-none"
               style={{ fontFamily: "'Cormorant Garamond', serif" }}
             >
               {modalTitle}
             </h2>
             <p
-              className="text-[10px] text-[#9B9891] mt-0.5 font-normal tracking-wide"
+              className="text-[11px] text-[#817D76] mt-1 font-normal tracking-wide"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               {isClone
                 ? 'Creating a draft clone — images are reused, metadata is independent'
-                : 'Configure all product attributes, media, and merchandising signals'}
+                : 'Configure product attributes, media, and merchandising signals'}
             </p>
           </div>
           <button
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="p-1.5 text-[#9B9891] hover:text-[#171717] hover:bg-[#F7F6F2] rounded-[3px] transition-colors duration-150"
+            className="w-8 h-8 flex items-center justify-center text-[#99958D] hover:text-[#171717] hover:bg-[#F7F6F2] rounded-[6px] border border-transparent hover:border-[#E4E1DA] transition-colors duration-150 text-sm font-bold"
           >
-            <X size={16} strokeWidth={1.5} />
+            ✕
           </button>
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-[#E7E4DD] shrink-0 overflow-x-auto px-8 bg-[#F3F0E9] gap-6">
+        <div className="flex border-b border-[#E4E1DA] shrink-0 overflow-x-auto px-6 bg-[#FFFFFF] gap-5">
           {TABS.map((tab) => (
             <button
               key={tab.key}
               type="button"
               onClick={() => setActiveTab(tab.key)}
-              className={`py-3 text-[10px] uppercase tracking-[0.14em] font-normal whitespace-nowrap border-b-2 transition-colors duration-150 ${
+              className={`py-2.5 text-[10.5px] uppercase tracking-[0.1em] font-semibold whitespace-nowrap border-b-2 transition-colors duration-150 ${
                 activeTab === tab.key
                   ? 'border-[#171717] text-[#171717]'
-                  : 'border-transparent text-[#9B9891] hover:text-[#6F6D68]'
+                  : 'border-transparent text-[#99958D] hover:text-[#171717]'
               }`}
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
@@ -292,10 +292,9 @@ export default function ProductFormModal({
         {/* Error Banner */}
         {serverError && (
           <div
-            className="mx-8 mt-4 px-4 py-3 bg-[#FDF2F2] border border-[#F0C9C9] rounded-[3px] text-[11px] text-[#A93226] flex items-start gap-2.5 shrink-0"
+            className="mx-6 mt-3 px-4 py-2.5 bg-[#FDF2F2] border border-[#F0C9C9] rounded-[6px] text-[11.5px] text-[#A93226] flex items-start gap-2.5 shrink-0"
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
-            <AlertCircle size={14} strokeWidth={1.5} className="shrink-0 mt-0.5" />
             <span>{serverError}</span>
           </div>
         )}
@@ -305,17 +304,17 @@ export default function ProductFormModal({
           onSubmit={handleSubmit(onFormSubmit)}
           className="flex-1 flex flex-col min-h-0 overflow-hidden"
         >
-          <div className="px-8 py-6 space-y-5 flex-1 overflow-y-auto bg-[#FFFFFF]">
+          <div className="px-6 py-4 space-y-3.5 flex-1 overflow-y-auto bg-[#FFFFFF]">
             {/* ===== TAB: IDENTITY ===== */}
             {activeTab === 'identity' && (
-              <div className="p-6 bg-[#FFFFFF] border border-[#E7E4DD] rounded-[4px] space-y-4">
+              <div className="space-y-3.5">
                 {/* Name */}
-                <div className="space-y-1.5">
+                <div className="space-y-1">
                   <label
-                    className="block text-[10px] font-normal uppercase tracking-[0.14em] text-[#6F6D68]"
+                    className="block text-[10px] font-semibold uppercase tracking-[0.08em] text-[#55514E]"
                     style={{ fontFamily: "'Inter', sans-serif" }}
                   >
-                    Product Name <span className="text-[#C0392B]">*</span>
+                    Product Name <span className="text-[#A93226]">*</span>
                   </label>
                   <input
                     type="text"
@@ -323,30 +322,29 @@ export default function ProductFormModal({
                     {...register('name')}
                     onChange={handleNameChange}
                     disabled={isSubmitting}
-                    className="w-full px-3 py-2.5 text-[12px] rounded-[3px] border border-[#E4E1DA] bg-[#FFFFFF] text-[#202020] placeholder-[#99958D] focus:outline-none focus:border-[#171717] transition-colors duration-150"
+                    className="w-full h-[38px] px-3.5 text-[12.5px] rounded-[6px] border border-[#E2DED6] bg-[#FFFFFF] text-[#171717] placeholder-[#9A968E] focus:outline-none focus:border-[#55514B] transition-colors duration-150"
                     style={{ fontFamily: "'Inter', sans-serif" }}
                   />
-                  {errors.name && <p className="text-[10px] text-[#C0392B]" style={{ fontFamily: "'Inter', sans-serif" }}>{errors.name.message}</p>}
+                  {errors.name && <p className="text-[11px] text-[#A93226]" style={{ fontFamily: "'Inter', sans-serif" }}>{errors.name.message}</p>}
                 </div>
 
                 {/* Slug */}
-                <div className="space-y-1.5">
+                <div className="space-y-1">
                   <div className="flex items-center justify-between">
                     <label
-                      className="block text-[10px] font-normal uppercase tracking-[0.14em] text-[#6F6D68]"
+                      className="block text-[10px] font-semibold uppercase tracking-[0.08em] text-[#55514E]"
                       style={{ fontFamily: "'Inter', sans-serif" }}
                     >
-                      Slug (Primary Key) <span className="text-[#C0392B]">*</span>
+                      Slug (Primary Key) <span className="text-[#A93226]">*</span>
                     </label>
                     <button
                       type="button"
                       onClick={() => setSlugLocked(!slugLocked)}
                       disabled={isSubmitting}
-                      className="inline-flex items-center gap-1 text-[10px] text-[#9B9891] hover:text-[#171717] transition-colors duration-150"
+                      className="inline-flex items-center gap-1 text-[10.5px] text-[#99958D] hover:text-[#171717] font-medium transition-colors duration-150"
                       style={{ fontFamily: "'Inter', sans-serif" }}
                     >
-                      {slugLocked ? <Lock size={11} strokeWidth={1.5} /> : <Unlock size={11} strokeWidth={1.5} />}
-                      <span>{slugLocked ? 'Locked' : 'Editing'}</span>
+                      <span>{slugLocked ? '[Locked]' : '[Editing]'}</span>
                     </button>
                   </div>
                   <input
@@ -354,43 +352,42 @@ export default function ProductFormModal({
                     placeholder="e.g. heritage-ivory-embroidered-lehenga"
                     {...register('slug')}
                     disabled={isSubmitting || (slugLocked && isEditing)}
-                    className="w-full px-3 py-2.5 text-[12px] font-mono rounded-[3px] border border-[#E4E1DA] bg-[#FFFFFF] text-[#202020] placeholder-[#99958D] focus:outline-none focus:border-[#171717] disabled:opacity-50 transition-colors duration-150"
+                    className="w-full h-[38px] px-3.5 text-[12.5px] font-mono rounded-[6px] border border-[#E2DED6] bg-[#FFFFFF] text-[#171717] placeholder-[#9A968E] focus:outline-none focus:border-[#55514B] disabled:opacity-50 transition-colors duration-150"
                   />
-                  {errors.slug && <p className="text-[10px] text-[#C0392B]" style={{ fontFamily: "'Inter', sans-serif" }}>{errors.slug.message}</p>}
+                  {errors.slug && <p className="text-[11px] text-[#A93226]" style={{ fontFamily: "'Inter', sans-serif" }}>{errors.slug.message}</p>}
                 </div>
 
-                {/* Brand */}
-                <div className="space-y-1.5">
-                  <label
-                    className="block text-[10px] font-normal uppercase tracking-[0.14em] text-[#6F6D68]"
-                    style={{ fontFamily: "'Inter', sans-serif" }}
-                  >
-                    Brand <span className="text-[#C0392B]">*</span>
-                  </label>
-                  <input
-                    type="text"
-                    placeholder="Neels"
-                    {...register('brand')}
-                    disabled={isSubmitting}
-                    className="w-full sm:w-64 px-3 py-2.5 text-[12px] rounded-[3px] border border-[#E4E1DA] bg-[#FFFFFF] text-[#202020] placeholder-[#99958D] focus:outline-none focus:border-[#171717] transition-colors duration-150"
-                    style={{ fontFamily: "'Inter', sans-serif" }}
-                  />
-                  {errors.brand && <p className="text-[10px] text-[#C0392B]" style={{ fontFamily: "'Inter', sans-serif" }}>{errors.brand.message}</p>}
-                </div>
-
-                {/* Category & Collection */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
+                {/* Brand & Category */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                  <div className="space-y-1">
                     <label
-                      className="block text-[10px] font-normal uppercase tracking-[0.14em] text-[#6F6D68]"
+                      className="block text-[10px] font-semibold uppercase tracking-[0.08em] text-[#55514E]"
                       style={{ fontFamily: "'Inter', sans-serif" }}
                     >
-                      Category <span className="text-[#C0392B]">*</span>
+                      Brand <span className="text-[#A93226]">*</span>
+                    </label>
+                    <input
+                      type="text"
+                      placeholder="Neels"
+                      {...register('brand')}
+                      disabled={isSubmitting}
+                      className="w-full h-[38px] px-3.5 text-[12.5px] rounded-[6px] border border-[#E2DED6] bg-[#FFFFFF] text-[#171717] placeholder-[#9A968E] focus:outline-none focus:border-[#55514B] transition-colors duration-150"
+                      style={{ fontFamily: "'Inter', sans-serif" }}
+                    />
+                    {errors.brand && <p className="text-[11px] text-[#A93226]" style={{ fontFamily: "'Inter', sans-serif" }}>{errors.brand.message}</p>}
+                  </div>
+
+                  <div className="space-y-1">
+                    <label
+                      className="block text-[10px] font-semibold uppercase tracking-[0.08em] text-[#55514E]"
+                      style={{ fontFamily: "'Inter', sans-serif" }}
+                    >
+                      Category <span className="text-[#A93226]">*</span>
                     </label>
                     <select
                       {...register('category_slug')}
                       disabled={isSubmitting}
-                      className="w-full px-3 py-2.5 text-[12px] rounded-[3px] border border-[#E4E1DA] bg-[#FFFFFF] text-[#202020] focus:outline-none focus:border-[#171717] transition-colors duration-150"
+                      className="w-full h-[38px] px-3 text-[12.5px] rounded-[6px] border border-[#E2DED6] bg-[#FFFFFF] text-[#171717] focus:outline-none focus:border-[#55514B] transition-colors duration-150"
                       style={{ fontFamily: "'Inter', sans-serif" }}
                     >
                       <option value="">Select category...</option>
@@ -401,51 +398,52 @@ export default function ProductFormModal({
                       ))}
                     </select>
                     {errors.category_slug && (
-                      <p className="text-[10px] text-[#C0392B]" style={{ fontFamily: "'Inter', sans-serif" }}>{errors.category_slug.message}</p>
+                      <p className="text-[11px] text-[#A93226]" style={{ fontFamily: "'Inter', sans-serif" }}>{errors.category_slug.message}</p>
                     )}
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <label
-                      className="block text-[10px] font-normal uppercase tracking-[0.14em] text-[#6F6D68]"
-                      style={{ fontFamily: "'Inter', sans-serif" }}
-                    >
-                      Collection (Optional)
-                    </label>
-                    <select
-                      {...register('collection_slug')}
-                      disabled={isSubmitting}
-                      className="w-full px-3 py-2.5 text-[12px] rounded-[3px] border border-[#E4E1DA] bg-[#FFFFFF] text-[#202020] focus:outline-none focus:border-[#171717] transition-colors duration-150"
-                      style={{ fontFamily: "'Inter', sans-serif" }}
-                    >
-                      <option value="">No collection</option>
-                      {collections.map((col) => (
-                        <option key={col.slug} value={col.slug}>
-                          {col.name}
-                        </option>
-                      ))}
-                    </select>
                   </div>
                 </div>
 
-                {/* Description */}
-                <div className="space-y-1.5">
+                {/* Collection */}
+                <div className="space-y-1">
                   <label
-                    className="block text-[10px] font-normal uppercase tracking-[0.14em] text-[#6F6D68]"
+                    className="block text-[10px] font-semibold uppercase tracking-[0.08em] text-[#55514E]"
                     style={{ fontFamily: "'Inter', sans-serif" }}
                   >
-                    Product Description <span className="text-[#C0392B]">*</span>
+                    Collection (Optional)
+                  </label>
+                  <select
+                    {...register('collection_slug')}
+                    disabled={isSubmitting}
+                    className="w-full h-[38px] px-3 text-[12.5px] rounded-[6px] border border-[#E2DED6] bg-[#FFFFFF] text-[#171717] focus:outline-none focus:border-[#55514B] transition-colors duration-150"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    <option value="">No collection</option>
+                    {collections.map((col) => (
+                      <option key={col.slug} value={col.slug}>
+                        {col.name}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                {/* Description */}
+                <div className="space-y-1">
+                  <label
+                    className="block text-[10px] font-semibold uppercase tracking-[0.08em] text-[#55514E]"
+                    style={{ fontFamily: "'Inter', sans-serif" }}
+                  >
+                    Product Description <span className="text-[#A93226]">*</span>
                   </label>
                   <textarea
-                    rows={3}
+                    rows={2}
                     placeholder="Short evocative description for product cards and overview..."
                     {...register('description')}
                     disabled={isSubmitting}
-                    className="w-full px-3 py-2.5 text-[12px] rounded-[3px] border border-[#E4E1DA] bg-[#FFFFFF] text-[#202020] placeholder-[#99958D] focus:outline-none focus:border-[#171717] resize-none transition-colors duration-150"
+                    className="w-full p-3 text-[12.5px] rounded-[6px] border border-[#E2DED6] bg-[#FFFFFF] text-[#171717] placeholder-[#9A968E] focus:outline-none focus:border-[#55514B] resize-none transition-colors duration-150"
                     style={{ fontFamily: "'Inter', sans-serif" }}
                   />
                   {errors.description && (
-                    <p className="text-[10px] text-[#C0392B]" style={{ fontFamily: "'Inter', sans-serif" }}>{errors.description.message}</p>
+                    <p className="text-[11px] text-[#A93226]" style={{ fontFamily: "'Inter', sans-serif" }}>{errors.description.message}</p>
                   )}
                 </div>
               </div>
@@ -453,44 +451,44 @@ export default function ProductFormModal({
 
             {/* ===== TAB: PRICING ===== */}
             {activeTab === 'pricing' && (
-              <div className="p-6 bg-[#FFFFFF] border border-[#E7E4DD] rounded-[4px] space-y-4">
+              <div className="space-y-3.5">
                 {/* Price on Request toggle */}
-                <div className="flex items-start gap-3.5 p-4 bg-[#F7F6F2] border border-[#E7E4DD] rounded-[3px]">
+                <div className="flex items-start gap-3 p-3.5 bg-[#F7F6F2] border border-[#E4E1DA] rounded-[6px]">
                   <input
                     type="checkbox"
                     id="price-on-request"
                     checked={isPriceOnRequest}
                     onChange={(e) => handlePriceOnRequestToggle(e.target.checked)}
                     disabled={isSubmitting}
-                    className="mt-0.5 rounded text-[#101010]"
+                    className="mt-0.5 rounded text-[#111111] focus:ring-0"
                   />
                   <div>
                     <label
                       htmlFor="price-on-request"
-                      className="text-[11px] font-normal uppercase tracking-[0.1em] text-[#171717] cursor-pointer"
+                      className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#171717] cursor-pointer"
                       style={{ fontFamily: "'Inter', sans-serif" }}
                     >
                       Price on Request
                     </label>
-                    <p className="text-[10px] text-[#9B9891] mt-0.5" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    <p className="text-[11px] text-[#99958D] mt-0.5" style={{ fontFamily: "'Inter', sans-serif" }}>
                       Used for bespoke bridal pieces or highly exclusive items where a fixed price isn't displayed
                     </p>
                   </div>
                 </div>
 
                 {!isPriceOnRequest && (
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     {/* Numeric price input */}
-                    <div className="space-y-1.5">
+                    <div className="space-y-1">
                       <label
-                        className="block text-[10px] font-normal uppercase tracking-[0.14em] text-[#6F6D68]"
+                        className="block text-[10px] font-semibold uppercase tracking-[0.08em] text-[#55514E]"
                         style={{ fontFamily: "'Inter', sans-serif" }}
                       >
-                        Price (₹) <span className="text-[#C0392B]">*</span>
+                        Price (₹) <span className="text-[#A93226]">*</span>
                       </label>
                       <div className="relative">
                         <span
-                          className="absolute left-3 top-1/2 -translate-y-1/2 text-[#9B9891] text-[12px] font-normal"
+                          className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#99958D] text-[13px] font-normal"
                           style={{ fontFamily: "'Inter', sans-serif" }}
                         >
                           ₹
@@ -503,29 +501,29 @@ export default function ProductFormModal({
                           onChange={handlePriceChange}
                           defaultValue={initialData?.price ?? undefined}
                           disabled={isSubmitting}
-                          className="w-full pl-7 pr-3 py-2.5 text-[12px] rounded-[3px] border border-[#E4E1DA] bg-[#FFFFFF] text-[#202020] placeholder-[#99958D] focus:outline-none focus:border-[#171717] transition-colors duration-150"
+                          className="w-full h-[38px] pl-8 pr-3.5 text-[12.5px] rounded-[6px] border border-[#E2DED6] bg-[#FFFFFF] text-[#171717] placeholder-[#9A968E] focus:outline-none focus:border-[#55514B] transition-colors duration-150"
                           style={{ fontFamily: "'Inter', sans-serif" }}
                         />
                       </div>
                       {errors.price && (
-                        <p className="text-[10px] text-[#C0392B]" style={{ fontFamily: "'Inter', sans-serif" }}>{errors.price.message}</p>
+                        <p className="text-[11px] text-[#A93226]" style={{ fontFamily: "'Inter', sans-serif" }}>{errors.price.message}</p>
                       )}
                     </div>
 
                     {/* Formatted preview */}
-                    <div className="space-y-1.5">
+                    <div className="space-y-1">
                       <label
-                        className="block text-[10px] font-normal uppercase tracking-[0.14em] text-[#6F6D68]"
+                        className="block text-[10px] font-semibold uppercase tracking-[0.08em] text-[#55514E]"
                         style={{ fontFamily: "'Inter', sans-serif" }}
                       >
                         Formatted Preview
                       </label>
                       <div
-                        className="px-3 py-2.5 bg-[#F7F6F2] rounded-[3px] border border-[#E7E4DD] text-[12px] font-normal text-[#171717] h-[38px] flex items-center"
-                        style={{ fontFamily: "'Inter', sans-serif" }}
+                        className="px-3.5 bg-[#F3F0E9] rounded-[6px] border border-[#E4E1DA] text-[15px] font-serif font-medium text-[#171717] h-[38px] flex items-center"
+                        style={{ fontFamily: "'Cormorant Garamond', serif" }}
                       >
                         {watch('price_formatted') || (
-                          <span className="text-[#99958D] italic text-[11px]">Auto-generated from price above</span>
+                          <span className="text-[#99958D] italic text-[11px] font-sans font-normal">Auto-generated from price above</span>
                         )}
                       </div>
                     </div>
@@ -534,7 +532,7 @@ export default function ProductFormModal({
 
                 {isPriceOnRequest && (
                   <div
-                    className="p-3 bg-[#F7F6F2] border border-[#E7E4DD] rounded-[3px] text-[11px] text-[#6F6D68] font-normal uppercase tracking-wider"
+                    className="p-3 bg-[#F7F6F2] border border-[#E4E1DA] rounded-[6px] text-[11px] text-[#68655F] font-medium uppercase tracking-wider"
                     style={{ fontFamily: "'Inter', sans-serif" }}
                   >
                     Price will display as "PRICE ON REQUEST" on the storefront
@@ -567,7 +565,7 @@ export default function ProductFormModal({
 
             {/* ===== TAB: CRAFT & SIZING ===== */}
             {activeTab === 'craft' && (
-              <div className="space-y-5">
+              <div className="space-y-3.5">
                 {/* Sizes Selector */}
                 <Controller
                   control={control}
@@ -583,42 +581,42 @@ export default function ProductFormModal({
                 />
 
                 {/* Fabric & Care Card */}
-                <div className="p-6 bg-[#FFFFFF] border border-[#E7E4DD] rounded-[4px] space-y-4">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div className="space-y-1.5">
+                <div className="p-4 bg-[#FFFFFF] border border-[#E4E1DA] rounded-[6px] space-y-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    <div className="space-y-1">
                       <label
-                        className="block text-[10px] font-normal uppercase tracking-[0.14em] text-[#6F6D68]"
+                        className="block text-[10px] font-semibold uppercase tracking-[0.08em] text-[#55514E]"
                         style={{ fontFamily: "'Inter', sans-serif" }}
                       >
-                        Fabric & Textiles <span className="text-[#C0392B]">*</span>
+                        Fabric & Textiles <span className="text-[#A93226]">*</span>
                       </label>
                       <input
                         type="text"
                         placeholder="e.g. Handwoven Banarasi silk"
                         {...register('fabric')}
                         disabled={isSubmitting}
-                        className="w-full px-3 py-2.5 text-[12px] rounded-[3px] border border-[#E4E1DA] bg-[#FFFFFF] text-[#202020] placeholder-[#99958D] focus:outline-none focus:border-[#171717] transition-colors duration-150"
+                        className="w-full h-[38px] px-3.5 text-[12.5px] rounded-[6px] border border-[#E2DED6] bg-[#FFFFFF] text-[#171717] placeholder-[#9A968E] focus:outline-none focus:border-[#55514B] transition-colors duration-150"
                         style={{ fontFamily: "'Inter', sans-serif" }}
                       />
-                      {errors.fabric && <p className="text-[10px] text-[#C0392B]" style={{ fontFamily: "'Inter', sans-serif" }}>{errors.fabric.message}</p>}
+                      {errors.fabric && <p className="text-[11px] text-[#A93226]" style={{ fontFamily: "'Inter', sans-serif" }}>{errors.fabric.message}</p>}
                     </div>
 
-                    <div className="space-y-1.5">
+                    <div className="space-y-1">
                       <label
-                        className="block text-[10px] font-normal uppercase tracking-[0.14em] text-[#6F6D68]"
+                        className="block text-[10px] font-semibold uppercase tracking-[0.08em] text-[#55514E]"
                         style={{ fontFamily: "'Inter', sans-serif" }}
                       >
-                        Care Instructions <span className="text-[#C0392B]">*</span>
+                        Care Instructions <span className="text-[#A93226]">*</span>
                       </label>
                       <input
                         type="text"
                         placeholder="e.g. Dry clean only. Store in breathable cotton bag."
                         {...register('care')}
                         disabled={isSubmitting}
-                        className="w-full px-3 py-2.5 text-[12px] rounded-[3px] border border-[#E4E1DA] bg-[#FFFFFF] text-[#202020] placeholder-[#99958D] focus:outline-none focus:border-[#171717] transition-colors duration-150"
+                        className="w-full h-[38px] px-3.5 text-[12.5px] rounded-[6px] border border-[#E2DED6] bg-[#FFFFFF] text-[#171717] placeholder-[#9A968E] focus:outline-none focus:border-[#55514B] transition-colors duration-150"
                         style={{ fontFamily: "'Inter', sans-serif" }}
                       />
-                      {errors.care && <p className="text-[10px] text-[#C0392B]" style={{ fontFamily: "'Inter', sans-serif" }}>{errors.care.message}</p>}
+                      {errors.care && <p className="text-[11px] text-[#A93226]" style={{ fontFamily: "'Inter', sans-serif" }}>{errors.care.message}</p>}
                     </div>
                   </div>
                 </div>
@@ -641,9 +639,9 @@ export default function ProductFormModal({
 
             {/* ===== TAB: MERCHANDISING ===== */}
             {activeTab === 'merchandising' && (
-              <div className="space-y-3">
+              <div className="space-y-2.5">
                 {/* is_active */}
-                <div className="flex items-start gap-4 p-5 bg-[#FFFFFF] border border-[#E7E4DD] hover:border-[#171717]/20 rounded-[4px] transition-colors duration-150">
+                <div className="flex items-start gap-3.5 p-4 bg-[#FFFFFF] border border-[#E4E1DA] hover:border-[#171717]/30 rounded-[6px] transition-colors duration-150">
                   <Controller
                     control={control}
                     name="is_active"
@@ -654,26 +652,26 @@ export default function ProductFormModal({
                         checked={field.value}
                         onChange={(e) => field.onChange(e.target.checked)}
                         disabled={isSubmitting}
-                        className="mt-1 rounded text-[#101010]"
+                        className="mt-0.5 rounded text-[#111111] focus:ring-0"
                       />
                     )}
                   />
                   <div>
                     <label
                       htmlFor="is-active"
-                      className="text-[11px] font-normal uppercase tracking-[0.12em] text-[#171717] cursor-pointer"
+                      className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#171717] cursor-pointer"
                       style={{ fontFamily: "'Inter', sans-serif" }}
                     >
                       Published & Live
                     </label>
-                    <p className="text-[10px] text-[#9B9891] mt-0.5" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    <p className="text-[11px] text-[#99958D] mt-0.5" style={{ fontFamily: "'Inter', sans-serif" }}>
                       Product is publicly visible on the storefront. Uncheck to keep it as a Draft.
                     </p>
                   </div>
                 </div>
 
                 {/* is_featured */}
-                <div className="flex items-start gap-4 p-5 bg-[#FFFFFF] border border-[#E7E4DD] hover:border-[#171717]/20 rounded-[4px] transition-colors duration-150">
+                <div className="flex items-start gap-3.5 p-4 bg-[#FFFFFF] border border-[#E4E1DA] hover:border-[#171717]/30 rounded-[6px] transition-colors duration-150">
                   <Controller
                     control={control}
                     name="is_featured"
@@ -684,26 +682,26 @@ export default function ProductFormModal({
                         checked={field.value}
                         onChange={(e) => field.onChange(e.target.checked)}
                         disabled={isSubmitting}
-                        className="mt-1 rounded text-[#101010]"
+                        className="mt-0.5 rounded text-[#111111] focus:ring-0"
                       />
                     )}
                   />
                   <div>
                     <label
                       htmlFor="is-featured"
-                      className="text-[11px] font-normal uppercase tracking-[0.12em] text-[#171717] cursor-pointer"
+                      className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#171717] cursor-pointer"
                       style={{ fontFamily: "'Inter', sans-serif" }}
                     >
                       Featured Showcase Piece
                     </label>
-                    <p className="text-[10px] text-[#9B9891] mt-0.5" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    <p className="text-[11px] text-[#99958D] mt-0.5" style={{ fontFamily: "'Inter', sans-serif" }}>
                       Includes this product in homepage featured grids and editorial spotlights.
                     </p>
                   </div>
                 </div>
 
                 {/* is_new */}
-                <div className="flex items-start gap-4 p-5 bg-[#FFFFFF] border border-[#E7E4DD] hover:border-[#171717]/20 rounded-[4px] transition-colors duration-150">
+                <div className="flex items-start gap-3.5 p-4 bg-[#FFFFFF] border border-[#E4E1DA] hover:border-[#171717]/30 rounded-[6px] transition-colors duration-150">
                   <Controller
                     control={control}
                     name="is_new"
@@ -714,19 +712,19 @@ export default function ProductFormModal({
                         checked={field.value}
                         onChange={(e) => field.onChange(e.target.checked)}
                         disabled={isSubmitting}
-                        className="mt-1 rounded text-[#101010]"
+                        className="mt-0.5 rounded text-[#111111] focus:ring-0"
                       />
                     )}
                   />
                   <div>
                     <label
                       htmlFor="is-new"
-                      className="text-[11px] font-normal uppercase tracking-[0.12em] text-[#171717] cursor-pointer"
+                      className="text-[11px] font-semibold uppercase tracking-[0.08em] text-[#171717] cursor-pointer"
                       style={{ fontFamily: "'Inter', sans-serif" }}
                     >
                       New Arrival Badge
                     </label>
-                    <p className="text-[10px] text-[#9B9891] mt-0.5" style={{ fontFamily: "'Inter', sans-serif" }}>
+                    <p className="text-[11px] text-[#99958D] mt-0.5" style={{ fontFamily: "'Inter', sans-serif" }}>
                       Displays a "New" badge on this product in listing grids.
                     </p>
                   </div>
@@ -736,7 +734,7 @@ export default function ProductFormModal({
           </div>
 
           {/* Footer */}
-          <div className="px-8 py-4 border-t border-[#E7E4DD] flex items-center justify-between gap-4 shrink-0 bg-[#FFFFFF]">
+          <div className="px-6 py-3.5 border-t border-[#E4E1DA] flex items-center justify-between gap-4 shrink-0 bg-[#FFFFFF]">
             {/* Tab navigation shortcuts */}
             <div className="flex items-center gap-4">
               {activeTab !== 'identity' && (
@@ -746,7 +744,7 @@ export default function ProductFormModal({
                     const idx = TABS.findIndex((t) => t.key === activeTab);
                     if (idx > 0) setActiveTab(TABS[idx - 1].key);
                   }}
-                  className="text-[10px] uppercase tracking-[0.12em] font-normal text-[#9B9891] hover:text-[#171717] transition-colors duration-150"
+                  className="text-[10.5px] uppercase tracking-[0.08em] font-semibold text-[#68655F] hover:text-[#171717] transition-colors duration-150"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
                   ← PREV
@@ -759,7 +757,7 @@ export default function ProductFormModal({
                     const idx = TABS.findIndex((t) => t.key === activeTab);
                     if (idx < TABS.length - 1) setActiveTab(TABS[idx + 1].key);
                   }}
-                  className="text-[10px] uppercase tracking-[0.12em] font-normal text-[#9B9891] hover:text-[#171717] transition-colors duration-150"
+                  className="text-[10.5px] uppercase tracking-[0.08em] font-semibold text-[#68655F] hover:text-[#171717] transition-colors duration-150"
                   style={{ fontFamily: "'Inter', sans-serif" }}
                 >
                   NEXT →
@@ -767,25 +765,24 @@ export default function ProductFormModal({
               )}
             </div>
 
-            <div className="flex items-center gap-2.5">
+            <div className="flex items-center gap-3.5">
               <button
                 type="button"
                 onClick={onClose}
                 disabled={isSubmitting}
-                className="h-[34px] px-4 text-[10px] font-normal uppercase tracking-[0.12em] text-[#6F6D68] hover:text-[#171717] bg-[#F7F6F2] hover:bg-[#EEECE7] rounded-[3px] border border-[#E4E1DA] transition-colors duration-150 disabled:opacity-50"
+                className="h-[38px] min-w-[85px] px-5 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#111111] hover:bg-[#EAE7E0] hover:text-[#111111] bg-[#FFFFFF] rounded-[6px] border border-[#111111] transition-colors duration-150 disabled:opacity-50 flex items-center justify-center shadow-xs cursor-pointer"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
-                CANCEL
+                Cancel
               </button>
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="inline-flex items-center gap-1.5 h-[34px] px-5 text-[10px] font-normal uppercase tracking-[0.12em] text-white bg-[#111111] hover:bg-[#262626] rounded-[3px] transition-colors duration-150 disabled:opacity-50"
+                className="inline-flex items-center justify-center gap-2 h-[38px] min-w-[135px] px-6 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#111111] hover:bg-[#EAE7E0] hover:text-[#111111] bg-[#FFFFFF] border border-[#111111] rounded-[6px] transition-colors duration-150 disabled:opacity-50 shadow-xs cursor-pointer"
                 style={{ fontFamily: "'Inter', sans-serif" }}
               >
-                {isSubmitting && <Loader2 size={13} strokeWidth={1.5} className="animate-spin" />}
                 <span>
-                  {isClone ? 'Save Clone' : isEditing ? 'Save Changes' : 'CREATE PRODUCT'}
+                  {isSubmitting ? 'Saving…' : isClone ? 'Save Clone' : isEditing ? 'Save Changes' : 'Create Product'}
                 </span>
               </button>
             </div>

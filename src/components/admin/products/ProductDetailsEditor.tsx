@@ -44,17 +44,25 @@ export default function ProductDetailsEditor({
   };
 
   return (
-    <div className="p-6 bg-[#FFFFFF] border border-[#E8E4DC] rounded-xl shadow-xs space-y-4">
-      <div className="flex items-center justify-between pb-3 border-b border-[#E8E4DC]">
+    <div className="p-4 bg-[#FFFFFF] border border-[#E4E1DA] rounded-[6px] space-y-3">
+      <div className="flex items-center justify-between pb-2.5 border-b border-[#EEECE7]">
         <div>
-          <label className="block text-xs font-semibold uppercase tracking-[0.14em] text-[#101010]">
-            CRAFTSMANSHIP DETAILS & SPECIFICATIONS <span className="text-[#C0392B]">*</span>
+          <label
+            className="block text-[10.5px] font-semibold uppercase tracking-[0.08em] text-[#55514E]"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            Craftsmanship Details & Specifications <span className="text-[#A93226]">*</span>
           </label>
-          <p className="text-[11px] text-[#7A736A] mt-0.5">
+          <p
+            className="text-[11px] text-[#99958D] mt-0.5"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
             Key garment specifications, embroidery methods, and artisan notes
           </p>
         </div>
-        <span className="text-xs font-mono text-[#7A736A] shrink-0 bg-[#FAF8F5] px-2.5 py-1 rounded border border-[#E8E4DC]">
+        <span
+          className="text-[10.5px] font-mono text-[#68655F] shrink-0 bg-[#F7F6F2] px-2 py-0.5 rounded-[4px] border border-[#E4E1DA]"
+        >
           {details.length} {details.length === 1 ? 'bullet' : 'bullets'}
         </span>
       </div>
@@ -68,28 +76,29 @@ export default function ProductDetailsEditor({
           onKeyDown={handleKeyDown}
           placeholder="e.g. Hand-embroidered zardozi work on georgette base..."
           disabled={disabled}
-          className="flex-1 px-3.5 py-2.5 text-xs rounded-md border border-[#E8E4DC] bg-[#FAF8F5] text-[#101010] placeholder-[#9E978E] focus:outline-none focus:border-[#9E7A44] focus:bg-[#FFFFFF] transition-all"
+          className="flex-1 px-3.5 h-[38px] text-[12.5px] rounded-[6px] border border-[#E2DED6] bg-[#FFFFFF] text-[#171717] placeholder-[#9A968E] focus:outline-none focus:border-[#55514B] transition-all"
+          style={{ fontFamily: "'Inter', sans-serif" }}
         />
         <button
           type="button"
           onClick={handleAdd}
           disabled={!newDetailInput.trim() || disabled}
-          className="inline-flex items-center gap-1.5 px-4 py-2.5 bg-[#101010] text-[#FFFFFF] hover:bg-[#262422] text-xs font-medium uppercase tracking-[0.1em] rounded-md transition-colors disabled:opacity-40 shrink-0"
+          className="inline-flex items-center justify-center h-[38px] px-4.5 bg-[#FFFFFF] hover:bg-[#111111] hover:text-[#FFFFFF] border border-[#111111] text-[#111111] text-[11px] font-semibold uppercase tracking-[0.06em] rounded-[6px] transition-colors disabled:opacity-40 shrink-0"
+          style={{ fontFamily: "'Inter', sans-serif" }}
         >
-          <Plus size={14} />
-          <span>Add</span>
+          Add
         </button>
       </div>
 
       {/* Existing details list */}
       {details.length > 0 && (
-        <div className="space-y-2 pt-1">
+        <div className="space-y-1.5 pt-0.5">
           {details.map((detail, idx) => (
             <div
               key={idx}
-              className="flex items-center gap-3 bg-[#FAF8F5] border border-[#E8E4DC] rounded-md px-3.5 py-2 hover:border-[#D5CFBF] transition-colors"
+              className="flex items-center gap-2.5 bg-[#F7F6F2] border border-[#E4E1DA] rounded-[4px] px-3 py-1.5 hover:border-[#171717]/25 transition-colors"
             >
-              <div className="w-6 text-center font-mono text-xs font-semibold text-[#7A736A] shrink-0">
+              <div className="w-5 text-center font-mono text-[11px] font-medium text-[#99958D] shrink-0">
                 {idx + 1}.
               </div>
               <input
@@ -97,23 +106,31 @@ export default function ProductDetailsEditor({
                 value={detail}
                 onChange={(e) => handleUpdate(idx, e.target.value)}
                 disabled={disabled}
-                className="flex-1 bg-transparent text-xs text-[#101010] focus:outline-none border-b border-transparent focus:border-[#9E7A44] py-0.5"
+                className="flex-1 bg-transparent text-[12px] text-[#171717] focus:outline-none border-b border-transparent focus:border-[#55514B] py-0.5"
+                style={{ fontFamily: "'Inter', sans-serif" }}
               />
               <button
                 type="button"
                 onClick={() => handleRemove(idx)}
                 disabled={disabled}
-                className="p-1.5 text-[#7A736A] hover:text-[#C0392B] hover:bg-[#FBEBEA] rounded transition-colors shrink-0"
+                className="text-[12px] text-[#99958D] hover:text-[#A93226] px-1.5 py-0.5 rounded-[3px] transition-colors shrink-0 font-bold"
                 title="Remove bullet"
               >
-                <Trash2 size={13} />
+                ✕
               </button>
             </div>
           ))}
         </div>
       )}
 
-      {error && <p className="text-[11px] text-[#C0392B] font-medium pt-1">{error}</p>}
+      {error && (
+        <p
+          className="text-[11px] text-[#A93226] font-normal pt-0.5"
+          style={{ fontFamily: "'Inter', sans-serif" }}
+        >
+          {error}
+        </p>
+      )}
     </div>
   );
 }

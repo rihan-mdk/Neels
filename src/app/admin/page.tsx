@@ -65,28 +65,30 @@ export default async function AdminDashboardPage() {
   }));
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-7">
       {/* Page Header */}
-      <div className="border-b border-[#E7E4DD] pb-5">
+      <div className="border-b border-[#E4E1DA] pb-5">
         <h1
-          className="text-3xl md:text-4xl font-light text-[#171717]"
+          className="text-3xl md:text-[32px] font-normal text-[#171717] tracking-tight leading-none"
           style={{ fontFamily: "'Cormorant Garamond', serif" }}
         >
           Atelier Overview
         </h1>
         <p
-          className="text-[10px] text-[#9B9891] mt-1.5 tracking-wide font-normal uppercase"
+          className="text-[12px] text-[#68655F] mt-1.5 tracking-normal font-normal"
           style={{ fontFamily: "'Inter', sans-serif" }}
         >
-          Live boutique statistics — rendered server-side
+          Live boutique statistics and executive studio metrics
         </p>
       </div>
 
       {/* KPI Metric Cards */}
       <DashboardMetrics stats={stats} />
 
-      {/* Quick Action Shortcuts */}
-      <QuickActions />
+      {/* Quick Action Shortcuts with >1cm breathing space above and below */}
+      <div className="py-14 sm:py-16">
+        <QuickActions />
+      </div>
 
       {/* Recent Orders List */}
       <RecentOrdersTable orders={recentOrders} />

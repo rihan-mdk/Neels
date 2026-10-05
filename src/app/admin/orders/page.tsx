@@ -1,5 +1,4 @@
 import React from 'react';
-import { ShoppingBag } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 import RecentOrdersTable, { OrderPreview } from '@/components/admin/dashboard/RecentOrdersTable';
 
@@ -22,10 +21,18 @@ export default async function AdminOrdersPage() {
 
   return (
     <div className="space-y-6">
-      <div>
-        <h1 className="font-serif text-2xl font-semibold text-[#181515]">Orders Management</h1>
-        <p className="text-xs text-[#8E867E] mt-0.5">
-          Inspect client purchases, bespoke orders, and update fulfillment statuses
+      <div className="border-b border-[#E4E1DA] pb-5">
+        <h1
+          className="text-3xl md:text-[32px] font-normal text-[#171717] tracking-tight leading-none"
+          style={{ fontFamily: "'Cormorant Garamond', serif" }}
+        >
+          Orders Management
+        </h1>
+        <p
+          className="text-[12px] text-[#68655F] mt-1.5 font-normal"
+          style={{ fontFamily: "'Inter', sans-serif" }}
+        >
+          Inspect client purchases, bespoke inquiries, and update fulfillment statuses
         </p>
       </div>
 
