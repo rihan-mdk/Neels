@@ -8,6 +8,7 @@ import { Search, ShoppingBag, Menu, X, ChevronDown, ArrowUpRight, UserCircle2, H
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import SearchOverlay from '@/components/overlays/SearchOverlay';
+import { useAuth } from '@/context/AuthContext';
 import styles from './Header.module.css';
 
 interface NavSubItem {
@@ -65,6 +66,7 @@ export default function Header() {
   const { getWishlistCount } = useWishlist();
   const cartCount = getCartCount();
   const wishlistCount = getWishlistCount();
+  const { isAdmin } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -153,9 +155,8 @@ export default function Header() {
 
                     {/* Animated Dropdown Floating Panel */}
                     <div
-                      className={`${styles.dropdownContainer} ${
-                        isOpen ? styles.dropdownContainerOpen : ''
-                      }`}
+                      className={`${styles.dropdownContainer} ${isOpen ? styles.dropdownContainerOpen : ''
+                        }`}
                       role="menu"
                       aria-label={`${item.label} sub-navigation`}
                     >
@@ -233,6 +234,18 @@ export default function Header() {
                 <span className={styles.cartBadge}>{wishlistCount}</span>
               )}
             </Link>
+            {/* Admin Dashboard link - only visible to admin users */}
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className={styles.iconBtn}
+                aria-label="Admin Dashboard"
+                title="Admin Dashboard"
+                style={{ fontSize: '10px', letterSpacing: '0.08em', fontWeight: 600, textTransform: 'uppercase', padding: '4px 8px', border: '1px solid currentColor', borderRadius: '4px', lineHeight: 1 }}
+              >
+                Admin
+              </Link>
+            )}
             <Link
               href="/profile"
               className={styles.iconBtn}
@@ -299,9 +312,8 @@ export default function Header() {
               return (
                 <div key={item.label} className={styles.mobileNavItemWrapper}>
                   <div
-                    className={`${styles.mobileAccordionHeader} ${
-                      isExpanded ? styles.mobileAccordionOpen : ''
-                    }`}
+                    className={`${styles.mobileAccordionHeader} ${isExpanded ? styles.mobileAccordionOpen : ''
+                      }`}
                   >
                     <Link
                       href={item.href}
@@ -317,9 +329,8 @@ export default function Header() {
                     >
                       <ChevronDown
                         size={15}
-                        className={`${styles.mobileAccordionChevron} ${
-                          isExpanded ? styles.chevronOpen : ''
-                        }`}
+                        className={`${styles.mobileAccordionChevron} ${isExpanded ? styles.chevronOpen : ''
+                          }`}
                       />
                     </button>
                   </div>
@@ -346,9 +357,8 @@ export default function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`${styles.mobileNavLink} ${
-                  pathname === item.href ? styles.mobileNavLinkActive : ''
-                }`}
+                className={`${styles.mobileNavLink} ${pathname === item.href ? styles.mobileNavLinkActive : ''
+                  }`}
                 onClick={() => setMobileOpen(false)}
               >
                 {item.label}

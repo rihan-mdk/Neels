@@ -22,6 +22,7 @@ interface AuthContextType {
   resetPassword: (email: string) => Promise<{ error: Error | null }>;
   signInWithGoogle: () => Promise<{ error: Error | null }>;
   signOut: () => Promise<void>;
+  isAdmin: boolean;
   continueAsGuest: () => void;
 }
 
@@ -32,7 +33,30 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [session, setSession] = useState<Session | null>(null);
   const [loading, setLoading] = useState(true);
   const [isGuest, setIsGuest] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const configured = isSupabaseConfigured();
+  const checkAdmin = async (sessionUser?: import('@supabase/supabase-js').User | null) => {
+    try {
+      // Primary: server-side RPC check
+      const { data, error } = await supabase.rpc('is_admin');
+      console.log('[Admin check] is_admin RPC result:', { data, error });
+      console.log('[Admin check] user app_metadata:', sessionUser?.app_metadata);
+      console.log('[Admin check] user user_metadata:', sessionUser?.user_metadata);
+      if (!error && data === true) {
+        setIsAdmin(true);
+        return;
+      }
+      // Fallback: check app_metadata.role or user_metadata.role from JWT claims
+      const u = sessionUser;
+      const role =
+        (u?.app_metadata?.role as string | undefined) ||
+        (u?.user_metadata?.role as string | undefined);
+      console.log('[Admin check] role from metadata:', role);
+      setIsAdmin(role === 'admin' || role === 'service_role');
+    } catch {
+      setIsAdmin(false);
+    }
+  };
 
   useEffect(() => {
     // Check initial guest status
@@ -52,7 +76,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     supabase.auth.getSession().then(({ data: { session } }) => {
       setSession(session);
       setUser(session?.user ?? null);
-      if (session) {
+      if (session) { checkAdmin(session.user);
         localStorage.setItem('neelsh_visited', 'true');
         localStorage.setItem('neelsh_user', JSON.stringify({ email: session.user.email, loggedIn: true }));
       }
@@ -63,7 +87,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session);
       setUser(session?.user ?? null);
-      if (session) {
+      if (session) { checkAdmin(session.user);
         localStorage.setItem('neelsh_visited', 'true');
         localStorage.setItem('neelsh_user', JSON.stringify({ email: session.user.email, loggedIn: true }));
       } else {
@@ -151,6 +175,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     setUser(null);
     setSession(null);
+    setIsAdmin(false);
     if (typeof window !== 'undefined') {
       localStorage.removeItem('neelsh_user');
     }
@@ -170,6 +195,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         session,
         loading,
         isConfigured: configured,
+        isAdmin,
         isGuest,
         signIn,
         signUp,

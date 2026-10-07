@@ -6,6 +6,7 @@ import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import styles from './Hero.module.css';
+import { AnimatedMarqueeHero } from '@/components/ui/hero-3';
 
 // ── Mobile carousel slides ──────────────────────────────────────────────────
 const HERO_SLIDES = [
@@ -102,56 +103,42 @@ export default function Hero() {
   const slide = HERO_SLIDES[current];
 
   return (
-    <section className={styles.hero} aria-label="Hero">
+    <>
+      {/* Desktop hero renders full-page, outside the mobile-only section */}
 
-      {/* ── DESKTOP — existing split layout ─────────────────────── */}
-      <div className={styles.container}>
-        <motion.div
-          className={styles.textColumn}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <motion.div className={styles.eyebrowWrap}
-            initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}>
-            <span className={styles.eyebrowDot} />
-            <p className={styles.eyebrow}>NEEL'S DESIGNER STUDIO</p>
-          </motion.div>
-          <motion.h1 className={styles.headline}
-            initial={{ opacity: 0, y: 14 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}>
-            Style, Curated<br />For You.
-          </motion.h1>
-          <motion.p className={styles.supportText}
-            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}>
-            Discover thoughtfully selected ready-to-wear styles for every occasion.
-          </motion.p>
-          <motion.div className={styles.ctaRow}
-            initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}>
-            <Link href="/collections" className={styles.primaryBtn}>SHOP COLLECTIONS</Link>
-            <Link href="/jewellery" className={styles.secondaryBtn}>
-              EXPLORE ACCESSORIES <ArrowRight size={13} className={styles.arrow} />
-            </Link>
-          </motion.div>
-        </motion.div>
-
-        <motion.div className={styles.imageColumn}
-          initial={{ opacity: 0, scale: 0.98 }} animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}>
-          <div className={styles.imageFrame}>
-            <Image src="/hero-image.jpeg"
-              alt="Neel's Designer Studio — High Fashion Couture"
-              fill priority sizes="(max-width: 768px) 100vw, 55vw"
-              className={styles.image} />
-            <div className={styles.blendOverlay} />
-          </div>
-        </motion.div>
+      {/* DESKTOP - AnimatedMarqueeHero */}
+      <div className="hidden md:block w-full">
+        <AnimatedMarqueeHero
+          tagline="Neel's Designer Studio"
+          title={
+            <>
+              Style,{" "}
+              <span style={{ fontStyle: "italic", color: "#8C5A54" }}>Curated</span>
+              <br />
+              For You.
+            </>
+          }
+          description="Discover thoughtfully selected ready-to-wear styles for every occasion — from bridal lehengas to everyday elegance."
+          ctaText="Shop Collections"
+          ctaHref="/collections"
+          secondaryCtaText="Explore Accessories"
+          secondaryCtaHref="/jewellery"
+          images={[
+            "/hero-gallery-1.jpeg",
+            "/hero-gallery-2.jpeg",
+            "/hero-gallery-3.jpeg",
+            "/hero-gallery-4.jpeg",
+            "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=600&q=80",
+            "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&w=600&q=80",
+          ]}
+        />
       </div>
 
-      {/* ── MOBILE — full-screen auto-sliding carousel ──────────── */}
+      <div className="md:hidden">
+        <section className={styles.hero} aria-label="Hero mobile">
+      {/* MOBILE - full-screen auto-sliding carousel */}
       <div
         className={styles.mobileSlider}
         onTouchStart={handleTouchStart}
@@ -216,6 +203,10 @@ export default function Hero() {
         </div>
       </div>
 
-    </section>
+      </section>
+      </div>
+    </>
   );
 }
+
+

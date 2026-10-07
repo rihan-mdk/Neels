@@ -3,15 +3,7 @@
    ============================================================ */
 
 .hero {
-  position: relative;
-  width: 100%;
-  min-height: calc(82vh - 58px);
-  background-color: #F7E9E7;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  box-sizing: border-box;
+  display: none;
 }
 
 /* ── Container: Split 45% Left / 55% Right ─────────────────── */
