@@ -16,8 +16,12 @@ export default function StorefrontShell({
 }) {
   const pathname = usePathname();
   const isAdmin = pathname?.startsWith('/admin');
+  const isAuthPage =
+    pathname?.startsWith('/login') ||
+    pathname?.startsWith('/welcome') ||
+    pathname?.startsWith('/intro');
 
-  if (isAdmin) {
+  if (isAdmin || isAuthPage) {
     return <>{children}</>;
   }
 
