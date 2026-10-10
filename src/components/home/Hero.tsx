@@ -4,11 +4,9 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
-import { ArrowRight } from 'lucide-react';
 import styles from './Hero.module.css';
-import { AnimatedMarqueeHero } from '@/components/ui/hero-3';
 
-// ── Mobile carousel slides ──────────────────────────────────────────────────
+// ── Mobile carousel slides (kept 100% untouched for mobile) ───────────────
 const HERO_SLIDES = [
   {
     id: 1,
@@ -94,8 +92,8 @@ export default function Hero() {
   const handleTouchEnd = (e: React.TouchEvent) => {
     const dx = e.changedTouches[0].clientX - touchStartX.current;
     const dy = e.changedTouches[0].clientY - touchStartY.current;
-    if (Math.abs(dx) < Math.abs(dy)) return; // vertical scroll wins
-    if (Math.abs(dx) < 40) return;            // too small
+    if (Math.abs(dx) < Math.abs(dy)) return;
+    if (Math.abs(dx) < 40) return;
     resetTimer();
     if (dx < 0) next(); else prev();
   };
@@ -104,109 +102,130 @@ export default function Hero() {
 
   return (
     <>
-      {/* Desktop hero renders full-page, outside the mobile-only section */}
+      {/* ────────────────────────────────────────────────────────────
+          DESKTOP HERO — Pixel-perfect Canva Editorial Split Design
+      ──────────────────────────────────────────────────────────── */}
+      <section className={styles.desktopHero} aria-label="Hero showcase">
+        {/* Left Burgundy Editorial Column */}
+        <div className={styles.desktopLeft}>
+          <motion.h1
+            className={styles.desktopHeadline}
+            initial={{ opacity: 0, y: 18 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+          >
+            Wear the Story.<br />
+            Live the Style.
+          </motion.h1>
 
-      {/* DESKTOP - AnimatedMarqueeHero */}
-      <div className="hidden md:block w-full">
-        <AnimatedMarqueeHero
-          tagline="Neel's Designer Studio"
-          title={
-            <>
-              Style,{" "}
-              <span style={{ fontStyle: "italic", color: "#8C5A54" }}>Curated</span>
-              <br />
-              For You.
-            </>
-          }
-          description="Discover thoughtfully selected ready-to-wear styles for every occasion — from bridal lehengas to everyday elegance."
-          ctaText="Shop Collections"
-          ctaHref="/collections"
-          secondaryCtaText="Explore Accessories"
-          secondaryCtaHref="/jewellery"
-          images={[
-            "/hero-gallery-1.jpeg",
-            "/hero-gallery-2.jpeg",
-            "/hero-gallery-3.jpeg",
-            "/hero-gallery-4.jpeg",
-            "https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&w=600&q=80",
-            "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?auto=format&fit=crop&w=600&q=80",
-            "https://images.unsplash.com/photo-1583391733956-3750e0ff4e8b?auto=format&fit=crop&w=600&q=80",
-            "https://images.unsplash.com/photo-1617137984095-74e4e5e3613f?auto=format&fit=crop&w=600&q=80",
-          ]}
-        />
-      </div>
+          <motion.p
+            className={styles.desktopSubtitle}
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.12, ease: [0.16, 1, 0.3, 1] }}
+          >
+            Discover thoughtfully selected ready-to-wear styles for every occasion — from bridal lehengas to everyday elegance.
+          </motion.p>
 
-      <div className="md:hidden">
-        <section className={styles.hero} aria-label="Hero mobile">
-      {/* MOBILE - full-screen auto-sliding carousel */}
-      <div
-        className={styles.mobileSlider}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-        aria-label="Featured collections slider"
-      >
-
-        {/* Slide images */}
-        <div className={styles.slideTrack}
-          style={{ transform: `translateX(-${current * 100}%)` }}>
-          {HERO_SLIDES.map((s) => (
-            <div key={s.id} className={styles.slide} aria-hidden={s.id !== slide.id}>
-              <Image
-                src={s.image}
-                alt={s.title.replace(/\n/g, ' ')}
-                fill
-                priority={s.id === 1}
-                sizes="100vw"
-                className={styles.slideImage}
-                style={{ objectPosition: s.position || 'center 25%' }}
-              />
-            </div>
-          ))}
-        </div>
-
-        {/* Gradient + content overlay */}
-        <div className={styles.slideOverlay} aria-hidden="true" />
-        <div className={styles.slideContent}>
-          <motion.h2
-            key={`title-${current}`}
-            className={styles.slideTitle}
+          <motion.div
+            className={styles.desktopButtonRow}
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.05 }}
+            transition={{ duration: 0.6, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
           >
-            {slide.title}
-          </motion.h2>
-          <motion.div
-            key={`cta-${current}`}
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4, delay: 0.12 }}
-          >
-            <Link href={slide.href} className={styles.slideCta}>
-              {slide.cta}
+            <Link href="/collections" className={styles.shopCollectionsBtn}>
+              SHOP COLLECTIONS
+            </Link>
+            <Link href="/jewellery" className={styles.exploreAccessoriesBtn}>
+              EXPLORE ACCESSORIES
             </Link>
           </motion.div>
         </div>
 
-        {/* Dots */}
-        <div className={styles.slideDots} role="tablist" aria-label="Slide indicators">
-          {HERO_SLIDES.map((s, i) => (
-            <button
-              key={s.id}
-              role="tab"
-              aria-selected={i === current}
-              aria-label={`Slide ${i + 1}`}
-              className={i === current ? styles.dotActive : styles.dot}
-              onClick={() => { goTo(i); resetTimer(); }}
-            />
-          ))}
+        {/* Right High-Resolution Model Portrait Column */}
+        <div className={styles.desktopRight}>
+          <Image
+            src="/hero-bougainvillea.png"
+            alt="Wear the Story. Live the Style. — Neels Couture"
+            fill
+            priority
+            sizes="(min-width: 769px) 42vw, 100vw"
+            className={styles.desktopModelImg}
+          />
         </div>
-      </div>
-
       </section>
+
+      {/* ────────────────────────────────────────────────────────────
+          MOBILE HERO — Full-screen auto-sliding carousel (≤ 768px)
+      ──────────────────────────────────────────────────────────── */}
+      <div className="md:hidden">
+        <section className={styles.hero} aria-label="Hero mobile">
+          <div
+            className={styles.mobileSlider}
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
+            aria-label="Featured collections slider"
+          >
+            {/* Slide images */}
+            <div
+              className={styles.slideTrack}
+              style={{ transform: `translateX(-${current * 100}%)` }}
+            >
+              {HERO_SLIDES.map((s) => (
+                <div key={s.id} className={styles.slide} aria-hidden={s.id !== slide.id}>
+                  <Image
+                    src={s.image}
+                    alt={s.title.replace(/\n/g, ' ')}
+                    fill
+                    priority={s.id === 1}
+                    sizes="100vw"
+                    className={styles.slideImage}
+                    style={{ objectPosition: s.position || 'center 25%' }}
+                  />
+                </div>
+              ))}
+            </div>
+
+            {/* Gradient + content overlay */}
+            <div className={styles.slideOverlay} aria-hidden="true" />
+            <div className={styles.slideContent}>
+              <motion.h2
+                key={`title-${current}`}
+                className={styles.slideTitle}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.05 }}
+              >
+                {slide.title}
+              </motion.h2>
+              <motion.div
+                key={`cta-${current}`}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.12 }}
+              >
+                <Link href={slide.href} className={styles.slideCta}>
+                  {slide.cta}
+                </Link>
+              </motion.div>
+            </div>
+
+            {/* Dots */}
+            <div className={styles.slideDots} role="tablist" aria-label="Slide indicators">
+              {HERO_SLIDES.map((s, i) => (
+                <button
+                  key={s.id}
+                  role="tab"
+                  aria-selected={i === current}
+                  aria-label={`Slide ${i + 1}`}
+                  className={i === current ? styles.dotActive : styles.dot}
+                  onClick={() => { goTo(i); resetTimer(); }}
+                />
+              ))}
+            </div>
+          </div>
+        </section>
       </div>
     </>
   );
 }
-
-

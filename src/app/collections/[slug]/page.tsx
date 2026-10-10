@@ -2,12 +2,17 @@ import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
+import {
+  fetchStorefrontCollection,
+  fetchStorefrontProductsByCollection,
+} from '@/lib/services/storefront-product.service';
 import { COLLECTIONS, getCollectionBySlug } from '@/data/collections';
-import { getProductsByCollection } from '@/data/products';
 import Breadcrumb from '@/components/ui/Breadcrumb';
 import ProductGrid from '@/components/products/ProductGrid';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import styles from './page.module.css';
+
+export const revalidate = 0;
 
 interface Props {
   params: Promise<{ slug: string }>;
@@ -19,7 +24,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const collection = getCollectionBySlug(slug);
+  const collection = (await fetchStorefrontCollection(slug)) ?? getCollectionBySlug(slug);
   if (!collection) return {};
   return {
     title: collection.name,
@@ -29,18 +34,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function CollectionDetailPage({ params }: Props) {
   const { slug } = await params;
-  const collection = getCollectionBySlug(slug);
-  if (!collection) notFound();
+  const [collection, products] = await Promise.all([
+    fetchStorefrontCollection(slug),
+    fetchStorefrontProductsByCollection(slug),
+  ]);
 
-  const products = getProductsByCollection(slug);
+  const finalCollection = collection ?? getCollectionBySlug(slug);
+  if (!finalCollection) notFound();
 
   return (
     <div className={styles.page}>
       {/* Hero */}
       <div className={styles.hero}>
         <Image
-          src={collection.image}
-          alt={collection.name}
+          src={finalCollection.image}
+          alt={finalCollection.name}
           fill
           priority
           sizes="100vw"
@@ -48,8 +56,8 @@ export default async function CollectionDetailPage({ params }: Props) {
         />
         <div className={styles.heroOverlay} aria-hidden="true" />
         <div className={styles.heroContent}>
-          <p className={styles.heroSeason}>{collection.season}</p>
-          <h1 className={styles.heroTitle}>{collection.name}</h1>
+          <p className={styles.heroSeason}>{finalCollection.season}</p>
+          <h1 className={styles.heroTitle}>{finalCollection.name}</h1>
         </div>
       </div>
 
@@ -58,13 +66,13 @@ export default async function CollectionDetailPage({ params }: Props) {
           items={[
             { label: 'Home', href: '/' },
             { label: 'Collections', href: '/collections' },
-            { label: collection.name },
+            { label: finalCollection.name },
           ]}
         />
 
         <ScrollReveal>
           <div className={styles.about}>
-            <p className={styles.aboutText}>{collection.longDescription}</p>
+            <p className={styles.aboutText}>{finalCollection.longDescription}</p>
           </div>
         </ScrollReveal>
 

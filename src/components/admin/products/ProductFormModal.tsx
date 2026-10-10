@@ -1,9 +1,9 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { X, Loader2, AlertCircle, Lock, Unlock } from 'lucide-react';
+import { Loader2, CheckCircle2, XCircle, AlertTriangle } from 'lucide-react';
 import {
   ProductFormSchema,
   ProductFormData,
@@ -40,6 +40,15 @@ const TABS: { key: TabKey; label: string }[] = [
   { key: 'merchandising', label: 'Merchandising' },
 ];
 
+// Fields that belong to each tab — drives the per-tab validity indicator
+const TAB_FIELDS: Record<TabKey, (keyof ProductFormData)[]> = {
+  identity: ['name', 'slug', 'brand', 'category_slug', 'description'],
+  pricing: ['price_formatted'],
+  media: ['image_primary'],
+  craft: ['sizes', 'fabric', 'care', 'details'],
+  merchandising: ['is_active', 'is_new', 'is_featured'],
+};
+
 export default function ProductFormModal({
   isOpen,
   onClose,
@@ -50,8 +59,10 @@ export default function ProductFormModal({
   isClone = false,
 }: ProductFormModalProps) {
   const [activeTab, setActiveTab] = useState<TabKey>('identity');
+  const [visitedTabs, setVisitedTabs] = useState<Set<TabKey>>(new Set(['identity']));
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
+  const [validationBanner, setValidationBanner] = useState<string | null>(null);
   const [slugLocked, setSlugLocked] = useState(!!initialData && !isClone);
   const [isPriceOnRequest, setIsPriceOnRequest] = useState(
     initialData ? initialData.price === null : false
@@ -75,9 +86,11 @@ export default function ProductFormModal({
     watch,
     reset,
     control,
+    trigger,
     formState: { errors },
   } = useForm<ProductFormData>({
     resolver: zodResolver(ProductFormSchema),
+    mode: 'onChange',
     defaultValues: {
       name: '',
       slug: '',
@@ -99,6 +112,42 @@ export default function ProductFormModal({
       is_active: true,
     },
   });
+
+  // Watch all values for per-tab completion checks
+  const watchedValues = watch();
+
+  // Per-tab validity: mirrors the Zod schema requirements per section
+  const tabValidity = useMemo<Record<TabKey, boolean>>(() => {
+    const v = watchedValues;
+    return {
+      identity:
+        typeof v.name === 'string' && v.name.trim().length >= 2 &&
+        typeof v.slug === 'string' && /^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(v.slug) &&
+        typeof v.brand === 'string' && v.brand.trim().length >= 1 &&
+        typeof v.category_slug === 'string' && v.category_slug.length >= 1 &&
+        typeof v.description === 'string' && v.description.trim().length >= 10,
+      pricing:
+        isPriceOnRequest
+          ? true
+          : typeof v.price === 'number' && v.price > 0 &&
+            typeof v.price_formatted === 'string' && v.price_formatted.length >= 1,
+      media:
+        typeof v.image_primary === 'string' && v.image_primary.length >= 1,
+      craft:
+        Array.isArray(v.sizes) && v.sizes.length >= 1 &&
+        typeof v.fabric === 'string' && v.fabric.trim().length >= 2 &&
+        typeof v.care === 'string' && v.care.trim().length >= 2 &&
+        Array.isArray(v.details) && v.details.length >= 1,
+      merchandising: true, // booleans — always valid once visited
+    };
+  }, [watchedValues, isPriceOnRequest]);
+
+  const allTabsVisited = TABS.every((t) => visitedTabs.has(t.key));
+  const allTabsValid = TABS.every((t) => tabValidity[t.key]);
+  // Create mode: gated. Edit/Clone mode: open.
+  const canSubmit = isEditing || isClone
+    ? !isSubmitting
+    : !isSubmitting && allTabsVisited && allTabsValid;
 
   useEffect(() => {
     if (isOpen) {
@@ -154,10 +203,18 @@ export default function ProductFormModal({
       setGalleryNewFiles([]);
       setRemovedImageUrls([]);
       setServerError(null);
+      setValidationBanner(null);
       setActiveTab('identity');
+      setVisitedTabs(new Set(['identity']));
       setSlugLocked(!!initialData && !isClone);
     }
   }, [isOpen, initialData, isClone, reset, categories]);
+
+  const handleTabChange = (tab: TabKey) => {
+    setActiveTab(tab);
+    setVisitedTabs((prev) => new Set([...prev, tab]));
+    setValidationBanner(null);
+  };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
@@ -211,9 +268,22 @@ export default function ProductFormModal({
   };
 
   const onFormSubmit = async (data: ProductFormData) => {
+    // For create mode, ensure all tabs visited + valid before proceeding
+    if (!isEditing && !isClone) {
+      const invalidTabs = TABS.filter((t) => !tabValidity[t.key]).map((t) => t.label);
+      const unvisitedTabs = TABS.filter((t) => !visitedTabs.has(t.key)).map((t) => t.label);
+      const problem = [...new Set([...unvisitedTabs, ...invalidTabs])];
+      if (problem.length > 0) {
+        const firstFailing = TABS.find((t) => !tabValidity[t.key] || !visitedTabs.has(t.key));
+        if (firstFailing) setActiveTab(firstFailing.key);
+        setValidationBanner(`Please complete: ${problem.join(', ')}`);
+        return;
+      }
+    }
     try {
       setIsSubmitting(true);
       setServerError(null);
+      setValidationBanner(null);
       await onSubmit(
         data,
         {
@@ -231,6 +301,18 @@ export default function ProductFormModal({
     }
   };
 
+  const handleBlockedSubmitClick = async () => {
+    await trigger();
+    const invalidTabs = TABS.filter((t) => !tabValidity[t.key]).map((t) => t.label);
+    const unvisitedTabs = TABS.filter((t) => !visitedTabs.has(t.key)).map((t) => t.label);
+    const problem = [...new Set([...unvisitedTabs, ...invalidTabs])];
+    const firstFailing = TABS.find((t) => !tabValidity[t.key] || !visitedTabs.has(t.key));
+    if (firstFailing) handleTabChange(firstFailing.key);
+    if (problem.length > 0) {
+      setValidationBanner(`Complete these sections first: ${problem.join(', ')}`);
+    }
+  };
+
   if (!isOpen) return null;
 
   const modalTitle = isClone
@@ -244,19 +326,35 @@ export default function ProductFormModal({
       <div className="bg-[#FFFFFF] border border-[#E4E1DA] rounded-[8px] max-w-3xl w-full shadow-[0_12px_40px_rgba(0,0,0,0.08)] flex flex-col max-h-[88vh] overflow-hidden">
         {/* Modal Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-[#E4E1DA] shrink-0 bg-[#FFFFFF]">
-          <div>
-            <h2
-              className="text-[23px] font-normal text-[#171717] tracking-tight leading-none"
-              style={{ fontFamily: "'Cormorant Garamond', serif" }}
-            >
-              {modalTitle}
-            </h2>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center gap-3">
+              <h2
+                className="text-[23px] font-normal text-[#171717] tracking-tight leading-none"
+                style={{ fontFamily: "'Cormorant Garamond', serif" }}
+              >
+                {modalTitle}
+              </h2>
+              {!isEditing && !isClone && (
+                <span
+                  className={`shrink-0 text-[10px] font-semibold uppercase tracking-[0.1em] px-2 py-0.5 rounded-full border ${
+                    allTabsValid && allTabsVisited
+                      ? 'bg-[#F0F7F3] border-[#C3E6D3] text-[#2D6A4F]'
+                      : 'bg-[#F7F6F2] border-[#E4E1DA] text-[#68655F]'
+                  }`}
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  {TABS.filter((t) => visitedTabs.has(t.key) && tabValidity[t.key]).length}/{TABS.length} done
+                </span>
+              )}
+            </div>
             <p
               className="text-[11px] text-[#817D76] mt-1 font-normal tracking-wide"
               style={{ fontFamily: "'Inter', sans-serif" }}
             >
               {isClone
                 ? 'Creating a draft clone — images are reused, metadata is independent'
+                : !isEditing
+                ? 'Fill all 5 sections to unlock Create Product'
                 : 'Configure product attributes, media, and merchandising signals'}
             </p>
           </div>
@@ -264,29 +362,42 @@ export default function ProductFormModal({
             type="button"
             onClick={onClose}
             disabled={isSubmitting}
-            className="w-8 h-8 flex items-center justify-center text-[#99958D] hover:text-[#171717] hover:bg-[#F7F6F2] rounded-[6px] border border-transparent hover:border-[#E4E1DA] transition-colors duration-150 text-sm font-bold"
+            className="ml-4 shrink-0 w-8 h-8 flex items-center justify-center text-[#99958D] hover:text-[#171717] hover:bg-[#F7F6F2] rounded-[6px] border border-transparent hover:border-[#E4E1DA] transition-colors duration-150 text-sm font-bold"
           >
             ✕
           </button>
         </div>
 
         {/* Tabs */}
-        <div className="flex border-b border-[#E4E1DA] shrink-0 overflow-x-auto px-6 bg-[#FFFFFF] gap-5">
-          {TABS.map((tab) => (
-            <button
-              key={tab.key}
-              type="button"
-              onClick={() => setActiveTab(tab.key)}
-              className={`py-2.5 text-[10.5px] uppercase tracking-[0.1em] font-semibold whitespace-nowrap border-b-2 transition-colors duration-150 ${
-                activeTab === tab.key
-                  ? 'border-[#171717] text-[#171717]'
-                  : 'border-transparent text-[#99958D] hover:text-[#171717]'
-              }`}
-              style={{ fontFamily: "'Inter', sans-serif" }}
-            >
-              {tab.label}
-            </button>
-          ))}
+        <div className="flex border-b border-[#E4E1DA] shrink-0 overflow-x-auto px-6 bg-[#FFFFFF] gap-1">
+          {TABS.map((tab) => {
+            const visited = visitedTabs.has(tab.key);
+            const valid = tabValidity[tab.key];
+            const isActive = activeTab === tab.key;
+            const showProgress = !isEditing && !isClone;
+            return (
+              <button
+                key={tab.key}
+                type="button"
+                onClick={() => handleTabChange(tab.key)}
+                className={`flex items-center gap-1.5 py-2.5 px-2 text-[10.5px] uppercase tracking-[0.1em] font-semibold whitespace-nowrap border-b-2 transition-colors duration-150 ${
+                  isActive
+                    ? 'border-[#171717] text-[#171717]'
+                    : 'border-transparent text-[#99958D] hover:text-[#171717]'
+                }`}
+                style={{ fontFamily: "'Inter', sans-serif" }}
+              >
+                {tab.label}
+                {showProgress && visited && (
+                  <span className="shrink-0">
+                    {valid
+                      ? <CheckCircle2 size={11} className="text-[#2D6A4F]" />
+                      : <XCircle size={11} className="text-[#A93226]" />}
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
 
         {/* Error Banner */}
@@ -296,6 +407,17 @@ export default function ProductFormModal({
             style={{ fontFamily: "'Inter', sans-serif" }}
           >
             <span>{serverError}</span>
+          </div>
+        )}
+
+        {/* Validation Banner */}
+        {validationBanner && (
+          <div
+            className="mx-6 mt-3 px-4 py-2.5 bg-[#FEFAF0] border border-[#F0DFA8] rounded-[6px] text-[11.5px] text-[#7A6200] flex items-start gap-2.5 shrink-0"
+            style={{ fontFamily: "'Inter', sans-serif" }}
+          >
+            <AlertTriangle size={13} className="shrink-0 mt-0.5" />
+            <span>{validationBanner}</span>
           </div>
         )}
 
@@ -742,7 +864,7 @@ export default function ProductFormModal({
                   type="button"
                   onClick={() => {
                     const idx = TABS.findIndex((t) => t.key === activeTab);
-                    if (idx > 0) setActiveTab(TABS[idx - 1].key);
+                    if (idx > 0) handleTabChange(TABS[idx - 1].key);
                   }}
                   className="text-[10.5px] uppercase tracking-[0.08em] font-semibold text-[#68655F] hover:text-[#171717] transition-colors duration-150"
                   style={{ fontFamily: "'Inter', sans-serif" }}
@@ -755,7 +877,7 @@ export default function ProductFormModal({
                   type="button"
                   onClick={() => {
                     const idx = TABS.findIndex((t) => t.key === activeTab);
-                    if (idx < TABS.length - 1) setActiveTab(TABS[idx + 1].key);
+                    if (idx < TABS.length - 1) handleTabChange(TABS[idx + 1].key);
                   }}
                   className="text-[10.5px] uppercase tracking-[0.08em] font-semibold text-[#68655F] hover:text-[#171717] transition-colors duration-150"
                   style={{ fontFamily: "'Inter', sans-serif" }}
@@ -775,16 +897,33 @@ export default function ProductFormModal({
               >
                 Cancel
               </button>
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="inline-flex items-center justify-center gap-2 h-[38px] min-w-[135px] px-6 text-[11px] font-semibold uppercase tracking-[0.08em] text-[#111111] hover:bg-[#EAE7E0] hover:text-[#111111] bg-[#FFFFFF] border border-[#111111] rounded-[6px] transition-colors duration-150 disabled:opacity-50 shadow-xs cursor-pointer"
-                style={{ fontFamily: "'Inter', sans-serif" }}
-              >
-                <span>
-                  {isSubmitting ? 'Saving…' : isClone ? 'Save Clone' : isEditing ? 'Save Changes' : 'Create Product'}
-                </span>
-              </button>
+              {canSubmit ? (
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="inline-flex items-center justify-center gap-2 h-[38px] min-w-[145px] px-6 text-[11px] font-semibold uppercase tracking-[0.08em] bg-[#111111] text-[#FFFFFF] hover:bg-[#2A2725] border border-[#111111] rounded-[6px] transition-colors duration-150 disabled:opacity-50 shadow-xs cursor-pointer"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  {isSubmitting ? (
+                    <>
+                      <Loader2 size={13} className="animate-spin" />
+                      <span>Saving…</span>
+                    </>
+                  ) : (
+                    <span>{isClone ? 'Save Clone' : isEditing ? 'Save Changes' : 'Create Product'}</span>
+                  )}
+                </button>
+              ) : (
+                <button
+                  type="button"
+                  onClick={handleBlockedSubmitClick}
+                  title={`Complete all sections to unlock: ${TABS.filter((t) => !visitedTabs.has(t.key) || !tabValidity[t.key]).map((t) => t.label).join(', ')}`}
+                  className="inline-flex items-center justify-center gap-2 h-[38px] min-w-[145px] px-6 text-[11px] font-semibold uppercase tracking-[0.08em] bg-[#E8E5DF] text-[#99958D] border border-[#D4D0C8] rounded-[6px] transition-colors duration-150 cursor-not-allowed"
+                  style={{ fontFamily: "'Inter', sans-serif" }}
+                >
+                  <span>Create Product</span>
+                </button>
+              )}
             </div>
           </div>
         </form>

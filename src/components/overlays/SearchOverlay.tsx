@@ -15,7 +15,7 @@ import {
   Layers
 } from 'lucide-react';
 import { Command } from 'cmdk';
-import { searchProducts, Product } from '@/data/products';
+import type { Product } from '@/data/products';
 import { stopScroll, startScroll } from '@/components/ui/LenisProvider';
 import styles from './SearchOverlay.module.css';
 
@@ -138,8 +138,30 @@ export default function SearchOverlay({ isOpen, onClose }: SearchOverlayProps) {
 
   // ── Product search ─────────────────────────────────────────────────────────
   useEffect(() => {
-    if (query.trim().length > 0) {
-      setResults(searchProducts(query));
+    let isMounted = true;
+    const trimmed = query.trim();
+
+    if (trimmed.length > 0) {
+      const controller = new AbortController();
+      fetch(`/api/products/search?q=${encodeURIComponent(trimmed)}`, {
+        signal: controller.signal,
+      })
+        .then((res) => (res.ok ? res.json() : { products: [] }))
+        .then((data) => {
+          if (isMounted) {
+            setResults(data.products || []);
+          }
+        })
+        .catch((err) => {
+          if (err.name !== 'AbortError' && isMounted) {
+            setResults([]);
+          }
+        });
+
+      return () => {
+        isMounted = false;
+        controller.abort();
+      };
     } else {
       setResults([]);
     }

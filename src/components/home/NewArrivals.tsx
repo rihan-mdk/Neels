@@ -3,15 +3,19 @@
 import React from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Heart } from 'lucide-react';
-import { getNewArrivals } from '@/data/products';
+import { Heart, ArrowRight } from 'lucide-react';
+import type { Product } from '@/data/products';
 import ProductGrid from '@/components/products/ProductGrid';
 import SectionHeading from '@/components/ui/SectionHeading';
 import ScrollReveal from '@/components/ui/ScrollReveal';
 import styles from './NewArrivals.module.css';
 
-export default function NewArrivals() {
-  const newArrivals = getNewArrivals(8);
+interface NewArrivalsProps {
+  products: Product[];
+}
+
+export default function NewArrivals({ products }: NewArrivalsProps) {
+  const newArrivals = products;
 
   return (
     <section className={styles.section} aria-label="New Arrivals">
@@ -77,7 +81,8 @@ export default function NewArrivals() {
           <ScrollReveal>
             <div className={styles.actionWrap}>
               <Link href="/collections" className={styles.viewAllBtn}>
-                Shop All New Arrivals <span className={styles.arrow} aria-hidden="true">→</span>
+                <span>Shop All New Arrivals</span>
+                <ArrowRight size={13} strokeWidth={2} className={styles.arrow} aria-hidden="true" />
               </Link>
             </div>
           </ScrollReveal>

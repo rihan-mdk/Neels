@@ -24,9 +24,9 @@ interface NavItem {
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { label: 'Home', href: '/' },
+  { label: 'HOME', href: '/' },
   {
-    label: 'Collection',
+    label: 'COLLECTION',
     href: '/collections',
     subTitle: 'Atelier Silhouettes',
     subItems: [
@@ -41,7 +41,7 @@ const NAV_ITEMS: NavItem[] = [
     ],
   },
   {
-    label: 'Accessories',
+    label: 'ACCESSORIES',
     href: '/jewellery',
     subTitle: 'Fine Accents',
     subItems: [
@@ -50,7 +50,7 @@ const NAV_ITEMS: NavItem[] = [
       { label: 'Rings', href: '/jewellery?category=rings' },
     ],
   },
-  { label: 'About', href: '/about' },
+  { label: 'ABOUT', href: '/about' },
 ];
 
 export default function Header() {
@@ -112,10 +112,10 @@ export default function Header() {
           {/* ── LEFT: Logo (Icon Only) ──────────────── */}
           <Link href="/" className={styles.logo} aria-label="Neels Designer Studio — Home">
             <Image
-              src="/logo-black.png"
-              alt="Neels Designer Studio Logo"
-              width={44}
-              height={44}
+              src="/Crowned Golden NI Monogram Emblem.png"
+              alt="Neels Designer Studio"
+              width={42}
+              height={42}
               className={styles.logoImg}
               priority
             />
@@ -155,8 +155,7 @@ export default function Header() {
 
                     {/* Animated Dropdown Floating Panel */}
                     <div
-                      className={`${styles.dropdownContainer} ${isOpen ? styles.dropdownContainerOpen : ''
-                        }`}
+                      className={`${styles.dropdownContainer} ${isOpen ? styles.dropdownContainerOpen : ''}`}
                       role="menu"
                       aria-label={`${item.label} sub-navigation`}
                     >
@@ -178,7 +177,7 @@ export default function Header() {
 
                         <div
                           className={
-                            item.label === 'Dresses'
+                            item.label === 'COLLECTION'
                               ? styles.dropdownGridDresses
                               : styles.dropdownGridAccessories
                           }
@@ -215,50 +214,51 @@ export default function Header() {
             })}
           </nav>
 
-          {/* ── RIGHT: Actions (Search, Bag, Mobile menu) ── */}
+          {/* ── RIGHT: Actions (Search, Wishlist, Admin, Profile, Cart) ── */}
           <div className={styles.actions}>
             <button
               className={styles.iconBtn}
               onClick={() => setSearchOpen(true)}
               aria-label="Open search"
             >
-              <Search size={15} strokeWidth={1.5} />
+              <Search size={16} strokeWidth={1.75} />
             </button>
             <Link
               href="/wishlist"
               className={styles.iconBtn}
               aria-label={`Wishlist, ${wishlistCount} items`}
             >
-              <Heart size={15} strokeWidth={1.5} />
+              <Heart size={16} strokeWidth={1.75} />
               {wishlistCount > 0 && (
                 <span className={styles.cartBadge}>{wishlistCount}</span>
               )}
             </Link>
+
             {/* Admin Dashboard link - only visible to admin users */}
             {isAdmin && (
               <Link
                 href="/admin"
-                className={styles.iconBtn}
+                className={styles.adminButton}
                 aria-label="Admin Dashboard"
                 title="Admin Dashboard"
-                style={{ fontSize: '10px', letterSpacing: '0.08em', fontWeight: 600, textTransform: 'uppercase', padding: '4px 8px', border: '1px solid currentColor', borderRadius: '4px', lineHeight: 1 }}
               >
-                Admin
+                ADMIN
               </Link>
             )}
+
             <Link
               href="/profile"
               className={styles.iconBtn}
               aria-label="My profile"
             >
-              <UserCircle2 size={15} strokeWidth={1.5} />
+              <UserCircle2 size={16} strokeWidth={1.75} />
             </Link>
             <Link
               href="/cart"
               className={styles.bagLink}
               aria-label={`Shopping bag, ${cartCount} items`}
             >
-              <ShoppingBag size={15} strokeWidth={1.5} />
+              <ShoppingBag size={16} strokeWidth={1.75} />
               {cartCount > 0 && (
                 <span className={styles.cartBadge}>{cartCount}</span>
               )}
@@ -269,7 +269,7 @@ export default function Header() {
               aria-label="Open menu"
               aria-expanded={mobileOpen}
             >
-              <Menu size={18} strokeWidth={1.5} />
+              <Menu size={18} strokeWidth={1.75} />
             </button>
           </div>
         </div>
@@ -289,12 +289,12 @@ export default function Header() {
         aria-hidden={!mobileOpen}
       >
         <div className={styles.mobileDrawerHeader}>
-          <Link href="/home" className={styles.mobileLogoSmall} onClick={() => setMobileOpen(false)} aria-label="Neels Designer Studio — Home">
+          <Link href="/" className={styles.mobileLogoSmall} onClick={() => setMobileOpen(false)} aria-label="Neels Designer Studio — Home">
             <Image
-              src="/logo-black.png"
+              src="/Crowned Golden NI Monogram Emblem.png"
               alt="Neels Designer Studio Logo"
-              width={36}
-              height={36}
+              width={38}
+              height={38}
               className={styles.logoImg}
             />
           </Link>
@@ -312,8 +312,7 @@ export default function Header() {
               return (
                 <div key={item.label} className={styles.mobileNavItemWrapper}>
                   <div
-                    className={`${styles.mobileAccordionHeader} ${isExpanded ? styles.mobileAccordionOpen : ''
-                      }`}
+                    className={`${styles.mobileAccordionHeader} ${isExpanded ? styles.mobileAccordionOpen : ''}`}
                   >
                     <Link
                       href={item.href}
@@ -329,8 +328,7 @@ export default function Header() {
                     >
                       <ChevronDown
                         size={15}
-                        className={`${styles.mobileAccordionChevron} ${isExpanded ? styles.chevronOpen : ''
-                          }`}
+                        className={`${styles.mobileAccordionChevron} ${isExpanded ? styles.chevronOpen : ''}`}
                       />
                     </button>
                   </div>
@@ -357,8 +355,7 @@ export default function Header() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`${styles.mobileNavLink} ${pathname === item.href ? styles.mobileNavLinkActive : ''
-                  }`}
+                className={`${styles.mobileNavLink} ${pathname === item.href ? styles.mobileNavLinkActive : ''}`}
                 onClick={() => setMobileOpen(false)}
               >
                 {item.label}

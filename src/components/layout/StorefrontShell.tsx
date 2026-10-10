@@ -23,9 +23,7 @@ export default function StorefrontShell({
 
   return (
     <>
-      <div className="hidden md:block">
-        <Header />
-      </div>
+      <Header />
       <MobileHeader />
       <CartNotification />
       <BackToTop />

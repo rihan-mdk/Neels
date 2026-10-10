@@ -1,7 +1,12 @@
 import type { Metadata } from 'next';
+import {
+  fetchStorefrontProductsByCategory,
+  fetchStorefrontCategory,
+} from '@/lib/services/storefront-product.service';
 import { getCategoryBySlug } from '@/data/categories';
-import { getProductsByCategory } from '@/data/products';
 import CategoryPageClient from '@/components/editorial/CategoryPageClient';
+
+export const revalidate = 0;
 
 export const metadata: Metadata = {
   title: 'Sarees',
@@ -9,8 +14,13 @@ export const metadata: Metadata = {
     'Heritage weaves and contemporary drapes. Explore Neels Designer Studio sarees — Kanjivaram, tissue, and handwoven silks for every celebration.',
 };
 
-export default function SareesPage() {
-  const category = getCategoryBySlug('sarees')!;
-  const products = getProductsByCategory('sarees');
-  return <CategoryPageClient category={category} products={products} />;
+export default async function SareesPage() {
+  const [category, products] = await Promise.all([
+    fetchStorefrontCategory('sarees'),
+    fetchStorefrontProductsByCategory('sarees'),
+  ]);
+
+  const finalCategory = category ?? getCategoryBySlug('sarees')!;
+
+  return <CategoryPageClient category={finalCategory} products={products} />;
 }
